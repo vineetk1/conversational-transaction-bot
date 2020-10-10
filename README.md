@@ -1,2 +1,2 @@
 # Conversational transaction bot
-Conversational transaction bot that executes transactions on user commands
+Conversational transaction bot executes transactions on user commands
