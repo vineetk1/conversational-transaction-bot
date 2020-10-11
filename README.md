@@ -20,8 +20,8 @@ tar zxvf dialog-bAbI-tasks_1_.tgz
 rm dialog-bAbI-tasks_1_.tgz
 ```
 Verify that the dataset is in directory *conversational-transaction-bot/data/dialog-bAbI-tasks*.   
-## Train a new model
-Verify that the current working directory is *fairseq*.
+## Train the model
+Verify that the current working directory is *conversational-transaction-bot*.
 ```
 CUDA_VISIBLE_DEVICES=0 python3 train.py --task dialog_task data-bin/dialog/task6 --arch dialog_lstm_model --save-dir checkpoints/dialog/task6 --max-tokens 8192 --required-batch-size-multiple 1 --criterion label_smoothed_cross_entropy --label-smoothing 0.1 --optimizer nag --lr-scheduler fixed --force-anneal 100 --lr 0.1 --clip-norm 0.1 --min-lr 2.47033e-200
 ```
@@ -30,8 +30,8 @@ If training again to generate a new model then the previous obsolete model must 
 ```
 rm -r checkpoints
 ```
-# Evaluate the trained model
-Verify that the current working directory is *fairseq*.
+## Evaluate the trained model
+Verify that the current working directory is *conversational-transaction-bot*.
 ```
 python3 dialog_generate.py --task dialog_task data-bin/dialog/task6 --path checkpoints/dialog/task6/checkpoint_best.pt --batch-size 32 --beam 5
 ```
