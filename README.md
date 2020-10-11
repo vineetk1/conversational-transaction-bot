@@ -13,7 +13,8 @@ cd conversational-transaction-bot
 # Train a new model
 ### Download dataset
 1. Go to https://fb-public.app.box.com/s/chnq60iivzv5uckpvj2n2vijlyepze6w 
-1. Download *dialog-bAbI-tasks_1_.tgz* in directory *conversational-transaction-bot/data*
+1. Download *dialog-bAbI-tasks_1_.tgz* in directory *conversational-transaction-bot/data*  
+
 Verify that the current working directory is *conversational-transaction-bot/data*.    
 ```
 tar zxvf dialog-bAbI-tasks_1_.tgz
