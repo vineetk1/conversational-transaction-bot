@@ -1,13 +1,14 @@
 # Conversational transaction bot
 The Conversational Transaction Bot executes transactions on user commands. A user initiates a dialog with a text query to a bot. The bot understands the user text, initiates execution of operations at the backend, and responds to the user in text. The dialog continues until, normally, the user terminates the dialog when its requests have been serviced by the bot. The implementation is based on Transformers.
 # Requirements
-* PyTorch version >= 1.2.0
-* Python version >= 3.6
+* PyTorch version >= 1.6.0
+* Python version >= 3.8.5
 # Installation
 ```
-git clone --branch dialog https://github.com/vineetk1/fairseq.git
-cd fairseq
-pip3 install --editable .
+pip3 install transformers
+pip3 install pytorch-lightning
+git clone https://github.com/vineetk1/conversational-transaction-bot.git
+cd conversational-transaction-bot
 ```
 # Train a new model
 ### Download dataset
