@@ -12,17 +12,14 @@ cd conversational-transaction-bot
 ```
 # Train a new model
 ### Download dataset
-Verify that the current working directory is *fairseq*.
-```
-cd examples/dialog
-```
 1. Go to https://fb-public.app.box.com/s/chnq60iivzv5uckpvj2n2vijlyepze6w 
-1. Download *dialog-bAbI-tasks_1_.tgz* in directory *fairseq/examples/dialog*  
+1. Download *dialog-bAbI-tasks_1_.tgz* in directory *conversational-transaction-bot/data*  
+Verify that the current working directory is *conversational-transaction-bot/data*.    
 ```
 tar zxvf dialog-bAbI-tasks_1_.tgz
 rm dialog-bAbI-tasks_1_.tgz
 ```
-Verify that the dataset is in directory *fairseq/examples/dialog/dialog-bAbI-tasks*.   
+Verify that the dataset is in directory *conversational-transaction-bot/data/dialog-bAbI-tasks*.   
 ### Convert dataset to fairseq's dataset format
 Verify that the current working directory is *fairseq/examples/dialog*.  
 ```
