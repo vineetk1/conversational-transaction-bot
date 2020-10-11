@@ -3,15 +3,14 @@ The Conversational Transaction Bot executes transactions on user commands. A use
 ## Requirements
 * PyTorch version >= 1.6.0
 * Python version >= 3.8.5
-# Installation
+## Installation
 ```
 pip3 install transformers
 pip3 install pytorch-lightning
 git clone https://github.com/vineetk1/conversational-transaction-bot.git
 cd conversational-transaction-bot
 ```
-# Train a new model
-### Download dataset
+## Download dataset
 1. Go to https://fb-public.app.box.com/s/chnq60iivzv5uckpvj2n2vijlyepze6w 
 1. Download *dialog-bAbI-tasks_1_.tgz* in directory *conversational-transaction-bot/data*  
 
@@ -21,33 +20,7 @@ tar zxvf dialog-bAbI-tasks_1_.tgz
 rm dialog-bAbI-tasks_1_.tgz
 ```
 Verify that the dataset is in directory *conversational-transaction-bot/data/dialog-bAbI-tasks*.   
-### Convert dataset to fairseq's dataset format
-Verify that the current working directory is *fairseq/examples/dialog*.  
-```
-python3 create-fairseq-dialog-dataset.py data-bin/dialog
-```
-Verify that the converted dataset is in directory *fairseq/examples/dialog/fairseq-dialog-dataset/task6*.  
-### Download pretrained word vectors
-Verify that the current working directory is *fairseq/examples/dialog*.
-```
-mkdir pretrained-word-vectors
-cd pretrained-word-vectors
-```
-1. Go to https://nlp.stanford.edu/projects/glove/
-1. Download *glove.6B.zip* in directory *fairseq/examples/dialog/pretrained-word-vectors*
-```
-unzip glove.6B.zip
-rm glove.6B.zip
-cd ../../..
-```
-Verify that the pretrained vectors are in directory *fairseq/examples/dialog/pretrained-word-vectors*.    
-### Preprocess/binarize the data
-Verify that the current working directory is *fairseq*.
-```
-TEXT=examples/dialog/fairseq-dialog-dataset/task6
-python3 preprocess.py --task dialog_task --source-lang hmn --target-lang bot --joined-dictionary --trainpref $TEXT/task6-trn --validpref $TEXT/task6-dev --testpref $TEXT/task6-tst --destdir data-bin/dialog/task6
-```
-### Train a model
+## Train a new model
 Verify that the current working directory is *fairseq*.
 ```
 CUDA_VISIBLE_DEVICES=0 python3 train.py --task dialog_task data-bin/dialog/task6 --arch dialog_lstm_model --save-dir checkpoints/dialog/task6 --max-tokens 8192 --required-batch-size-multiple 1 --criterion label_smoothed_cross_entropy --label-smoothing 0.1 --optimizer nag --lr-scheduler fixed --force-anneal 100 --lr 0.1 --clip-norm 0.1 --min-lr 2.47033e-200
