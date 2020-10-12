@@ -5,14 +5,12 @@ The Conversational Transaction Bot executes transactions on user commands. A use
 * Python version >= 3.8.5
 * PyTorch-Lightning version used is 0.10.0
 * Huggingface Transformers version used is 3.3.1
-* Pandas version used 1.1.3
 
 Although not tested, this implementation could work with earlier versions of Python and PyTorch.
 ## Installation
 ```
 pip3 install transformers
 pip3 install pytorch-lightning
-pip3 install pandas
 git clone https://github.com/vineetk1/conversational-transaction-bot.git
 cd conversational-transaction-bot
 ```
