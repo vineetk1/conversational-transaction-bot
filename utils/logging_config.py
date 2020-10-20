@@ -9,10 +9,12 @@ LOG_CONFIG = {
     'disable_existing_loggers': False,
     'formatters': {
         'consoleFormatter': {
-            'format': '%(levelname)-6s %(filename)s:%(lineno)s:%(funcName)s(): %(message)s',
+            'format':
+            '%(levelname)-6s %(filename)s:%(lineno)s:%(funcName)s(): %(message)s',
         },
         'fileFormatter': {
-            'format': '[%(asctime)s] %(levelname)-6s %(filename)s:%(lineno)s:%(funcName)s(): %(message)s',
+            'format':
+            '[%(asctime)s] %(levelname)-6s %(filename)s:%(lineno)s:%(funcName)s(): %(message)s',
         },
     },
     'handlers': {
@@ -28,8 +30,9 @@ LOG_CONFIG = {
             'formatter': 'consoleFormatter',
         },
     },
-    'loggers': {    # root logger
-        '': {
+    'loggers': {
+        '':
+        {  # root logger
             'handlers': ['file', 'console'],
             'level': 'DEBUG',
         },
