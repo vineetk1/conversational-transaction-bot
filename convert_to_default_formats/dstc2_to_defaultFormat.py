@@ -20,22 +20,19 @@ def dstc2_to_defaultFormat() -> None:
     toDataP = fromDataP.joinpath('dstc2')
     toDataP.mkdir(exist_ok=True)
 
-    toTrainF = toDataP.joinpath('defaultFormat.train')
-    toValidF = toDataP.joinpath('defaultFormat.valid')
-    toTestF = toDataP.joinpath('defaultFormat.test')
-    toFiles = (toTrainF, toValidF, toTestF)
+    toFiles = (toDataP.joinpath('defaultFormat.train'),
+               toDataP.joinpath('defaultFormat.valid'),
+               toDataP.joinpath('defaultFormat.test'))
     for file in toFiles:
         try:
             file.touch(exist_ok=False)
         except FileExistsError:
             logger.debug(
                 f'Conversion not needed. Following file already exists {file}')
-            return {"train": toTrainF, "valid": toValidF, "test": toTestF}
 
-    fromTrainF = fromDataP.joinpath('dialog-babi-task6-dstc2-trn.txt')
-    fromValidF = fromDataP.joinpath('dialog-babi-task6-dstc2-dev.txt')
-    fromTestF = fromDataP.joinpath('dialog-babi-task6-dstc2-tst.txt')
-    fromFiles = (fromTrainF, fromValidF, fromTestF)
+    fromFiles = (fromDataP.joinpath('dialog-babi-task6-dstc2-trn.txt'),
+                 fromDataP.joinpath('dialog-babi-task6-dstc2-dev.txt'),
+                 fromDataP.joinpath('dialog-babi-task6-dstc2-tst.txt'))
     for file in fromFiles:
         if not file.exists():
             strng = (
