@@ -1,6 +1,6 @@
 '''
 Vineet Kumar, sioom.ai
-Change dstc2 dataset files to a default format
+Convert dstc2 dataset files to a default format
 '''
 
 import sys
@@ -13,7 +13,7 @@ import copy
 logger = logging.getLogger(__name__)
 
 
-def dstc2_to_defaultFormat() -> Dict[str, pathlib.PosixPath]:
+def dstc2_to_defaultFormat() -> None:
     logger.debug('')
     fromDataP = pathlib.Path(__file__).parents[1].joinpath(
         'data', 'dialog-bAbI-tasks').resolve(strict=True)
@@ -93,7 +93,6 @@ def dstc2_to_defaultFormat() -> Dict[str, pathlib.PosixPath]:
                                 toF,
                                 protocol=pickle.HIGHEST_PROTOCOL)
                 del dialogs_list
-    return {"train": toTrainF, "valid": toValidF, "test": toTestF}
 
 
 def save_previous_dialog(dialogs_list: List[Dict], user: List[str],
@@ -107,3 +106,7 @@ def save_previous_dialog(dialogs_list: List[Dict], user: List[str],
         'send_to_user': send_to_user
     }
     dialogs_list.append(copy.deepcopy(dialog))
+
+
+if __name__ == '__main__':
+    dstc2_to_defaultFormat()
