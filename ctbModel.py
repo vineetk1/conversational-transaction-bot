@@ -7,14 +7,22 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import logging
+import sys
 
 logger = logging.getLogger(__name__)
 
 
 class ctbModel(pl.LightningModule):
-    def __init__(self):
+    def __init__(self, args):
         super().__init__()
         logger.debug('')
+        self.args = args
+        if args.model == "gpt2":
+            from transformers import GPT2LMHeadModel
+            self.model = GPT2LMHeadModel.from_pretrained('gpt2')
+        else:
+            logger.critical(f'unknown model: {self.args.model}')
+            sys.exit()
 
     def forward(self):
         logger.debug('')
