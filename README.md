@@ -24,15 +24,15 @@ rm dialog-bAbI-tasks_1_.tgz
 Verify that the dataset is in directory *conversational-transaction-bot/data/dialog-bAbI-tasks*.   
 ## Convert dataset to a default format
 All datasets must be converted to the default format. An example of the default format is shown in the file *default_format_example.txt* at the directory *conversational-transaction-bot/convert_to_default_formats*.   
-Verify that the current working directory is *conversational-transaction-bot*. Following command converts the downloaded dataset to the default format in the files - *defaultFormat.train, defaultFormat.valid, defaultFormat.test* - at the directory *conversational-transaction-bot/data/dialog-bAbI-tasks/dstc2*:
+Verify that the current working directory is *conversational-transaction-bot*. Following command converts the downloaded dataset to the default format in the files - *defaultFormat.train, defaultFormat.valid, defaultFormat.test* -, and in the directory *conversational-transaction-bot/data/dialog-bAbI-tasks/dstc2*:
 ```
 python3 convert_to_default_formats/dstc2_to_defaultFormat.py
 ```
-Note that the above program converts the DSTC2 dataset to the default format. A new conversion program will have to be written for a dataset that is different from the DSTC2 dataser. 
+Note that the above program converts the DSTC2 dataset to the default format. A new conversion program will have to be written for a dataset that is different from the DSTC2 dataset. 
 ## Train the model
 Verify that the current working directory is *conversational-transaction-bot*.
 ```
-CUDA_VISIBLE_DEVICES=0 python3 train.py --task dialog_task data-bin/dialog/task6 --arch dialog_lstm_model --save-dir checkpoints/dialog/task6 --max-tokens 8192 --required-batch-size-multiple 1 --criterion label_smoothed_cross_entropy --label-smoothing 0.1 --optimizer nag --lr-scheduler fixed --force-anneal 100 --lr 0.1 --clip-norm 0.1 --min-lr 2.47033e-200
+python3 -m pdb train.py --gpus 1 --deterministic True --model gpt2 --tokenizer gpt2 --default_format_path data/dialog-bAbI-tasks/dstc2/defaultFormat.train
 ```
 **NOTE:** If a model has previously been trained then it is in the file *checkpoints/dialog/task6/checkpoint_best.pt*   
 If training again to generate a new model then the previous obsolete model must be removed, otherwise training will resume from the last best checkpoint model. A brute-force method to remove the obsolete model is to remove the directory *fairseq/checkpoints* as follows:
