@@ -44,7 +44,7 @@ def dstc2_to_defaultFormat() -> None:
     for fromFile, toFile in zip(fromFiles, toFiles):  # new file
         with fromFile.open('r') as fromF:
             dialogs_list = []  # list of dictionaries, where dialog is in dict
-            user, bot, bot_idx, send_to_user = [], [], [], []
+            user, bot, bot_idx, api_call_result = [], [], [], []
             start_of_file = True
             prev_line_apiCall = False
             for lineno, line in enumerate(fromF):  # new line
@@ -59,9 +59,9 @@ def dstc2_to_defaultFormat() -> None:
                 if num == '1':  # new dialog
                     if not start_of_file:
                         save_previous_dialog(dialogs_list, user, bot, bot_idx,
-                                             send_to_user)
+                                             api_call_result)
                     user.clear(), bot.clear(), bot_idx.clear()
-                    send_to_user.clear()
+                    api_call_result.clear()
                     start_of_file = False
                 try:
                     user_utt, bot_utt = line.split('\t')
@@ -78,13 +78,13 @@ def dstc2_to_defaultFormat() -> None:
                     assert (user_utt is None and bot_utt is None)
                     if prev_line_apiCall is False:
                         bot_idx.append(len(bot) - 1)
-                        send_to_user.append([api_out])
+                        api_call_result.append([api_out])
                         prev_line_apiCall = True
                     else:
-                        send_to_user[len(bot_idx) - 1].append(api_out)
+                        api_call_result[len(bot_idx) - 1].append(api_out)
             else:  # for-else; EOF
                 save_previous_dialog(dialogs_list, user, bot, bot_idx,
-                                     send_to_user)
+                                     api_call_result)
                 with toFile.open('wb') as toF:
                     pickle.dump(dialogs_list,
                                 toF,
@@ -94,13 +94,13 @@ def dstc2_to_defaultFormat() -> None:
 
 def save_previous_dialog(dialogs_list: List[Dict], user: List[str],
                          bot: List[str], bot_idx: List[int],
-                         send_to_user: List[List[str]]) -> None:
+                         api_call_result: List[List[str]]) -> None:
     dialog = {
         'persona': [],
         'user': user,
         'bot': bot,
         'bot_idx': bot_idx,
-        'send_to_user': send_to_user
+        'api_call_result': api_call_result
     }
     dialogs_list.append(copy.deepcopy(dialog))
 
