@@ -33,7 +33,7 @@ Note that the above program converts the DSTC2 dataset to the default format. A 
 ## Train the model
 Verify that the current working directory is *conversational-transaction-bot*.
 ```
-python3 -m pdb train.py --gpus 1 --deterministic True --model gpt2 --tokenizer gpt2 --default_format_path data/dialog-bAbI-tasks/dstc2/defaultFormat.train
+python3 train.py --gpus 1 --deterministic True --model gpt2 --tokenizer gpt2 --default_format_path data/dialog-bAbI-tasks/dstc2/defaultFormat.train
 ```
 **NOTE:** If a model has previously been trained then it is in the file *checkpoints/dialog/task6/checkpoint_best.pt*   
 If training again to generate a new model then the previous obsolete model must be removed, otherwise training will resume from the last best checkpoint model. A brute-force method to remove the obsolete model is to remove the directory *fairseq/checkpoints* as follows:
