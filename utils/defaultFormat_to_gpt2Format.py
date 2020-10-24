@@ -20,9 +20,9 @@ def defaultFormat_to_gpt2Format(args):
         pathlib.Path(args.default_format_path).parents[0].resolve(strict=True)
     stem = pathlib.Path(args.default_format_path).stem
 
-    toFiles = (dirP.joinpath(f'{args.tokenizer}.train'),
-               dirP.joinpath(f'{args.tokenizer}.valid'),
-               dirP.joinpath(f'{args.tokenizer}.test'))
+    toFiles = (toTrainF := dirP.joinpath(f'{args.tokenizer}.train'),
+               toValidF := dirP.joinpath(f'{args.tokenizer}.valid'),
+               toTestF := dirP.joinpath(f'{args.tokenizer}.test'))
     for file in toFiles:
         try:
             file.touch(exist_ok=False)
@@ -41,4 +41,9 @@ def defaultFormat_to_gpt2Format(args):
             logger.critical(strng)
             sys.exit()
 
-    tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+#    tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+    for fromFile, toFile in zip(fromFiles, toFiles):  # new file
+        with fromFile.open('rb') as fromF:
+            dlgs_lst = pickle.load(fromF)
+            print(dlgs_lst[0:3])
+            print(dlgs_lst[4:7])
