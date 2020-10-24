@@ -5,8 +5,6 @@ The Conversational Transaction Bot executes transactions on user commands. A use
 * Python version >= 3.8.5
 * PyTorch-Lightning version used is 1.0.1
 * Huggingface Transformers version used is 3.3.1
-
-Although not tested, this implementation could work with earlier versions of Python and PyTorch.
 ## Installation
 ```
 pip3 install transformers
@@ -14,7 +12,7 @@ pip3 install pytorch-lightning
 git clone https://github.com/vineetk1/conversational-transaction-bot.git
 cd conversational-transaction-bot
 ```
-## Download dataset
+## Download DSTC2 dataset
 1. Go to https://fb-public.app.box.com/s/chnq60iivzv5uckpvj2n2vijlyepze6w 
 1. Download *dialog-bAbI-tasks_1_.tgz* in directory *conversational-transaction-bot/data*  
 
@@ -24,6 +22,13 @@ tar zxvf dialog-bAbI-tasks_1_.tgz
 rm dialog-bAbI-tasks_1_.tgz
 ```
 Verify that the dataset is in directory *conversational-transaction-bot/data/dialog-bAbI-tasks*.   
+## Convert dataset to a default format
+All datasets must be converted to the default format. An example of the default format is shown in the file *default_format_example.txt* at the directory *conversational-transaction-bot/convert_to_default_formats*.   
+Verify that the current working directory is *conversational-transaction-bot*. Following command converts the downloaded dataset to the default format in the files - *defaultFormat.train, defaultFormat.valid, defaultFormat.test* - at the directory *conversational-transaction-bot/data/dialog-bAbI-tasks/dstc2*:
+```
+python3 convert_to_default_formats/dstc2_to_defaultFormat.py
+```
+Note that the above program converts the DSTC2 dataset to the default format. A new conversion program will have to be written for a dataset that is different from the DSTC2 dataser. 
 ## Train the model
 Verify that the current working directory is *conversational-transaction-bot*.
 ```
