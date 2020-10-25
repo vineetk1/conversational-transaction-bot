@@ -1,12 +1,11 @@
-"""
 The DSTC2 dataset is about a Restaurant Reservation System, where a User
 connects with this System and interacts with a Bot to make a reservation for a
 table at a restaurant in a city.
 The DSTC2 dataset is converted to the default format, which consists of a list
 of dictionaries, where each dictionary consists of a dialog. Following example
-is from a third dictionary in the dialog list, "dlgs_lst[2]"
-"""
+is from a third dictionary in the dialog list, *dlgs_lst[2]*
 
+```
 {
     'persona': [],
     'user': [
@@ -65,7 +64,7 @@ is from a third dictionary in the dialog list, "dlgs_lst[2]"
      ]
     ]
 }
-"""
-In the above dictionary, "persona" has a list of strings where each string consists of the personality of the bot. In this example, "persona" is an empty list.
-A User connects with a Bot and sends a message at dlgs_lst[2]['user'][0].
-"""
+```
+
+In the above dictionary, "persona" has a list of strings where each string consists of the personality of the bot. In this example, "persona" is an empty list.   
+* A User connects with a Bot and sends a message at dlgs_lst[2]['user'][0].
