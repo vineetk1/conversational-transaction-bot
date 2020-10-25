@@ -83,5 +83,5 @@ Following is an explanation of the interactions between a User and a Bot:
 :   
 :    
 * (8) The User responds with a message, *dlgs_lst[2]['user'][8]*
-* (8) The Bot responds with a message, dlgs_lst[2]['bot'][8]
+* (8) The Bot responds with a message, dlgs_lst[2]['bot'][8]    
 The connection is disconnected.
