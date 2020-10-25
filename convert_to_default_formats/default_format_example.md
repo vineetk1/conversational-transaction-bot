@@ -67,4 +67,7 @@ is from a third dictionary in the dialog list, *dlgs_lst[2]*
 ```
 
 In the above dictionary, "persona" has a list of strings where each string consists of the personality of the bot. In this example, "persona" is an empty list.   
-* A User connects with a Bot and sends a message at dlgs_lst[2]['user'][0].
+* A User connects with a Restaurant Reservation System
+* A Bot responds with a message at *dlgs_lst[2]['bot'][0]*
+* The User responds with a message at *dlgs_lst[2]['user'][1]*
+* The Bot responds with a message at *dlgs_lst[2]['bot'][1]*
