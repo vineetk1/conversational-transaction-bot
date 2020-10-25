@@ -78,7 +78,8 @@ Following is an explanation of the interactions between a User and a Bot:
 * (3) The User responds with a message, *dlgs_lst[2]['user'][3]*
 * (3) The Bot responds with a message, dlgs_lst[2]['bot'][3]
 * (4) The User responds with a message, *dlgs_lst[2]['user'][4]*
-* (4) The Bot makes an api_call, *dlgs_lst[2]['bot'][4]*. This api_calll is at index, dlgs_lst[2]['bot_idx'][1]. The Bot receives the result of the api_call, dlgs_lst[2]['api_call_result'][1]   
+* (4) The Bot makes an api_call, *dlgs_lst[2]['bot'][4]*. This api_calll is at index, dlgs_lst[2]['bot_idx'][1]. The Bot receives the result of the api_call, dlgs_lst[2]['api_call_result'][1]
+* (5) The Bot responds to the user with a message, dlgs_lst[2]['bot'][5]    
 :   
 :    
 * (8) The User responds with a message, *dlgs_lst[2]['user'][8]*
