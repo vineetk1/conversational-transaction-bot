@@ -70,10 +70,11 @@ is from a third dictionary in the dialog list, *dlgs_lst[2]*
 
 In the above dictionary, "persona" is a list of strings where each string consists of the personality of the bot. In this dictionary, "persona" is an empty list.
 Following is an explanation of the interactions between a User and a Bot:   
-1. A User connects with a Restaurant Reservation System
-1. A Bot sends a message,*dlgs_lst[2]['bot'][0]*
+* (0) A User connects with a Restaurant Reservation System
+* (0) Bot sends a message,*dlgs_lst[2]['bot'][0]*
 * (1) The User responds with a message, *dlgs_lst[2]['user'][1]*
-* (1) The Bot makes an api_call, *dlgs_lst[2]['bot'][1]*. This api_calll is at index, dlgs_lst[2]['bot_idx'][0]. The Bot receives the result of the api_call,               dlgs_lst[2]['api_call_result'][0]
+* (1) The Bot makes an api_call, *dlgs_lst[2]['bot'][1]*. This api_calll is at index, dlgs_lst[2]['bot_idx'][0]. The Bot receives the result of the
+      api_call, dlgs_lst[2]['api_call_result'][0]
 * (2) The Bot responds to the user with a message, dlgs_lst[2]['bot'][2]
 * (3) The User responds with a message, *dlgs_lst[2]['user'][3]*
 * (3) The Bot responds with a message, dlgs_lst[2]['bot'][3]
