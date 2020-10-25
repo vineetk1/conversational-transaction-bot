@@ -69,7 +69,7 @@ is from a third dictionary in the dialog list, *dlgs_lst[2]*
 ```
 
 In the above dictionary, "persona" is a list of strings where each string consists of the personality of the bot. In this dictionary, "persona" is an empty list.
-Following is an explanation of the interactions between a User and a Bot:
+Following is an explanation of the interactions between a User and a Bot:   
 0. A User connects with a Restaurant Reservation System
 0. A Bot sends a message,*dlgs_lst[2]['bot'][0]*
 * (1) The User responds with a message, *dlgs_lst[2]['user'][1]*
