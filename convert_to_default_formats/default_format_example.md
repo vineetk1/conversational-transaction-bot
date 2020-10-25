@@ -13,9 +13,11 @@ is from a third dictionary in the dialog list, *dlgs_lst[2]*
         'im looking for a cheap restaurant that serves tuscan food',
         '<SILENCE>',
         'im looking for a cheap restaurant that serves italian food',
-        'any part of town', '<SILENCE>',
+        'any part of town',
+        '<SILENCE>',
         'may i have the address and phone number please',
-        'and the phone number please', 'thank you good bye'
+        'and the phone number please',
+        'thank you good bye'
     ],
     'bot': [
         'Hello, welcome to the Cambridge restaurant system . You can ask for
@@ -67,7 +69,18 @@ is from a third dictionary in the dialog list, *dlgs_lst[2]*
 ```
 
 In the above dictionary, "persona" has a list of strings where each string consists of the personality of the bot. In this example, "persona" is an empty list.   
-* A User connects with a Restaurant Reservation System
-* A Bot responds with a message at *dlgs_lst[2]['bot'][0]*
-* The User responds with a message at *dlgs_lst[2]['user'][1]*
-* The Bot responds with a message at *dlgs_lst[2]['bot'][1]*
+* (0) A User connects with a Restaurant Reservation System
+* (0) A Bot sends a message,*dlgs_lst[2]['bot'][0]*
+* (1) The User responds with a message, *dlgs_lst[2]['user'][1]*
+* (1) The Bot makes an api_call, *dlgs_lst[2]['bot'][1]*. This api_calll is at index, dlgs_lst[2]['bot_idx'][0]. The Bot receives the result of the api_call,
+      dlgs_lst[2]['api_call_result'][0]
+* (2) The Bot responds to the user with a message, dlgs_lst[2]['bot'][2]
+* (3) The User responds with a message, *dlgs_lst[2]['user'][3]*
+* (3) The Bot responds with a message, dlgs_lst[2]['bot'][3]
+* (4) The User responds with a message, *dlgs_lst[2]['user'][4]*
+* (4) The Bot makes an api_call, *dlgs_lst[2]['bot'][4]*. This api_calll is at index, dlgs_lst[2]['bot_idx'][1]. The Bot receives the result of the api_call,
+      dlgs_lst[2]['api_call_result'][1]
+:
+:
+* (8) The User responds with a message, *dlgs_lst[2]['user'][8]*
+* (8) The Bot responds with a message, dlgs_lst[2]['bot'][8]
