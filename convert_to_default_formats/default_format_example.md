@@ -3,7 +3,7 @@ connects with this System and enters in a dialogue with a Bot to make a reservat
 table at a restaurant in a city.
 The DSTC2 dataset is converted to the default format, which consists of a list
 of dictionaries, where each dictionary has the contents of a dialog. Following example
-is from a third dictionary in the dialog list, *dlgs_lst[2]*
+is from a third dictionary in the dialog list, *dlgs_lst[2]*:
 
 ```
 {
