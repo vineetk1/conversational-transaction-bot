@@ -13,13 +13,14 @@ logger = logging.getLogger(__name__)
 
 
 class ctbModel(pl.LightningModule):
-    def __init__(self, args):
+    def __init__(self, args, data_specific):
         super().__init__()
         logger.debug('')
         self.args = args
         if args.model == "gpt2":
             from transformers import GPT2LMHeadModel
             self.model = GPT2LMHeadModel.from_pretrained('gpt2')
+            self.model.resize_token_embeddings(data_specific['len_tokenizer'])
         else:
             logger.critical(f'unknown model: {self.args.model}')
             sys.exit()
