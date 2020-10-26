@@ -17,9 +17,9 @@ def main(args):
     logger.debug('')
     pl.seed_everything(63)
     data = ctbData(args)
-    data.prepare_data()
+    model_specific = data.prepare_data()
     data.setup()
-    model = ctbModel(args)
+    model = ctbModel(args, model_specific)
     trainer = pl.Trainer.from_argparse_args(args)
     trainer.fit(model, datamodule=data)
 
