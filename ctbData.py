@@ -7,6 +7,7 @@ from torch.utils.data import TensorDataset, RandomSampler, DataLoader, random_sp
 import pytorch_lightning as pl
 import logging
 import sys
+from typing import List, Dict
 
 logger = logging.getLogger(__name__)
 
@@ -17,12 +18,12 @@ class ctbData(pl.LightningDataModule):
         super().__init__()
         self.args = args
 
-    def prepare_data(self):
+    def prepare_data(self) -> Dict:
         logger.debug('')
         if self.args.tokenizer == "gpt2":
             from utils.defaultFormat_to_gpt2Format import \
                     defaultFormat_to_gpt2Format
-            defaultFormat_to_gpt2Format(self.args)
+            return defaultFormat_to_gpt2Format(self.args)
         else:
             logger.critical(f'unknown tokenizer: {self.args.tokenizer}')
             sys.exit()
