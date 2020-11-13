@@ -27,7 +27,7 @@ def dstc2_to_defaultFormat() -> None:
         try:
             file.touch(exist_ok=False)
         except FileExistsError:
-            logger.debug(
+            logger.info(
                 f'Conversion not needed. Following file already exists {file}')
 
     fromFiles = (fromDataP.joinpath('dialog-babi-task6-dstc2-trn.txt'),
@@ -86,6 +86,7 @@ def dstc2_to_defaultFormat() -> None:
                 save_previous_dialog(dialogs_list, user, bot, bot_idx,
                                      api_call_result)
                 with toFile.open('wb') as toF:
+                    logger.info(f'Done writing to file {toFile}')
                     pickle.dump(dialogs_list,
                                 toF,
                                 protocol=pickle.HIGHEST_PROTOCOL)

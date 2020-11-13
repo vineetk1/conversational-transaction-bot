@@ -7,8 +7,7 @@ import sys
 import pathlib
 import logging
 import pickle
-from typing import List, Dict
-import copy
+from typing import Dict
 from transformers import GPT2Tokenizer
 import utils.NEW_TOKENS
 
@@ -32,9 +31,16 @@ def defaultFormat_to_gpt2Format(args) -> Dict:
         try:
             file.touch(exist_ok=False)
         except FileExistsError:
-            logger.debug(
+            logger.info(
                 f'Conversion not needed. Following file already exists {file}')
-            #return {"train": toTrainF, "valid": toValidF, "test": toTestF, "len_tokenizer": len(tokenizer)}
+            return {
+                "f_paths": {
+                    "train": toTrainF,
+                    "valid": toValidF,
+                    "test": toTestF
+                },
+                "len_tokenizer": len(tokenizer)
+            }
 
     fromFiles = (dirP.joinpath(f'{stem}.train'),
                  dirP.joinpath(f'{stem}.valid'), dirP.joinpath(f'{stem}.test'))
@@ -46,13 +52,55 @@ def defaultFormat_to_gpt2Format(args) -> Dict:
             logger.critical(strng)
             sys.exit()
 
-    for fromFile, toFile in zip(fromFiles, toFiles):  # new file
-        with fromFile.open('rb') as fromF:
-            dlgs_lst = pickle.load(fromF)
+    for fromFile, toFile in zip(fromFiles, toFiles):
+        default_to_gpt2_format(tokenizer, fromFile, toFile)
 
     return {
-        "train": toTrainF,
-        "valid": toValidF,
-        "test": toTestF,
+        "f_paths": {
+            "train": toTrainF,
+            "valid": toValidF,
+            "test": toTestF
+        },
         "len_tokenizer": len(tokenizer)
     }
+
+
+def default_to_gpt2_format(tokenizer, fromFile: pathlib.PosixPath,
+                           toFile: pathlib.PosixPath) -> None:
+    lst_input_ids = []
+    with fromFile.open('rb') as fromF:
+        lst_dlgs = pickle.load(fromF)
+        for dlg in lst_dlgs:
+            assert len(dlg['user']) == len(dlg['bot'])
+            # persona is not used, so it is ignored
+            history = '<BOS>'
+            for i, (u_str, b_str) in enumerate(zip(dlg['user'], dlg['bot'])):
+                seq = " ".join([history, u_str, '<SEP>', b_str, '<EOS>'])
+                history = " ".join([history, u_str, b_str])
+                try:
+                    idx = dlg['bot_idx'].index(i)
+                    history = " ".join(
+                        [history, " ".join(dlg['api_call_result'][idx])])
+                except ValueError:
+                    pass
+                seq_ids = tokenizer(seq,
+                                    return_length=True,
+                                    return_token_type_ids=False,
+                                    return_attention_mask=False)
+                if seq_ids.length <=\
+                        tokenizer.max_model_input_sizes['distilgpt2']:
+                    # NOTE "copy.deepcopy" is not needed below
+                    lst_input_ids.append(seq_ids['input_ids'])
+                else:
+                    # (1) Look at future turns to find what sequences of
+                    # "api_call_result" are relevant; Remove all except those
+                    # relevant sequences and a few irrelevant ones; (2) If
+                    # point 1 doesn't work then remove all sequences in
+                    # "api_call_result"; (3) If pt 2 doesn't work then remove
+                    # the early turns involving both the user and the bot;
+                    # Nothing is implemented yet except the seq_ids is NOT
+                    # added to lst_input_ids
+                    pass
+    with toFile.open('wb') as toF:
+        logger.info(f'Done writing to file {toFile}')
+        pickle.dump(lst_input_ids, toF, protocol=pickle.HIGHEST_PROTOCOL)
