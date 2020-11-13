@@ -9,9 +9,11 @@ SPECIAL_TOKENS = {
     'unk_token': '<UNK>',
     'sep_token': '<SEP>',
     'pad_token': '<PAD>',
-    'cls_token': '<CLS>',
+    # 'cls_token': '<CLS>',
     'mask_token': '<MASK>'
 }
+
+# ADDITIONAL_SPECIAL_TOKENS = ['<USER>', '<BOT>']
 
 TOKENS = [
     '<SILENCE>', 'api_call', 'R_post_code', 'R_cuisine', 'R_location',
