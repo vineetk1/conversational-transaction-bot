@@ -8,7 +8,6 @@ from ctbModel import ctbModel
 import logging
 import utils.logging_config
 from argparse import ArgumentParser
-from transformers import GPT2LMHeadModel, GPT2Tokenizer
 
 logger = logging.getLogger(__name__)
 
@@ -17,9 +16,9 @@ def main(args):
     logger.debug('')
     pl.seed_everything(63)
     data = ctbData(args)
-    model_specific = data.prepare_data()
+    len_tokenizer = data.prepare_data()
     data.setup()
-    model = ctbModel(args, model_specific)
+    model = ctbModel(args, len_tokenizer)
     trainer = pl.Trainer.from_argparse_args(args)
     trainer.fit(model, datamodule=data)
 
