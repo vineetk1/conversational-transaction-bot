@@ -29,8 +29,13 @@ class ctbModel(pl.LightningModule):
     def forward(self):
         logger.debug('')
 
-    def training_step(self, batch, batch_idx):
+    def training_step(self, batch: Dict, batch_idx):
         logger.debug('')
+        outputs = self.model(**batch, labels=batch["input_ids"])
+        loss = outputs.loss
+        self.log('train_loss', loss, on_step=True, on_epoch=True,
+                 prog_bar=True, logger=True)
+        return loss
 
     def training_step_end(self, batch_parts):
         logger.debug('')
@@ -40,6 +45,9 @@ class ctbModel(pl.LightningModule):
 
     def validation_step(self, batch, batch_idx):
         logger.debug('')
+        outputs = self.model(**batch, labels=batch["input_ids"])
+        loss = outputs.loss
+        self.log('val_loss', loss)
 
     def validation_step_end(self, batch_parts):
         logger.debug('')
