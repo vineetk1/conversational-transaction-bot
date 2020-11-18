@@ -24,9 +24,9 @@ def defaultFormat_to_gpt2Format(args) -> Dict:
         pathlib.Path(args.default_format_path).parents[0].resolve(strict=True)
     stem = pathlib.Path(args.default_format_path).stem
 
-    toFiles = (toTrainF := dirP.joinpath(f'{args.tokenizer}.train'), toValidF
-               := dirP.joinpath(f'{args.tokenizer}.valid'), toTestF :=
-               dirP.joinpath(f'{args.tokenizer}.test'))
+    toFiles = (toTrainF := dirP.joinpath(f'{args.tokenization}.train'), toValidF
+               := dirP.joinpath(f'{args.tokenization}.valid'), toTestF :=
+               dirP.joinpath(f'{args.tokenization}.test'))
     for file in toFiles:
         try:
             file.touch(exist_ok=False)
@@ -39,7 +39,7 @@ def defaultFormat_to_gpt2Format(args) -> Dict:
                     "valid": toValidF,
                     "test": toTestF
                 },
-                "len_tokenizer": len(tokenizer)
+                "tokenizer": tokenizer
             }
 
     fromFiles = (dirP.joinpath(f'{stem}.train'),
@@ -54,14 +54,13 @@ def defaultFormat_to_gpt2Format(args) -> Dict:
 
     for fromFile, toFile in zip(fromFiles, toFiles):
         default_to_gpt2_format(tokenizer, fromFile, toFile)
-
     return {
         "f_paths": {
             "train": toTrainF,
             "valid": toValidF,
             "test": toTestF
         },
-        "len_tokenizer": len(tokenizer)
+        "tokenizer": tokenizer
     }
 
 
