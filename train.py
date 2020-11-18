@@ -26,7 +26,7 @@ def main(args):
 if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('--model', type=str, default='gpt2')
-    parser.add_argument('--tokenizer', type=str, default='gpt2')
+    parser.add_argument('--tokenization', type=str, default='gpt2')
     parser.add_argument(
         '--default_format_path',
         type=str,
