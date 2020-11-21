@@ -2,25 +2,25 @@
 Vineet Kumar, sioom.ai
 '''
 
+from pytorch_lightning import LightningDataModule
 import torch
 from torch.utils.data import Dataset, RandomSampler, DataLoader
-import pytorch_lightning as pl
 import logging
 import sys
 from typing import List, Dict
 import pickle
 
-logger = logging.getLogger(__name__)
+logg = logging.getLogger(__name__)
 
 
-class ctbData(pl.LightningDataModule):
+class ctbData(LightningDataModule):
     def __init__(self, args):
-        logger.debug('')
+        logg.debug('')
         super().__init__()
         self.args = args
 
     def prepare_data(self) -> int:
-        logger.debug('')
+        logg.debug('')
         if self.args.tokenization == "gpt2":
             from utils.defaultFormat_to_gpt2Format import \
                     defaultFormat_to_gpt2Format
@@ -38,16 +38,16 @@ class ctbData(pl.LightningDataModule):
                         assert False
             return len(self.tokenizer)
         else:
-            logger.critical(f'unknown tokenization: {self.args.tokenization}')
+            logg.critical(f'unknown tokenization: {self.args.tokenization}')
             sys.exit()
 
     def setup(self):
-        logger.debug('')
+        logg.debug('')
 
     def train_dataloader(self):
-        logger.debug('')
+        logg.debug('')
         return DataLoader(self.train_data,
-                          batch_size=8,
+                          batch_size=2,
                           shuffle=False,
                           sampler=RandomSampler(self.train_data),
                           batch_sampler=None,
@@ -58,9 +58,9 @@ class ctbData(pl.LightningDataModule):
                           timeout=0)
 
     def val_dataloader(self):
-        logger.debug('')
+        logg.debug('')
         return DataLoader(self.valid_data,
-                          batch_size=8,
+                          batch_size=2,
                           shuffle=False,
                           sampler=RandomSampler(self.valid_data),
                           batch_sampler=None,
@@ -71,9 +71,9 @@ class ctbData(pl.LightningDataModule):
                           timeout=0)
 
     def test_dataloader(self):
-        logger.debug('')
+        logg.debug('')
         return DataLoader(self.test_data,
-                          batch_size=8,
+                          batch_size=2,
                           shuffle=False,
                           sampler=RandomSampler(self.test_data),
                           batch_sampler=None,
@@ -84,14 +84,14 @@ class ctbData(pl.LightningDataModule):
                           timeout=0)
 
     def collater(self, examples: List[List[int]]) -> Dict[str, torch.Tensor]:
-        logger.debug('')
+        logg.debug('')
         try:
             sep_idxs = [
                 example.index(self.tokenizer.sep_token_id)
                 for example in examples
             ]
         except ValueError:
-            logger.critical('No sep_token in example')
+            logg.critical('No sep_token in example')
             sys.exit()
         example_lens = [len(example) for example in examples]
         max_example_len = max(example_lens)
@@ -115,20 +115,19 @@ class ctbData(pl.LightningDataModule):
             'input_ids': input_ids,
             'attention_mask': attention_mask,
             'token_type_ids': token_type_ids,
-            'labels': input_ids
         }
 
 
 class ctbDataset(Dataset):
     # example = feature plus label
     def __init__(self, features: List[List[int]]):
-        logger.debug('')
+        logg.debug('')
         self.features = features
 
     def __len__(self) -> int:
-        logger.debug('')
+        logg.debug('')
         return len(self.features)
 
     def __getitem__(self, idx: int) -> List[int]:
-        logger.debug('')
+        logg.debug('')
         return self.features[idx]
