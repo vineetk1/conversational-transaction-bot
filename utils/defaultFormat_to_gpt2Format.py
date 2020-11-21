@@ -11,11 +11,11 @@ from typing import Dict
 from transformers import GPT2Tokenizer
 import utils.NEW_TOKENS
 
-logger = logging.getLogger(__name__)
+logg = logging.getLogger(__name__)
 
 
 def defaultFormat_to_gpt2Format(args) -> Dict:
-    logger.debug('')
+    logg.debug('')
     tokenizer = GPT2Tokenizer.from_pretrained('distilgpt2')
     _ = tokenizer.add_special_tokens(utils.NEW_TOKENS.SPECIAL_TOKENS)
     _ = tokenizer.add_tokens(utils.NEW_TOKENS.TOKENS)
@@ -31,7 +31,7 @@ def defaultFormat_to_gpt2Format(args) -> Dict:
         try:
             file.touch(exist_ok=False)
         except FileExistsError:
-            logger.info(
+            logg.info(
                 f'Conversion not needed. Following file already exists {file}')
             return {
                 "f_paths": {
@@ -49,7 +49,7 @@ def defaultFormat_to_gpt2Format(args) -> Dict:
             strng = (
                 f'Program ended prematurely. Following file does not exist '
                 f'{file}')
-            logger.critical(strng)
+            logg.critical(strng)
             sys.exit()
 
     for fromFile, toFile in zip(fromFiles, toFiles):
@@ -101,5 +101,5 @@ def default_to_gpt2_format(tokenizer, fromFile: pathlib.PosixPath,
                     # added to lst_input_ids
                     pass
     with toFile.open('wb') as toF:
-        logger.info(f'Done writing to file {toFile}')
+        logg.info(f'Done writing to file {toFile}')
         pickle.dump(lst_input_ids, toF, protocol=pickle.HIGHEST_PROTOCOL)
