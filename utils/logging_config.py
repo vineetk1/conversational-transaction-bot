@@ -2,6 +2,8 @@
 Vineet Kumar, sioom.ai
 '''
 
+# DEBUG INFO WARN ERROR/EXCEPTION CRITICAL
+
 from logging.config import dictConfig
 
 LOG_CONFIG = {
@@ -34,7 +36,7 @@ LOG_CONFIG = {
         '':
         {  # root logger
             'handlers': ['file', 'console'],
-            'level': 'DEBUG',
+            'level': 'INFO',
         },
     },
 }
