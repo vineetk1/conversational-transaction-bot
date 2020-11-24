@@ -31,16 +31,44 @@ class ctbModel(LightningModule):
         logg.debug('')
         outputs = self.model(**batch, labels=batch["input_ids"])
         loss = outputs[0]
-        self.log('train_loss', loss, on_step=True, on_epoch=True,
-                 prog_bar=True, logger=True)
+        self.log('train_loss',
+                 loss,
+                 on_step=True,
+                 on_epoch=True,
+                 prog_bar=True,
+                 logger=True)
         return loss
+
+    def training_epoch_end(self, training_step_outputs):
+        logg.debug('')
+        avg_loss = torch.stack([x['loss']
+                                for x in training_step_outputs]).mean()
+        self.log('train_epoch_loss',
+                 avg_loss,
+                 on_epoch=True,
+                 prog_bar=True,
+                 logger=True)
 
     def validation_step(self, batch, batch_idx):
         logg.debug('')
         outputs = self.model(**batch, labels=batch["input_ids"])
         loss = outputs[0]
-        self.log('val_loss', loss, on_step=True, on_epoch=True,
-                 prog_bar=True, logger=True)
+        self.log('val_loss',
+                 loss,
+                 on_step=True,
+                 on_epoch=True,
+                 prog_bar=True,
+                 logger=True)
+        return loss
+
+    def validation_epoch_end(self, val_step_outputs):
+        logg.debug('')
+        avg_loss = torch.stack([x for x in val_step_outputs]).mean()
+        self.log('val_epoch_loss',
+                 avg_loss,
+                 on_epoch=True,
+                 prog_bar=True,
+                 logger=True)
 
     def test_step(self, batch, batch_idx):
         logg.debug('')
