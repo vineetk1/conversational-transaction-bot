@@ -4,6 +4,7 @@ Vineet Kumar, sioom.ai
 
 from pytorch_lightning import seed_everything
 from pytorch_lightning import Trainer
+from pytorch_lightning.loggers import TensorBoardLogger
 from ctbData import ctbData
 from ctbModel import ctbModel
 import logging
@@ -20,7 +21,9 @@ def main(args):
     len_tokenizer = data.prepare_data()
     data.setup()
     model = ctbModel(args, len_tokenizer)
-    trainer = Trainer.from_argparse_args(args)
+    tb_logger = TensorBoardLogger('ctb_lightning_logs', name='ctb_model')
+    #trainer = Trainer.from_argparse_args(args)
+    trainer = Trainer(logger=tb_logger, gpus=1, num_sanity_val_steps=0)
     trainer.fit(model, datamodule=data)
 
 
