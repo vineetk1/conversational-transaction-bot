@@ -5,41 +5,42 @@ Vineet Kumar, sioom.ai
 from pytorch_lightning import LightningDataModule
 import torch
 from torch.utils.data import Dataset, RandomSampler, DataLoader
-import logging
-import sys
+from logging import getLogger
+from sys import exit
 from typing import List, Dict
-import pickle
+from pickle import load
 
-logg = logging.getLogger(__name__)
+logg = getLogger(__name__)
 
 
 class ctbData(LightningDataModule):
-    def __init__(self, args):
+    def __init__(self, d_params):
         logg.debug('')
         super().__init__()
-        self.args = args
+        self.d_params = d_params
 
     def prepare_data(self) -> int:
         logg.debug('')
-        if self.args.tokenization == "gpt2":
+        if self.d_params['tokenization'] == "gpt2":
             from utils.defaultFormat_to_gpt2Format import \
                     defaultFormat_to_gpt2Format
-            data_info = defaultFormat_to_gpt2Format(self.args)
+            data_info = defaultFormat_to_gpt2Format(self.d_params)
             self.tokenizer = data_info['tokenizer']
             for name, f_path in data_info['f_paths'].items():
                 with f_path.open('rb') as file:
                     if name == 'train':
-                        self.train_data = ctbDataset(pickle.load(file))
+                        self.train_data = ctbDataset(load(file))
                     elif name == 'valid':
-                        self.valid_data = ctbDataset(pickle.load(file))
+                        self.valid_data = ctbDataset(load(file))
                     elif name == 'test':
-                        self.test_data = ctbDataset(pickle.load(file))
+                        self.test_data = ctbDataset(load(file))
                     else:
                         assert False
             return len(self.tokenizer)
         else:
-            logg.critical(f'unknown tokenization: {self.args.tokenization}')
-            sys.exit()
+            logg.critical(
+                f'unknown tokenization: {self.d_params["tokenization"]}')
+            exit()
 
     def setup(self):
         logg.debug('')
@@ -47,7 +48,7 @@ class ctbData(LightningDataModule):
     def train_dataloader(self):
         logg.debug('')
         return DataLoader(self.train_data,
-                          batch_size=2,
+                          batch_size=self.d_params['batch_size_train'],
                           shuffle=False,
                           sampler=RandomSampler(self.train_data),
                           batch_sampler=None,
@@ -60,7 +61,7 @@ class ctbData(LightningDataModule):
     def val_dataloader(self):
         logg.debug('')
         return DataLoader(self.valid_data,
-                          batch_size=2,
+                          batch_size=self.d_params['batch_size_val'],
                           shuffle=False,
                           sampler=RandomSampler(self.valid_data),
                           batch_sampler=None,
@@ -73,7 +74,7 @@ class ctbData(LightningDataModule):
     def test_dataloader(self):
         logg.debug('')
         return DataLoader(self.test_data,
-                          batch_size=2,
+                          batch_size=self.d_params['batch_size_test'],
                           shuffle=False,
                           sampler=RandomSampler(self.test_data),
                           batch_sampler=None,
@@ -92,7 +93,7 @@ class ctbData(LightningDataModule):
             ]
         except ValueError:
             logg.critical('No sep_token in example')
-            sys.exit()
+            exit()
         example_lens = [len(example) for example in examples]
         max_example_len = max(example_lens)
         assert self.tokenizer.padding_side == 'right'
