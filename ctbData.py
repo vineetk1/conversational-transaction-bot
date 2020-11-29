@@ -30,10 +30,16 @@ class ctbData(LightningDataModule):
                 with f_path.open('rb') as file:
                     if name == 'train':
                         self.train_data = ctbDataset(load(file))
+                        logg.info(
+                            f'{len(self.train_data)} examples in Training set')
                     elif name == 'valid':
                         self.valid_data = ctbDataset(load(file))
+                        logg.info(
+                            f'{len(self.valid_data)} examples in Valid set')
                     elif name == 'test':
                         self.test_data = ctbDataset(load(file))
+                        logg.info(
+                            f'{len(self.test_data)} examples in Test set')
                     else:
                         assert False
             return len(self.tokenizer)
