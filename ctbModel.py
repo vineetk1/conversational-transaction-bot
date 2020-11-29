@@ -4,25 +4,25 @@ Vineet Kumar, sioom.ai
 
 from pytorch_lightning import LightningModule
 import torch
-import logging
-import sys
+from logging import getLogger
+from sys import exit
 from typing import Dict
 
-logg = logging.getLogger(__name__)
+logg = getLogger(__name__)
 
 
 class ctbModel(LightningModule):
-    def __init__(self, args, len_tokenizer: int):
+    def __init__(self, d_params, len_tokenizer: int):
         logg.debug('')
         super().__init__()
-        self.args = args
-        if args.model == "gpt2":
+        self.d_params = d_params
+        if d_params['model'] == "gpt2":
             from transformers import GPT2LMHeadModel
             self.model = GPT2LMHeadModel.from_pretrained('distilgpt2')
             self.model.resize_token_embeddings(len_tokenizer)
         else:
-            logg.critical(f'unknown model: {self.args.model}')
-            sys.exit()
+            logg.critical(f'unknown model: {d_params["model"]}')
+            exit()
 
     def forward(self):
         logg.debug('')
@@ -31,18 +31,20 @@ class ctbModel(LightningModule):
         logg.debug('')
         outputs = self.model(**batch, labels=batch["input_ids"])
         loss = outputs[0]  # mean of losses from each example in batch
+        # logger=True => TensorBoard; x-axis is always in steps=batches
         self.log('train_loss',
                  loss,
-                 on_step=True,
-                 on_epoch=False,
+                 on_step=False,
+                 on_epoch=True,
                  prog_bar=True,
-                 logger=True)
+                 logger=False)
         return loss
 
     def training_epoch_end(self, training_step_outputs):
         logg.debug('')
         avg_loss = torch.stack([x['loss']
                                 for x in training_step_outputs]).mean()
+        # on TensorBoard, want to see x-axis in epochs (not steps=batches)
         self.logger.experiment.add_scalar('train_loss_epoch', avg_loss,
                                           self.current_epoch)
 
@@ -50,17 +52,19 @@ class ctbModel(LightningModule):
         logg.debug('')
         outputs = self.model(**batch, labels=batch["input_ids"])
         loss = outputs[0]  # mean of losses from each example in batch
+        # val_loss with on_epoch=True is monitored by checkpoint callback
         self.log('val_loss',
                  loss,
-                 on_step=True,
-                 on_epoch=False,
+                 on_step=False,
+                 on_epoch=True,
                  prog_bar=True,
-                 logger=True)
+                 logger=False)
         return loss
 
     def validation_epoch_end(self, val_step_outputs):
         logg.debug('')
         avg_loss = torch.stack([x for x in val_step_outputs]).mean()
+        # on TensorBoard, want to see x-axis in epochs (not steps=batches)
         self.logger.experiment.add_scalar('val_loss_epoch', avg_loss,
                                           self.current_epoch)
 
