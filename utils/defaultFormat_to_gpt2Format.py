@@ -3,30 +3,30 @@ Vineet Kumar, sioom.ai
 Change from default format to a format that gpt2 model understands
 '''
 
-import sys
+from sys import exit
 import pathlib
-import logging
+from logging import getLogger
 import pickle
 from typing import Dict
 from transformers import GPT2Tokenizer
 import utils.NEW_TOKENS
 
-logg = logging.getLogger(__name__)
+logg = getLogger(__name__)
 
 
-def defaultFormat_to_gpt2Format(args) -> Dict:
+def defaultFormat_to_gpt2Format(d_params) -> Dict:
     logg.debug('')
     tokenizer = GPT2Tokenizer.from_pretrained('distilgpt2')
     _ = tokenizer.add_special_tokens(utils.NEW_TOKENS.SPECIAL_TOKENS)
     _ = tokenizer.add_tokens(utils.NEW_TOKENS.TOKENS)
 
-    dirP = \
-        pathlib.Path(args.default_format_path).parents[0].resolve(strict=True)
-    stem = pathlib.Path(args.default_format_path).stem
+    dirP = pathlib.Path(
+              d_params['default_format_path']).parents[0].resolve(strict=True)
+    stem = pathlib.Path(d_params['default_format_path']).stem
 
-    toFiles = (toTrainF := dirP.joinpath(f'{args.tokenization}.train'), toValidF
-               := dirP.joinpath(f'{args.tokenization}.valid'), toTestF :=
-               dirP.joinpath(f'{args.tokenization}.test'))
+    toFiles = (toTrainF := dirP.joinpath(f'{d_params["tokenization"]}.train'),
+               toValidF := dirP.joinpath(f'{d_params["tokenization"]}.valid'),
+               toTestF := dirP.joinpath(f'{d_params["tokenization"]}.test'))
     for file in toFiles:
         try:
             file.touch(exist_ok=False)
@@ -50,7 +50,7 @@ def defaultFormat_to_gpt2Format(args) -> Dict:
                 f'Program ended prematurely. Following file does not exist '
                 f'{file}')
             logg.critical(strng)
-            sys.exit()
+            exit()
 
     for fromFile, toFile in zip(fromFiles, toFiles):
         default_to_gpt2_format(tokenizer, fromFile, toFile)
