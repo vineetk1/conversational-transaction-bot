@@ -21,7 +21,7 @@ LOG_CONFIG = {
     },
     'handlers': {
         'file': {
-            'filename': 'ctb.log',
+            'filename': 'ctb_logs',
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'formatter': 'fileFormatter',
