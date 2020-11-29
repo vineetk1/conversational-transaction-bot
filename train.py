@@ -5,36 +5,46 @@ Vineet Kumar, sioom.ai
 from pytorch_lightning import seed_everything
 from pytorch_lightning import Trainer
 from pytorch_lightning.loggers import TensorBoardLogger
+from pytorch_lightning.callbacks import ModelCheckpoint
 from ctbData import ctbData
 from ctbModel import ctbModel
-import logging
+from ast import literal_eval
+from sys import argv
+from pathlib import Path
+from logging import getLogger
 import utils.logging_config
-from argparse import ArgumentParser
 
-logg = logging.getLogger(__name__)
+logg = getLogger(__name__)
 
 
-def main(args):
+def main():
     logg.debug('')
+    # last file in command-line has dictionaries of parameters
+    params_file_path = argv[len(argv) - 1]
+    with open(params_file_path, 'r') as paramF:
+        param_dicts = [
+            dictionary for line in paramF if line[0] == '{'
+            and isinstance(dictionary := literal_eval(line), dict)
+        ]
     seed_everything(63)
-    data = ctbData(args)
+    data = ctbData(param_dicts[1])
     len_tokenizer = data.prepare_data()
     data.setup()
-    model = ctbModel(args, len_tokenizer)
-    tb_logger = TensorBoardLogger('ctb_lightning_logs', name='ctb_model')
-    #trainer = Trainer.from_argparse_args(args)
-    trainer = Trainer(logger=tb_logger, gpus=1, num_sanity_val_steps=0)
+    model = ctbModel(param_dicts[2], len_tokenizer)
+    tb_logger = TensorBoardLogger('ctb_lightning_logs',
+                                  name=Path(params_file_path).name)
+    checkpoint_callback = ModelCheckpoint(
+        monitor='val_loss',
+        mode='min',
+        save_top_k=2,
+        period=1,
+        filename='{epoch:02d}-{val_loss:.4f}')
+    trainer = Trainer(logger=tb_logger,
+                      num_sanity_val_steps=0,
+                      callbacks=[checkpoint_callback],
+                      **param_dicts[3])
     trainer.fit(model, datamodule=data)
 
 
 if __name__ == '__main__':
-    parser = ArgumentParser()
-    parser.add_argument('--model', type=str, default='gpt2')
-    parser.add_argument('--tokenization', type=str, default='gpt2')
-    parser.add_argument(
-        '--default_format_path',
-        type=str,
-        default='data/dialog-bAbI-tasks/dstc2/defaultFormat.train')
-    parser = Trainer.add_argparse_args(parser)
-    args = parser.parse_args()
-    main(args)
+    main()
