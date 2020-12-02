@@ -14,19 +14,19 @@ import utils.NEW_TOKENS
 logg = getLogger(__name__)
 
 
-def defaultFormat_to_gpt2Format(d_params) -> Dict:
+def defaultFormat_to_gpt2Format(tokenizer_type: str,
+                                default_format_path: str) -> Dict:
     logg.debug('')
     tokenizer = GPT2Tokenizer.from_pretrained('distilgpt2')
     _ = tokenizer.add_special_tokens(utils.NEW_TOKENS.SPECIAL_TOKENS)
     _ = tokenizer.add_tokens(utils.NEW_TOKENS.TOKENS)
 
-    dirP = pathlib.Path(
-              d_params['default_format_path']).parents[0].resolve(strict=True)
-    stem = pathlib.Path(d_params['default_format_path']).stem
+    dirP = pathlib.Path(default_format_path).parents[0].resolve(strict=True)
+    stem = pathlib.Path(default_format_path).stem
 
-    toFiles = (toTrainF := dirP.joinpath(f'{d_params["tokenization"]}.train'),
-               toValidF := dirP.joinpath(f'{d_params["tokenization"]}.valid'),
-               toTestF := dirP.joinpath(f'{d_params["tokenization"]}.test'))
+    toFiles = (toTrainF := dirP.joinpath(f'{tokenizer_type}.train'), toValidF
+               := dirP.joinpath(f'{tokenizer_type}.valid'), toTestF :=
+               dirP.joinpath(f'{tokenizer_type}.test'))
     for file in toFiles:
         try:
             file.touch(exist_ok=False)
