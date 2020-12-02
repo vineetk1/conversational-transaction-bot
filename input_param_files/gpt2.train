@@ -7,15 +7,15 @@ Note the following:
 	(2) Do NOT change the order of python-dictionaries in this file.
 '''
 
-# parameters for file "train.py"
+# parameters for file "main.py"
 {}
 
 # parameters for file "ctbData.py"
-{'tokenization': 'gpt2', 'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train', 'batch_size_train': 2, 'batch_size_val': 2, 'batch_size_test': 2} 
+{'tokenizer_type': 'gpt2', 'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train', 'batch_size_train': 2, 'batch_size_val': 2, 'batch_size_test': 2} 
 
 # parameters for file "ctbModel.py"
-{'model': 'gpt2'} 
+{'model_type': 'gpt2'} 
 
 # parameters for Lightning Trainer
-{'gpus': 1, 'deterministic': True}
+{'gpus': 1, 'deterministic': True, 'max_epochs': 1}
 
