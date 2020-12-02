@@ -14,25 +14,27 @@ logg = getLogger(__name__)
 
 
 class ctbData(LightningDataModule):
-    def __init__(self, d_params):
+    def __init__(self, d_params: dict):
         logg.debug('')
         super().__init__()
         self.d_params = d_params
 
-    def prepare_data(self) -> int:
+    def prepare_data(self, testing_only: bool = False) -> int:
         logg.debug('')
-        if self.d_params['tokenization'] == "gpt2":
+        if self.d_params['tokenizer_type'] == "gpt2":
             from utils.defaultFormat_to_gpt2Format import \
                     defaultFormat_to_gpt2Format
-            data_info = defaultFormat_to_gpt2Format(self.d_params)
+            data_info = defaultFormat_to_gpt2Format(
+                self.d_params['tokenizer_type'],
+                self.d_params['default_format_path'])
             self.tokenizer = data_info['tokenizer']
             for name, f_path in data_info['f_paths'].items():
                 with f_path.open('rb') as file:
-                    if name == 'train':
+                    if name == 'train' and not testing_only:
                         self.train_data = ctbDataset(load(file))
                         logg.info(
                             f'{len(self.train_data)} examples in Training set')
-                    elif name == 'valid':
+                    elif name == 'valid' and not testing_only:
                         self.valid_data = ctbDataset(load(file))
                         logg.info(
                             f'{len(self.valid_data)} examples in Valid set')
@@ -45,7 +47,7 @@ class ctbData(LightningDataModule):
             return len(self.tokenizer)
         else:
             logg.critical(
-                f'unknown tokenization: {self.d_params["tokenization"]}')
+                f'unknown tokenization: {self.d_params["tokenizer_type"]}')
             exit()
 
     def setup(self):
