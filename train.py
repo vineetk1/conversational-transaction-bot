@@ -30,7 +30,7 @@ def main():
     data = ctbData(param_dicts[1])
     len_tokenizer = data.prepare_data()
     data.setup()
-    model = ctbModel(param_dicts[2], len_tokenizer)
+    model = ctbModel(param_dicts[2]['model_type'], len_tokenizer)
     tb_logger = TensorBoardLogger('ctb_lightning_logs',
                                   name=Path(params_file_path).name)
     checkpoint_callback = ModelCheckpoint(
@@ -44,6 +44,7 @@ def main():
                       callbacks=[checkpoint_callback],
                       **param_dicts[3])
     trainer.fit(model, datamodule=data)
+    trainer.test()   # auto loads checkpoint file with lowest val loss
 
 
 if __name__ == '__main__':
