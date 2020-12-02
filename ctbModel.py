@@ -6,31 +6,31 @@ from pytorch_lightning import LightningModule
 import torch
 from logging import getLogger
 from sys import exit
-from typing import Dict
+from typing import Dict, List
 
 logg = getLogger(__name__)
 
 
 class ctbModel(LightningModule):
-    def __init__(self, d_params, len_tokenizer: int):
+    def __init__(self, model_type: str, len_tokenizer: int = None):
         logg.debug('')
         super().__init__()
-        self.d_params = d_params
-        if d_params['model'] == "gpt2":
+        self.model_type = model_type
+        if model_type == "gpt2":
             from transformers import GPT2LMHeadModel
             self.model = GPT2LMHeadModel.from_pretrained('distilgpt2')
             self.model.resize_token_embeddings(len_tokenizer)
         else:
-            logg.critical(f'unknown model: {d_params["model"]}')
+            logg.critical(f'unknown model: {model_type}')
             exit()
 
     def forward(self):
         logg.debug('')
 
-    def training_step(self, batch: Dict[str, torch.Tensor], batch_idx: int):
+    def training_step(self, batch: Dict[str, torch.Tensor],
+                      batch_idx: int) -> torch.Tensor:
         logg.debug('')
-        outputs = self.model(**batch, labels=batch["input_ids"])
-        loss = outputs[0]  # mean of losses from each example in batch
+        loss = self.run_model(batch)
         # logger=True => TensorBoard; x-axis is always in steps=batches
         self.log('train_loss',
                  loss,
@@ -40,7 +40,9 @@ class ctbModel(LightningModule):
                  logger=False)
         return loss
 
-    def training_epoch_end(self, training_step_outputs):
+    def training_epoch_end(self,
+                           training_step_outputs: List[Dict[str,
+                                                            torch.Tensor]]):
         logg.debug('')
         avg_loss = torch.stack([x['loss']
                                 for x in training_step_outputs]).mean()
@@ -48,11 +50,11 @@ class ctbModel(LightningModule):
         self.logger.experiment.add_scalar('train_loss_epoch', avg_loss,
                                           self.current_epoch)
 
-    def validation_step(self, batch, batch_idx):
+    def validation_step(self, batch: Dict[str, torch.Tensor],
+                        batch_idx: int) -> torch.Tensor:
         logg.debug('')
-        outputs = self.model(**batch, labels=batch["input_ids"])
-        loss = outputs[0]  # mean of losses from each example in batch
-        # val_loss with on_epoch=True is monitored by checkpoint callback
+        loss = self.run_model(batch)
+        # checkpoint-callback monitors epoch val_loss, so on_epoch=True
         self.log('val_loss',
                  loss,
                  on_step=False,
@@ -61,14 +63,15 @@ class ctbModel(LightningModule):
                  logger=False)
         return loss
 
-    def validation_epoch_end(self, val_step_outputs):
+    def validation_epoch_end(self, val_step_outputs: List[torch.Tensor]):
         logg.debug('')
         avg_loss = torch.stack([x for x in val_step_outputs]).mean()
         # on TensorBoard, want to see x-axis in epochs (not steps=batches)
         self.logger.experiment.add_scalar('val_loss_epoch', avg_loss,
                                           self.current_epoch)
 
-    def test_step(self, batch, batch_idx):
+    def test_step(self, batch: Dict[str, torch.Tensor],
+                  batch_idx: int) -> torch.Tensor:
         logg.debug('')
         '''
         batch, y = batch
@@ -84,7 +87,7 @@ class ctbModel(LightningModule):
     def test_step_end(self, batch_parts):
         logg.debug('')
 
-    def test_epoch_end(self, test_step_outputs):
+    def test_epoch_end(self, test_step_outputs: List[torch.Tensor]):
         logg.debug('')
         '''
         avg_loss = torch.stack([x['test_loss'] for x in outputs]).mean()
@@ -93,6 +96,10 @@ class ctbModel(LightningModule):
 
         return {'log': tensorboard_logs}
     '''
+
+    def run_model(self, batch: Dict[str, torch.Tensor]) -> torch.Tensor:
+        outputs = self.model(**batch, labels=batch["input_ids"])
+        return outputs[0]  # mean of losses from each example in batch
 
     def configure_optimizers(self):
         logg.debug('')
