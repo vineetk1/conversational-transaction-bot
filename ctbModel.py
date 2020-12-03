@@ -19,6 +19,8 @@ class ctbModel(LightningModule):
         if model_type == "gpt2":
             from transformers import GPT2LMHeadModel
             self.model = GPT2LMHeadModel.from_pretrained('distilgpt2')
+            self.save_hyperparameters()
+            assert len_tokenizer is not None
             self.model.resize_token_embeddings(len_tokenizer)
         else:
             logg.critical(f'unknown model: {model_type}')
