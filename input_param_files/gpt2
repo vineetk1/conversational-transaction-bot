@@ -1,7 +1,7 @@
 '''
 Vineet Kumar, sioom.ai
 
-This file has parameters and hyper-parameters for training or testing a model. 
+This file has parameters and hyper-parameters for training and testing a model. 
 Note the following:
 	(1) This file should be last in the command-line.
 	(2) Do NOT change the order of python-dictionaries in this file.
