@@ -61,7 +61,7 @@ class ctbData(LightningDataModule):
                           sampler=RandomSampler(self.train_data),
                           batch_sampler=None,
                           num_workers=6,
-                          collate_fn=self.collater,
+                          collate_fn=self.gpt2_collater,
                           pin_memory=True,
                           drop_last=False,
                           timeout=0)
@@ -74,7 +74,7 @@ class ctbData(LightningDataModule):
                           sampler=RandomSampler(self.valid_data),
                           batch_sampler=None,
                           num_workers=6,
-                          collate_fn=self.collater,
+                          collate_fn=self.gpt2_collater,
                           pin_memory=True,
                           drop_last=False,
                           timeout=0)
@@ -87,12 +87,13 @@ class ctbData(LightningDataModule):
                           sampler=RandomSampler(self.test_data),
                           batch_sampler=None,
                           num_workers=6,
-                          collate_fn=self.collater,
+                          collate_fn=self.gpt2_collater,
                           pin_memory=True,
                           drop_last=False,
                           timeout=0)
 
-    def collater(self, examples: List[List[int]]) -> Dict[str, torch.Tensor]:
+    def gpt2_collater(self,
+                      examples: List[List[int]]) -> Dict[str, torch.Tensor]:
         logg.debug('')
         try:
             sep_idxs = [
