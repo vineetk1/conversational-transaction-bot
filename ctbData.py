@@ -43,7 +43,8 @@ class ctbData(LightningDataModule):
                         logg.info(
                             f'{len(self.test_data)} examples in Test set')
                     else:
-                        assert False
+                        assert (name == 'train' or name == 'valid'
+                                or name == 'test')
             return len(self.tokenizer)
         else:
             logg.critical(
