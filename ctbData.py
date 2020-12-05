@@ -21,15 +21,15 @@ class ctbData(LightningDataModule):
 
     def prepare_data(self,
                      tokenizer,
-                     model_id: Dict[str, str],
+                     tokenizer_type: str,
                      testing_only: bool = False):
         logg.debug('')
         self.tokenizer = tokenizer
-        if model_id['tokenizer_type'] == "gpt2-dstc2":
+        if tokenizer_type == "gpt2-dstc2":
             from utils.defaultFormat_to_gpt2Format import \
                     defaultFormat_to_gpt2Format
             data_info = defaultFormat_to_gpt2Format(
-                self.tokenizer, model_id['tokenizer_type'],
+                self.tokenizer, tokenizer_type,
                 self.d_params['default_format_path'])
             for name, f_path in data_info['f_paths'].items():
                 with f_path.open('rb') as file:
@@ -50,7 +50,7 @@ class ctbData(LightningDataModule):
                                 or name == 'test')
         else:
             logg.critical(
-                f'unknown tokenization: {model_id["tokenizer_type"]}')
+                f'unknown tokenization: {tokenizer_type}')
             exit()
 
     def setup(self):
