@@ -24,6 +24,7 @@ def main():
             dictionary for line in paramF if line[0] == '{'
             and isinstance(dictionary := literal_eval(line), dict)
         ]
+    model = ctbModel.load_from_checkpoint(checkpoint_path='ctb_lightning_logs/gpt2_params/version_0/checkpoints/epoch=00-val_loss=0.2329.ckpt')
     data = ctbData(param_dicts[1])
     len_tokenizer = data.prepare_data(testing_only=True)
     data.setup()

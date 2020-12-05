@@ -8,18 +8,13 @@ import pathlib
 from logging import getLogger
 import pickle
 from typing import Dict
-from transformers import GPT2Tokenizer
-import utils.NEW_TOKENS
 
 logg = getLogger(__name__)
 
 
-def defaultFormat_to_gpt2Format(tokenizer_type: str,
+def defaultFormat_to_gpt2Format(tokenizer, tokenizer_type,
                                 default_format_path: str) -> Dict:
     logg.debug('')
-    tokenizer = GPT2Tokenizer.from_pretrained('distilgpt2')
-    _ = tokenizer.add_special_tokens(utils.NEW_TOKENS.SPECIAL_TOKENS)
-    _ = tokenizer.add_tokens(utils.NEW_TOKENS.TOKENS)
 
     dirP = pathlib.Path(default_format_path).parents[0].resolve(strict=True)
     stem = pathlib.Path(default_format_path).stem
@@ -39,7 +34,6 @@ def defaultFormat_to_gpt2Format(tokenizer_type: str,
                     "valid": toValidF,
                     "test": toTestF
                 },
-                "tokenizer": tokenizer
             }
 
     fromFiles = (dirP.joinpath(f'{stem}.train'),
@@ -60,7 +54,6 @@ def defaultFormat_to_gpt2Format(tokenizer_type: str,
             "valid": toValidF,
             "test": toTestF
         },
-        "tokenizer": tokenizer
     }
 
 
