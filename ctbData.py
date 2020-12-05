@@ -19,15 +19,18 @@ class ctbData(LightningDataModule):
         super().__init__()
         self.d_params = d_params
 
-    def prepare_data(self, testing_only: bool = False) -> int:
+    def prepare_data(self,
+                     tokenizer,
+                     model_id: Dict[str, str],
+                     testing_only: bool = False):
         logg.debug('')
-        if self.d_params['tokenizer_type'] == "gpt2":
+        self.tokenizer = tokenizer
+        if model_id['tokenizer_type'] == "gpt2-dstc2":
             from utils.defaultFormat_to_gpt2Format import \
                     defaultFormat_to_gpt2Format
             data_info = defaultFormat_to_gpt2Format(
-                self.d_params['tokenizer_type'],
+                self.tokenizer, model_id['tokenizer_type'],
                 self.d_params['default_format_path'])
-            self.tokenizer = data_info['tokenizer']
             for name, f_path in data_info['f_paths'].items():
                 with f_path.open('rb') as file:
                     if name == 'train' and not testing_only:
@@ -45,16 +48,15 @@ class ctbData(LightningDataModule):
                     else:
                         assert (name == 'train' or name == 'valid'
                                 or name == 'test')
-            return len(self.tokenizer)
         else:
             logg.critical(
-                f'unknown tokenization: {self.d_params["tokenizer_type"]}')
+                f'unknown tokenization: {model_id["tokenizer_type"]}')
             exit()
 
     def setup(self):
         logg.debug('')
 
-    def train_dataloader(self):
+    def train_dataloader(self) -> DataLoader:
         logg.debug('')
         return DataLoader(self.train_data,
                           batch_size=self.d_params['batch_size_train'],
@@ -67,7 +69,7 @@ class ctbData(LightningDataModule):
                           drop_last=False,
                           timeout=0)
 
-    def val_dataloader(self):
+    def val_dataloader(self) -> DataLoader:
         logg.debug('')
         return DataLoader(self.valid_data,
                           batch_size=self.d_params['batch_size_val'],
@@ -80,7 +82,7 @@ class ctbData(LightningDataModule):
                           drop_last=False,
                           timeout=0)
 
-    def test_dataloader(self):
+    def test_dataloader(self) -> DataLoader:
         logg.debug('')
         return DataLoader(self.test_data,
                           batch_size=self.d_params['batch_size_test'],
