@@ -12,19 +12,40 @@ logg = getLogger(__name__)
 
 
 class ctbModel(LightningModule):
-    def __init__(self, model_type: str, len_tokenizer: int = None):
+    def __init__(self,
+                 d_params: dict,
+                 special_tokens: Dict[str, str] = None,
+                 dstc2_tokens: List[str] = None):
         logg.debug('')
         super().__init__()
-        self.model_type = model_type
-        if model_type == "gpt2":
+        self.save_hyperparameters()
+        self.model_type = d_params['model_type']
+        self.tokenizer_type = d_params['tokenizer_type']
+        if self.model_type == "distilgpt2-dstc2":
             from transformers import GPT2LMHeadModel
             self.model = GPT2LMHeadModel.from_pretrained('distilgpt2')
-            self.save_hyperparameters()
-            assert len_tokenizer is not None
-            self.model.resize_token_embeddings(len_tokenizer)
         else:
-            logg.critical(f'unknown model: {model_type}')
+            logg.critical(f'unknown model_type: {self.model_type}')
             exit()
+
+        if self.tokenizer_type == "gpt2-dstc2":
+            from transformers import GPT2Tokenizer
+            self.tokenizer = GPT2Tokenizer.from_pretrained('distilgpt2')
+            _ = self.tokenizer.add_special_tokens(special_tokens)
+            _ = self.tokenizer.add_tokens(dstc2_tokens)
+            self.model.resize_token_embeddings(len(self.tokenizer))
+        else:
+            logg.critical(f'unknown tokenizer_type: {self.tokenizer_type}')
+            exit()
+
+    def get_tokenizer(self):
+        return self.tokenizer
+
+    def get_model_id(self):
+        return {
+            'model_type': self.model_type,
+            'tokenizer_type': self.tokenizer_type,
+        }
 
     def forward(self):
         logg.debug('')
