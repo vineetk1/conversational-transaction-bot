@@ -8,14 +8,13 @@ Note the following:
 '''
 
 # parameters for file "ctbMain.py"
-# 'chkpt': None will load and test the pre-trained gpt2 model without fine-tuning
 {'chkpt': 'ctb_lightning_logs/gpt2_params/version_0/checkpoints/epoch=00-val_loss=0.2329.ckpt'}
 
-# parameters for file "ctbData.py"
-{'tokenizer_type': 'gpt2', 'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train', 'batch_size_test': 2} 
-
 # parameters for file "ctbModel.py"
-{'model_type': 'gpt2'} 
+{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2'} 
+
+# parameters for file "ctbData.py"
+{ 'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train', 'batch_size_test': 2} 
 
 # parameters for Lightning Trainer
 {'gpus': 1, 'max_epochs': 1}
