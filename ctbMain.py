@@ -13,6 +13,7 @@ from sys import argv
 from pathlib import Path
 from logging import getLogger
 import utils.logging_config
+import utils.NEW_TOKENS
 
 logg = getLogger(__name__)
 
@@ -27,10 +28,12 @@ def main():
             and isinstance(dictionary := literal_eval(line), dict)
         ]
     seed_everything(63)
-    data = ctbData(param_dicts[1])
-    len_tokenizer = data.prepare_data()
+    model = ctbModel(param_dicts[1], utils.NEW_TOKENS.SPECIAL_TOKENS,
+                     utils.NEW_TOKENS.DSTC2_TOKENS)
+    data = ctbData(param_dicts[2])
+    data.prepare_data(tokenizer=model.get_tokenizer(),
+                      model_id=model.get_model_id())
     data.setup()
-    model = ctbModel(param_dicts[2]['model_type'], len_tokenizer)
     tb_logger = TensorBoardLogger('ctb_lightning_logs',
                                   name=Path(params_file_path).name)
     checkpoint_callback = ModelCheckpoint(
@@ -44,7 +47,7 @@ def main():
                       callbacks=[checkpoint_callback],
                       **param_dicts[3])
     trainer.fit(model, datamodule=data)
-    trainer.test()   # auto loads checkpoint file with lowest val loss
+    trainer.test()  # auto loads checkpoint file with lowest val loss
 
 
 if __name__ == '__main__':
