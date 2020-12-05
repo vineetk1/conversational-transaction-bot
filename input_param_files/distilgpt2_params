@@ -11,6 +11,9 @@ Note the following:
 {}
 
 # parameters for file "ctbModel.py"
+# model_type includes name of pretrained model plus the name of training dataset
+# tokenizer_type includes name of pretrained tokenizer plus the name of training
+#      dataset used to add tokens
 {'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2'} 
 
 # parameters for file "ctbData.py"
