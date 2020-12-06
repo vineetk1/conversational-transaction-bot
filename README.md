@@ -17,9 +17,7 @@ Note that the default directory is *conversational-transaction-bot*
 ## Download DSTC2 dataset
 1. Go to https://fb-public.app.box.com/s/chnq60iivzv5uckpvj2n2vijlyepze6w 
 1. Download *dialog-bAbI-tasks_1_.tgz* in directory *data*  
-1. Verify that the dataset is in directory *data/dialog-bAbI-tasks*   
-
-Verify that the current working directory is *conversational-transaction-bot/data*.    
+Verify that the current working directory is *data*.    
 ```
 tar zxvf dialog-bAbI-tasks_1_.tgz
 rm dialog-bAbI-tasks_1_.tgz
