@@ -23,7 +23,7 @@ Verify that the current working directory is *data*.
 tar zxvf dialog-bAbI-tasks_1_.tgz
 rm dialog-bAbI-tasks_1_.tgz
 ```
-Verify that the dataset is in the directory *conversational-transaction-bot/data/dialog-bAbI-tasks*.   
+Verify that the dataset is in the directory *data/dialog-bAbI-tasks*.   
 ## Convert DSTC2 dataset to the default format
 All datasets must be converted to the default format. An example of the default format is shown in the file *conversational-transaction-bot/convert_to_default_formats/default_format_example.md*.   
 
