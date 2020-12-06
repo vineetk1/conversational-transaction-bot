@@ -23,11 +23,11 @@ Verify that the current working directory is *data*.
 tar zxvf dialog-bAbI-tasks_1_.tgz
 rm dialog-bAbI-tasks_1_.tgz
 ```
-Verify that the dataset is in the directory *data/dialog-bAbI-tasks*.   
+Verify that the DSTC2 dataset is in the directory *data/dialog-bAbI-tasks*.   
 ## Convert DSTC2 dataset to the default format
-All datasets must be converted to the default format. An example of the default format is shown in the file *conversational-transaction-bot/convert_to_default_formats/default_format_example.md*.   
+All datasets must be converted to the default format. An example of the default format is shown in the file *convert_to_default_formats/default_format_example.md*.   
 
-Verify that the current working directory is *conversational-transaction-bot*. Following command converts the downloaded dataset to the default format in the files - *defaultFormat.train, defaultFormat.valid, defaultFormat.test* - of the directory *conversational-transaction-bot/data/dialog-bAbI-tasks/dstc2*:
+Verify that the current working directory is the default directory. Following command converts the downloaded dataset to the default format in the files - *defaultFormat.train, defaultFormat.valid, defaultFormat.test* - of the directory *data/dialog-bAbI-tasks/dstc2*:
 ```
 python3 convert_to_default_formats/dstc2_to_defaultFormat.py
 ```
