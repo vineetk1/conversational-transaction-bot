@@ -33,17 +33,13 @@ python3 convert_to_default_formats/dstc2_to_defaultFormat.py
 ```
 Note that the above program converts the DSTC2 dataset to the default format. A new conversion program will have to be written for a dataset that is different from the DSTC2 dataset. 
 ## Train the model
-Verify that the current working directory is *conversational-transaction-bot*.
+Verify that the current working directory is the default directory.
 ```
-python3 train.py --gpus 1 --deterministic True --model gpt2 --tokenizer gpt2 --default_format_path data/dialog-bAbI-tasks/dstc2/defaultFormat.train
+python3 ctbMain.py input_param_files/distilgpt2_params
 ```
-**NOTE:** If a model has previously been trained then it is in the file *checkpoints/dialog/task6/checkpoint_best.pt*   
-If training again to generate a new model then the previous obsolete model must be removed, otherwise training will resume from the last best checkpoint model. A brute-force method to remove the obsolete model is to remove the directory *fairseq/checkpoints* as follows:
-```
-rm -r checkpoints
-```
+The user-settable hyper-parameters are in the file *input_param_files/distilgpt2_params*.
 ## Evaluate the trained model
-Verify that the current working directory is *conversational-transaction-bot*.
+Verify that the current working directory is the default directory.
 ```
 python3 dialog_generate.py --task dialog_task data-bin/dialog/task6 --path checkpoints/dialog/task6/checkpoint_best.pt --batch-size 32 --beam 5
 ```
