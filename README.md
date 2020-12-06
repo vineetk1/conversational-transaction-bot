@@ -12,9 +12,12 @@ pip3 install pytorch-lightning
 git clone https://github.com/vineetk1/conversational-transaction-bot.git
 cd conversational-transaction-bot
 ```
+Note that the default directory is *conversational-transaction-bot*   
+
 ## Download DSTC2 dataset
 1. Go to https://fb-public.app.box.com/s/chnq60iivzv5uckpvj2n2vijlyepze6w 
-1. Download *dialog-bAbI-tasks_1_.tgz* in directory *conversational-transaction-bot/data*  
+1. Download *dialog-bAbI-tasks_1_.tgz* in directory *data*  
+1. Verify that the dataset is in directory *data/dialog-bAbI-tasks*   
 
 Verify that the current working directory is *conversational-transaction-bot/data*.    
 ```
