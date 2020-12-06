@@ -32,7 +32,7 @@ Verify that the current working directory is the default directory. Following co
 python3 convert_to_default_formats/dstc2_to_defaultFormat.py
 ```
 Note that the above program converts the DSTC2 dataset to the default format. A new conversion program will have to be written for a dataset that is different from the DSTC2 dataset. 
-## Train the model
+## Train a model
 Verify that the current working directory is the default directory.
 ```
 python3 ctbMain.py input_param_files/distilgpt2_params
