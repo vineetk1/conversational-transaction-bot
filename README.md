@@ -37,7 +37,7 @@ Verify that the current working directory is the default directory.
 ```
 python3 ctbMain.py input_param_files/distilgpt2_params
 ```
-The user-settable hyper-parameters are in the file *input_param_files/distilgpt2_params*. It is envisioned that there will be many such files, in the "input_param_files" directory, each with their own unique set of hyperparameters.
+The user-settable hyper-parameters are in the file *input_param_files/distilgpt2_params*. It is envisioned that there will be many such files, in the *input_param_files* directory, each with their own unique set of hyperparameters.
 ## Evaluate the trained model
 Verify that the current working directory is the default directory.
 ```
