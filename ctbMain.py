@@ -46,10 +46,11 @@ def main():
         checkpoint_callback = ModelCheckpoint(
             monitor='val_loss',
             mode='min',
-            save_top_k=2,
+            save_top_k=param_dicts[0]['save_top_k'],
             period=1,
             filename='{epoch:02d}-{val_loss:.4f}')
         trainer = Trainer(logger=tb_logger,
+                          deterministic=True,
                           num_sanity_val_steps=0,
                           callbacks=[checkpoint_callback],
                           **param_dicts[3])
