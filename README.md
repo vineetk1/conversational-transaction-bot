@@ -27,13 +27,13 @@ Verify that the DSTC2 dataset is in the directory *data/dialog-bAbI-tasks*.
 ## Convert DSTC2 dataset to the default format
 All datasets must be converted to the default format. An example of the default format is shown in the file *convert_to_default_formats/default_format_example.md*.   
 
-Verify that the current working directory is the default directory. Following command converts the downloaded dataset to the default format in the files - *defaultFormat.train, defaultFormat.valid, defaultFormat.test* - of the directory *data/dialog-bAbI-tasks/dstc2*:
+Verify that the current working directory is the default directory. Following command-line converts the downloaded dataset to the default format, and saves it in the files - *defaultFormat.train, defaultFormat.valid, defaultFormat.test* - of the directory *data/dialog-bAbI-tasks/dstc2*:
 ```
 python3 convert_to_default_formats/dstc2_to_defaultFormat.py
 ```
 Note that the above program converts the DSTC2 dataset to the default format. A new conversion program will have to be written for a dataset that is different from the DSTC2 dataset. 
 ## Train a model
-Verify that the current working directory is the default directory.
+Verify that the current working directory is the default directory. Following command-line trains a model, saves checkpoints, and tests the checkpointed file that has the lowest validation loss.
 ```
 python3 ctbMain.py input_param_files/distilgpt2_params
 ```
