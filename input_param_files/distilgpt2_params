@@ -1,7 +1,7 @@
 '''
 Vineet Kumar, sioom.ai
 
-This input file has a unique set of user-programmable hyper-parameters for
+This input file has a unique set of user-settable hyper-parameters for
 training and testing a model. It is envisioned that there will be many input
 files, in the "input_param_files" directory, each with their own unique set
 of hyperparameters.
@@ -44,18 +44,19 @@ epoch=00-val_loss=0.2329.ckpt
 
 
 # parameters for file "ctbMain.py"
-# save_top_k: number of checkpointed files to save
-{'save_top_k': 2}
+# 'save_top_k': number of checkpointed files to save
+{'save_top_k': 3}
 
 # parameters for file "ctbModel.py"
-# model_type: name of pretrained model plus name of training dataset
-# tokenizer_type: name of pretrained tokenizer plus name of training
-#                 dataset whose tokens are added
+# 'model_type': 'name of pretrained model plus name of training dataset'
+# 'tokenizer_type': 'name of pretrained tokenizer plus name of training
+#                    dataset whose tokens are added'
 {'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2'} 
 
 # parameters for file "ctbData.py"
+# 'default_format_path': 'path to training dataset'
 {'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train', 'batch_size_train': 2, 'batch_size_val': 2, 'batch_size_test': 2} 
 
 # parameters for Lightning Trainer
-{'gpus': 1, 'max_epochs': 1}
+{'gpus': 1, 'max_epochs': 5}
 
