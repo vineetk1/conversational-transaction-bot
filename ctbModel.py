@@ -96,6 +96,15 @@ class ctbModel(LightningModule):
     def test_step(self, batch: Dict[str, torch.Tensor],
                   batch_idx: int) -> torch.Tensor:
         logg.debug('')
+        loss = self.run_model(batch)
+        # checkpoint-callback monitors epoch val_loss, so on_epoch=True
+        self.log('test_loss',
+                 loss,
+                 on_step=True,
+                 on_epoch=True,
+                 prog_bar=True,
+                 logger=True)
+        return loss
         '''
         batch, y = batch
         y_hat = self(batch)
@@ -107,11 +116,15 @@ class ctbModel(LightningModule):
         return {'test_loss': loss, "n_correct_pred": n_correct_pred, "n_pred": len(y)}
     '''
 
-    def test_step_end(self, batch_parts):
-        logg.debug('')
+    #def test_step_end(self, batch_parts):
+    #    logg.debug('')
 
     def test_epoch_end(self, test_step_outputs: List[torch.Tensor]):
         logg.debug('')
+        avg_loss = torch.stack([x for x in test_step_outputs]).mean()
+        # on TensorBoard, want to see x-axis in epochs (not steps=batches)
+        self.logger.experiment.add_scalar('test_loss_epoch', avg_loss,
+                                          self.current_epoch)
         '''
         avg_loss = torch.stack([x['test_loss'] for x in outputs]).mean()
         test_acc = sum([x['n_correct_pred'] for x in outputs]) / sum(x['n_pred'] for x in outputs)
