@@ -1,8 +1,8 @@
 '''
 Vineet Kumar, sioom.ai
 
-This input file has a unique set of user-settable hyper-parameters for
-training and testing a model. It is envisioned that there will be many input
+This input file has a unique set of user-settable hyper-parameters to resume 
+training of a checkpointed model. It is envisioned that there will be many input
 files, in the "input_param_files" directory, each with their own unique set
 of hyperparameters.
 
@@ -13,7 +13,7 @@ Note the following:
  
 Command-line:
 -------------
-python3 ctbMain.py input_param_files/distilgpt2_params 
+python3 ctbMain.py input_param_files/distilgpt2_params-resume_training 
 
 Path to ctb logs files:
 -----------------------
@@ -24,15 +24,13 @@ Path to Lightning logs files:
 It includes the following directories: (i) ctb_lightning_logs, (ii) name
 of this file, (iii) a unique version number that increases every time this
 file is used for training. Following is an example:
-ctb_lightning_logs/distilgpt2_params/version_0
-where "distilgpt2_params" is the name of this file
+ctb_lightning_logs/distilgpt2_params-resume_training/version_0
 
 Path to Checkpointed files:
 ---------------------------
 It includes the following directories: (i) path of Lightning logs files,
 (ii) checkpoints. Following is an example:
-ctb_lightning_logs/distilgpt2_params/version_0/checkpoints
-where "distilgpt2_params" is the name of this file
+ctb_lightning_logs//distilgpt2_params-resume_training/version_0/checkpoints
 
 Name of Checkpointed files:
 ---------------------------
@@ -60,6 +58,6 @@ epoch=00-val_loss=0.2329.ckpt
 # parameters for Lightning Trainer
 # 'resume_from_checkpoint': None => restore state of last checkpointed file, and
 # 				    resume training 
-{'gpus': 1, 'max_epochs': 9, 'resume_from_checkpoint': 'ctb_lightning_logs/distilgpt2_params/version_6/checkpoints/epoch=02-val_loss=0.1757.ckpt'}
+{'gpus': 1, 'max_epochs': 9, 'resume_from_checkpoint': 'ctb_lightning_logs/distilgpt2_params/version_0/checkpoints/epoch=00-val_loss=0.2329.ckpt'}
 #{'gpus': 1, 'max_epochs': 10, 'resume_from_checkpoint': None}
 
