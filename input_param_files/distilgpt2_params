@@ -25,14 +25,12 @@ It includes the following directories: (i) ctb_lightning_logs, (ii) name
 of this file, (iii) a unique version number that increases every time this
 file is used for training. Following is an example:
 ctb_lightning_logs/distilgpt2_params/version_0
-where "distilgpt2_params" is the name of this file
 
 Path to Checkpointed files:
 ---------------------------
 It includes the following directories: (i) path of Lightning logs files,
 (ii) checkpoints. Following is an example:
 ctb_lightning_logs/distilgpt2_params/version_0/checkpoints
-where "distilgpt2_params" is the name of this file
 
 Name of Checkpointed files:
 ---------------------------
