@@ -9,6 +9,7 @@ The Conversational Transaction Bot executes transactions on user commands. A use
 ```
 pip3 install transformers
 pip3 install pytorch-lightning
+pip3 install tensorboard
 git clone https://github.com/vineetk1/conversational-transaction-bot.git
 cd conversational-transaction-bot
 ```
