@@ -56,8 +56,5 @@ epoch=00-val_loss=0.2329.ckpt
 {'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train', 'batch_size_train': 2, 'batch_size_val': 2, 'batch_size_test': 2} 
 
 # parameters for Lightning Trainer
-# 'resume_from_checkpoint': None => restore state of last checkpointed file, and
-# 				    resume training 
 {'gpus': 1, 'max_epochs': 9, 'resume_from_checkpoint': 'ctb_lightning_logs/distilgpt2_params/version_0/checkpoints/epoch=00-val_loss=0.2329.ckpt'}
-#{'gpus': 1, 'max_epochs': 10, 'resume_from_checkpoint': None}
 
