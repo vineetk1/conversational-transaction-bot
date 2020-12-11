@@ -3,7 +3,7 @@ The Conversational Transaction Bot executes transactions on user commands. A use
 ## Requirements
 * PyTorch version >= 1.6.0
 * Python version >= 3.8.5
-* PyTorch-Lightning version used is 1.0.8
+* PyTorch-Lightning version used is 1.1.0
 * Huggingface Transformers version used is 4.0.1
 * Tensorboard version used is 2.3.0
 ## Installation
