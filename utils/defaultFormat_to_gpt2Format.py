@@ -67,7 +67,10 @@ def default_to_gpt2_format(tokenizer, fromFile: pathlib.PosixPath,
             # persona is not used, so it is ignored
             history = '<BOS>'
             for i, (u_str, b_str) in enumerate(zip(dlg['user'], dlg['bot'])):
-                seq = " ".join([history, u_str, '<SEP>', b_str, '<EOS>'])
+                if fromFile.suffix != '.test':
+                    seq = " ".join([history, u_str, '<SEP>', b_str, '<EOS>'])
+                else:
+                    seq = " ".join([history, u_str, '<SEP>'])
                 history = " ".join([history, u_str, b_str])
                 try:
                     idx = dlg['bot_idx'].index(i)
@@ -79,10 +82,19 @@ def default_to_gpt2_format(tokenizer, fromFile: pathlib.PosixPath,
                                     return_length=True,
                                     return_token_type_ids=False,
                                     return_attention_mask=False)
+                if fromFile.suffix == '.test':
+                    label_ids = tokenizer(" ".join([b_str, '<EOS>']),
+                                          return_length=True,
+                                          return_token_type_ids=False,
+                                          return_attention_mask=False)
                 if seq_ids.length <=\
                         tokenizer.max_model_input_sizes['distilgpt2']:
                     # NOTE "copy.deepcopy" is not needed below
-                    lst_input_ids.append(seq_ids['input_ids'])
+                    if fromFile.suffix != '.test':
+                        lst_input_ids.append(seq_ids['input_ids'])
+                    else:
+                        lst_input_ids.append(
+                            (seq_ids['input_ids'], label_ids['input_ids']))
                 else:
                     # (1) Look at future turns to find what sequences of
                     # "api_call_result" are relevant; Remove all except those
