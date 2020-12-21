@@ -96,8 +96,44 @@ class ctbModel(LightningModule):
     def test_step(self, batch: Dict[str, torch.Tensor],
                   batch_idx: int) -> torch.Tensor:
         logg.debug('')
-        loss = self.run_model(batch)
+        model_kwargs = {
+            'attention_mask': batch['attention_mask'],
+            'token_type_ids': batch['token_type_ids']
+        }
+
+        outputs = self.model.generate(
+            # parameter = None => replace with self.config.parameter
+            input_ids=batch['input_ids'],
+            max_length=self.tokenizer.max_model_input_sizes['distilgpt2'],
+            min_length=None,
+            do_sample=False,
+            early_stopping=None,
+            num_beams=None,
+            temperature=None,
+            top_k=None,
+            top_p=None,
+            repetition_penalty=None,
+            bad_words_ids=None,
+            bos_token_id=self.tokenizer.bos_token_id,
+            pad_token_id=self.tokenizer.pad_token_id,
+            eos_token_id=self.tokenizer.eos_token_id,
+            length_penalty=None,
+            no_repeat_ngram_size=None,
+            num_return_sequences=None,
+            decoder_start_token_id=None,
+            use_cache=None,
+            # num_beam_groups=None,  # this parameter is not in called program
+            # diversity_penalty=None,  # this parametr is not in called program
+            prefix_allowed_tokens_fn=None,
+            **model_kwargs)
+
+        print(f"input_ids={self.tokenizer.batch_decode(batch['input_ids'], skip_special_tokens=True)}")
+        print(f"labels_ids={self.tokenizer.batch_decode(batch['label_ids'], skip_special_tokens=True)}")
+        print(f"outputs={self.tokenizer.batch_decode(outputs[:, batch['input_ids'].shape[1]:], skip_special_tokens=True)}")
+        print('end')
+
         # checkpoint-callback monitors epoch val_loss, so on_epoch=True
+        '''
         self.log('test_loss',
                  loss,
                  on_step=True,
@@ -105,6 +141,7 @@ class ctbModel(LightningModule):
                  prog_bar=True,
                  logger=True)
         return loss
+        '''
         '''
         batch, y = batch
         y_hat = self(batch)
