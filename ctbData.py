@@ -7,7 +7,7 @@ import torch
 from torch.utils.data import Dataset, RandomSampler, DataLoader
 from logging import getLogger
 from sys import exit
-from typing import List, Dict
+from typing import List, Dict, Union, Tuple
 from pickle import load
 
 logg = getLogger(__name__)
@@ -49,8 +49,7 @@ class ctbData(LightningDataModule):
                         assert (name == 'train' or name == 'valid'
                                 or name == 'test')
         else:
-            logg.critical(
-                f'unknown tokenization: {tokenizer_type}')
+            logg.critical(f'unknown tokenization: {tokenizer_type}')
             exit()
 
     def setup(self):
@@ -64,7 +63,7 @@ class ctbData(LightningDataModule):
                           sampler=RandomSampler(self.train_data),
                           batch_sampler=None,
                           num_workers=6,
-                          collate_fn=self.gpt2_collater,
+                          collate_fn=self.gpt2_collater_train_val,
                           pin_memory=True,
                           drop_last=False,
                           timeout=0)
@@ -77,7 +76,7 @@ class ctbData(LightningDataModule):
                           sampler=RandomSampler(self.valid_data),
                           batch_sampler=None,
                           num_workers=6,
-                          collate_fn=self.gpt2_collater,
+                          collate_fn=self.gpt2_collater_train_val,
                           pin_memory=True,
                           drop_last=False,
                           timeout=0)
@@ -90,13 +89,13 @@ class ctbData(LightningDataModule):
                           sampler=RandomSampler(self.test_data),
                           batch_sampler=None,
                           num_workers=6,
-                          collate_fn=self.gpt2_collater,
+                          collate_fn=self.gpt2_collater_test,
                           pin_memory=True,
                           drop_last=False,
                           timeout=0)
 
-    def gpt2_collater(self,
-                      examples: List[List[int]]) -> Dict[str, torch.Tensor]:
+    def gpt2_collater_train_val(
+            self, examples: List[List[int]]) -> Dict[str, torch.Tensor]:
         logg.debug('')
         try:
             sep_idxs = [
@@ -130,10 +129,58 @@ class ctbData(LightningDataModule):
             'token_type_ids': token_type_ids,
         }
 
+    def gpt2_collater_test(
+        self, examples: List[Tuple[List[int],
+                                   List[int]]]) -> Dict[str, torch.Tensor]:
+        logg.debug('')
+
+        input_lsts, label_lsts = zip(*examples)
+
+        try:
+            sep_idxs = [
+                input_lst.index(self.tokenizer.sep_token_id)
+                for input_lst in input_lsts
+            ]
+        except ValueError:
+            logg.critical('No sep_token in example')
+            exit()
+        input_lsts_lens = [len(input_lst) for input_lst in input_lsts]
+        assert self.tokenizer.padding_side == 'right'
+        input_ids = torch.LongTensor([
+            (input_lst + [self.tokenizer.pad_token_id] *
+             (max(input_lsts_lens) - input_lst_len))
+            for input_lst, input_lst_len in zip(input_lsts, input_lsts_lens)
+        ])
+        input_attention_mask = torch.FloatTensor(
+            [[1] * input_lst_len + [0] * (max(input_lsts_lens) - input_lst_len)
+             for input_lst_len in input_lsts_lens])
+        input_token_type_ids = torch.LongTensor(
+            [[0] * sep_idx + [1] * (max(input_lsts_lens) - sep_idx)
+             for sep_idx in sep_idxs])
+
+        label_lsts_lens = [len(label_lst) for label_lst in label_lsts]
+        label_ids = torch.LongTensor([
+            (label_lst + [self.tokenizer.pad_token_id] *
+             (max(label_lsts_lens) - label_lst_len))
+            for label_lst, label_lst_len in zip(label_lsts, label_lsts_lens)
+        ])
+        label_attention_mask = torch.LongTensor(
+            [[1] * label_lst_len + [0] * (max(label_lsts_lens) - label_lst_len)
+             for label_lst_len in label_lsts_lens])
+
+        return {
+            'input_ids': input_ids,
+            'attention_mask': input_attention_mask,
+            'token_type_ids': input_token_type_ids,
+            'label_ids': label_ids,
+            'label_attention_mask': label_attention_mask
+        }
+
 
 class ctbDataset(Dataset):
     # example = feature plus label
-    def __init__(self, features: List[List[int]]):
+    def __init__(self, features: Union[List[List[int]],
+                                       List[Tuple[List[int], List[int]]]]):
         logg.debug('')
         self.features = features
 
@@ -141,6 +188,7 @@ class ctbDataset(Dataset):
         logg.debug('')
         return len(self.features)
 
-    def __getitem__(self, idx: int) -> List[int]:
+    def __getitem__(self,
+                    idx: int) -> Union[List[int], Tuple[List[int], List[int]]]:
         logg.debug('')
         return self.features[idx]
