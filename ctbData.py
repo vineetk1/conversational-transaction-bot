@@ -95,8 +95,13 @@ class ctbData(LightningDataModule):
                           timeout=0)
 
     def gpt2_collater_train_val(
-            self, examples: List[List[int]]) -> Dict[str, torch.Tensor]:
+            self,
+            idxs_examples: List[Tuple[int,
+                                      List[int]]]) -> Dict[str, torch.Tensor]:
         logg.debug('')
+
+        _, examples = zip(*idxs_examples)
+
         try:
             sep_idxs = [
                 example.index(self.tokenizer.sep_token_id)
@@ -105,6 +110,7 @@ class ctbData(LightningDataModule):
         except ValueError:
             logg.critical('No sep_token in example')
             exit()
+
         example_lens = [len(example) for example in examples]
         max_example_len = max(example_lens)
         assert self.tokenizer.padding_side == 'right'
@@ -130,10 +136,11 @@ class ctbData(LightningDataModule):
         }
 
     def gpt2_collater_test(
-        self, examples: List[Tuple[List[int],
-                                   List[int]]]) -> Dict[str, torch.Tensor]:
+        self, idxs_examples: List[Tuple[int, Tuple[List[int], List[int]]]]
+    ) -> Dict[str, Union[int, torch.Tensor]]:
         logg.debug('')
 
+        idxs, examples = zip(*idxs_examples)
         input_lsts, label_lsts = zip(*examples)
 
         try:
@@ -144,6 +151,7 @@ class ctbData(LightningDataModule):
         except ValueError:
             logg.critical('No sep_token in example')
             exit()
+
         input_lsts_lens = [len(input_lst) for input_lst in input_lsts]
         assert self.tokenizer.padding_side == 'right'
         input_ids = torch.LongTensor([
@@ -173,7 +181,8 @@ class ctbData(LightningDataModule):
             'attention_mask': input_attention_mask,
             'token_type_ids': input_token_type_ids,
             'label_ids': label_ids,
-            'label_attention_mask': label_attention_mask
+            'label_attention_mask': label_attention_mask,
+            'idxs': idxs
         }
 
 
@@ -191,4 +200,4 @@ class ctbDataset(Dataset):
     def __getitem__(self,
                     idx: int) -> Union[List[int], Tuple[List[int], List[int]]]:
         logg.debug('')
-        return self.features[idx]
+        return (idx, self.features[idx])
