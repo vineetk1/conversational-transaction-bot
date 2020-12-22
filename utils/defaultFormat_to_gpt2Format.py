@@ -57,8 +57,7 @@ def defaultFormat_to_gpt2Format(tokenizer, tokenizer_type,
                                           return_length=True,
                                           return_token_type_ids=False,
                                           return_attention_mask=False)
-                    # add 1 to length for EOS token
-                    labels_max_len = max(labels_max_len, label_ids.length + 1)
+                    labels_max_len = max(labels_max_len, label_ids['length'])
 
     for fromFile, toFile in zip(fromFiles, toFiles):
         default_to_gpt2_format(tokenizer, fromFile, toFile, labels_max_len)
@@ -75,60 +74,48 @@ def default_to_gpt2_format(tokenizer, fromFile: pathlib.PosixPath,
                            toFile: pathlib.PosixPath,
                            labels_max_len: int) -> None:
     lst_input_ids = []
-    stat_num_examples = 0
     with fromFile.open('rb') as fromF:
         lst_dlgs = pickle.load(fromF)
         for dlg in lst_dlgs:
             assert len(dlg['user']) == len(dlg['bot'])
             # persona is not used, so it is ignored
-            history = '<BOS>'
+            history = ''
             for i, (u_str, b_str) in enumerate(zip(dlg['user'], dlg['bot'])):
-                stat_num_examples += 1
-                if fromFile.suffix != '.test':
-                    seq = " ".join([history, u_str, '<SEP>', b_str, '<EOS>'])
-                else:
-                    seq = " ".join([history, u_str, '<SEP>'])
-                history = " ".join([history, u_str, b_str])
-                try:
-                    idx = dlg['bot_idx'].index(i)
-                    history = " ".join(
-                        [history, " ".join(dlg['api_call_result'][idx])])
-                except ValueError:
-                    pass
-                seq_ids = tokenizer(seq,
-                                    return_length=True,
-                                    return_token_type_ids=False,
-                                    return_attention_mask=False)
-                label_ids = tokenizer(" ".join([b_str, '<EOS>']),
-                                      return_length=True,
+                feature_ids = tokenizer(" ".join([history, u_str]),
+                                        return_length=False,
+                                        return_token_type_ids=False,
+                                        return_attention_mask=False)
+                label_ids = tokenizer(b_str,
+                                      return_length=False,
                                       return_token_type_ids=False,
                                       return_attention_mask=False)
+                # Policy: If feature_ids is larger than max allowed by GPT2,
+                # then truncate by picking tokens from the end (i.e. drop the
+                # tokens in the beginning)
+                feature_ids_trunc = feature_ids['input_ids'][-(
+                    tokenizer.max_model_input_sizes['distilgpt2'] -
+                    labels_max_len - 3):]
                 if fromFile.suffix == '.test':
-                    if (seq_ids.length + labels_max_len) <=\
-                            tokenizer.max_model_input_sizes['distilgpt2']:
-                        # NOTE "copy.deepcopy" is not needed below
-                        lst_input_ids.append(
-                            (seq_ids['input_ids'], label_ids['input_ids']))
+                    # NOTE "copy.deepcopy" is not needed below
+                    lst_input_ids.append(
+                        ([tokenizer.bos_token_id] + feature_ids_trunc +
+                         [tokenizer.sep_token_id], label_ids['input_ids']))
                 else:
-                    if seq_ids.length - label_ids.length + labels_max_len <=\
-                            tokenizer.max_model_input_sizes['distilgpt2']:
-                        # NOTE "copy.deepcopy" is not needed below
-                        lst_input_ids.append(seq_ids['input_ids'])
-                    else:
-                        # (1) Look at future turns to find what sequences of
-                        # "api_call_result" are relevant; Remove all except those
-                        # relevant sequences and a few irrelevant ones; (2) If
-                        # point 1 doesn't work then remove all sequences in
-                        # "api_call_result"; (3) If pt 2 doesn't work then remove
-                        # the early turns involving both the user and the bot;
-                        # Nothing is implemented yet except the seq_ids is NOT
-                        # added to lst_input_ids
-                        pass
+                    # NOTE "copy.deepcopy" is not needed below
+                    lst_input_ids.append([tokenizer.bos_token_id] +
+                                         feature_ids_trunc +
+                                         [tokenizer.sep_token_id] +
+                                         label_ids['input_ids'] +
+                                         [tokenizer.eos_token_id])
+                try:
+                    idx = dlg['bot_idx'].index(i)
+                    history = " ".join([
+                        history, u_str, b_str,
+                        " ".join(dlg['api_call_result'][idx])
+                    ])
+                except ValueError:
+                    history = " ".join([history, u_str, b_str])
+
     with toFile.open('wb') as toF:
         pickle.dump(lst_input_ids, toF, protocol=pickle.HIGHEST_PROTOCOL)
-        strng = (
-            f'Done writing to file {toFile}: '
-            f'# of examples: Total {stat_num_examples}, '
-            f'Selected {len(lst_input_ids)}, '
-            f'Discarded {stat_num_examples - len(lst_input_ids)}')
-        logg.info(strng)
+        logg.info(f'Done writing to file {toFile}')
