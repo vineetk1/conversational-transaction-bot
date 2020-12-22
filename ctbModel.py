@@ -101,6 +101,8 @@ class ctbModel(LightningModule):
             'token_type_ids': batch['token_type_ids']
         }
 
+        # outputs = batch['input_ids'] + (batch of generated outputs)
+        # batch['input_ids']=batch of (<BOS> + sequence + <SEP> + <PAD>..<PAD>)
         outputs = self.model.generate(
             # parameter = None => replace with self.config.parameter
             input_ids=batch['input_ids'],
