@@ -17,5 +17,5 @@ SPECIAL_TOKENS = {
 
 DSTC2_TOKENS = [
     '<SILENCE>', 'api_call', 'R_post_code', 'R_cuisine', 'R_location',
-    'R_phone', 'R_address', 'R_price', 'R_rating'
+    'R_phone', 'R_address', 'R_price', 'R_rating', 'R_number'
 ]
