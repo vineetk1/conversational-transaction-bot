@@ -21,7 +21,8 @@ def defaultFormat_to_gpt2Format(tokenizer, tokenizer_type,
 
     toFiles = (toTrainF := dirP.joinpath(f'{tokenizer_type}.train'), toValidF
                := dirP.joinpath(f'{tokenizer_type}.valid'), toTestF :=
-               dirP.joinpath(f'{tokenizer_type}.test'))
+               dirP.joinpath(f'{tokenizer_type}.test'), toPfsF :=
+               dirP.joinpath(f'{tokenizer_type}.pfs'))
     for file in toFiles:
         try:
             file.touch(exist_ok=False)
@@ -32,12 +33,15 @@ def defaultFormat_to_gpt2Format(tokenizer, tokenizer_type,
                 "f_paths": {
                     "train": toTrainF,
                     "valid": toValidF,
-                    "test": toTestF
+                    "test": toTestF,
+                    "pfs": toPfsF
                 },
             }
 
+    # test file is also used for pass-fail-statistics (pfs)
     fromFiles = (dirP.joinpath(f'{stem}.train'),
-                 dirP.joinpath(f'{stem}.valid'), dirP.joinpath(f'{stem}.test'))
+                 dirP.joinpath(f'{stem}.valid'), dirP.joinpath(f'{stem}.test'),
+                 dirP.joinpath(f'{stem}.test'))
     for file in fromFiles:
         if not file.exists():
             strng = (
@@ -65,7 +69,8 @@ def defaultFormat_to_gpt2Format(tokenizer, tokenizer_type,
         "f_paths": {
             "train": toTrainF,
             "valid": toValidF,
-            "test": toTestF
+            "test": toTestF,
+            "pfs": toPfsF
         },
     }
 
@@ -85,7 +90,7 @@ def default_to_gpt2_format(tokenizer, fromFile: pathlib.PosixPath,
                                         return_length=False,
                                         return_token_type_ids=False,
                                         return_attention_mask=False)
-                label_ids = tokenizer(b_str,
+                label_ids = tokenizer(" ".join([b_str, tokenizer.eos_token]),
                                       return_length=False,
                                       return_token_type_ids=False,
                                       return_attention_mask=False)
@@ -95,7 +100,7 @@ def default_to_gpt2_format(tokenizer, fromFile: pathlib.PosixPath,
                 feature_ids_trunc = feature_ids['input_ids'][-(
                     tokenizer.max_model_input_sizes['distilgpt2'] -
                     labels_max_len - 3):]
-                if fromFile.suffix == '.test':
+                if fromFile.suffix == '.test' and toFile.suffix == '.pfs':
                     # NOTE "copy.deepcopy" is not needed below
                     lst_input_ids.append(
                         ([tokenizer.bos_token_id] + feature_ids_trunc +
@@ -105,8 +110,7 @@ def default_to_gpt2_format(tokenizer, fromFile: pathlib.PosixPath,
                     lst_input_ids.append([tokenizer.bos_token_id] +
                                          feature_ids_trunc +
                                          [tokenizer.sep_token_id] +
-                                         label_ids['input_ids'] +
-                                         [tokenizer.eos_token_id])
+                                         label_ids['input_ids'])
                 try:
                     idx = dlg['bot_idx'].index(i)
                     history = " ".join([
