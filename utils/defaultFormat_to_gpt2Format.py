@@ -95,18 +95,12 @@ def default_to_gpt2_format(tokenizer, fromFile: pathlib.PosixPath,
                 feature_ids_trunc = feature_ids['input_ids'][-(
                     tokenizer.max_model_input_sizes['distilgpt2'] -
                     labels_max_len - 3):]
-                if fromFile.suffix == '.test':
-                    # NOTE "copy.deepcopy" is not needed below
-                    lst_input_ids.append(
-                        ([tokenizer.bos_token_id] + feature_ids_trunc +
-                         [tokenizer.sep_token_id], label_ids['input_ids']))
-                else:
-                    # NOTE "copy.deepcopy" is not needed below
-                    lst_input_ids.append([tokenizer.bos_token_id] +
-                                         feature_ids_trunc +
-                                         [tokenizer.sep_token_id] +
-                                         label_ids['input_ids'] +
-                                         [tokenizer.eos_token_id])
+                # NOTE "copy.deepcopy" is not needed below
+                lst_input_ids.append([tokenizer.bos_token_id] +
+                                     feature_ids_trunc +
+                                     [tokenizer.sep_token_id] +
+                                     label_ids['input_ids'] +
+                                     [tokenizer.eos_token_id])
                 try:
                     idx = dlg['bot_idx'].index(i)
                     history = " ".join([
