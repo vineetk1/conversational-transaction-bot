@@ -53,7 +53,7 @@ class ctbModel(LightningModule):
     def training_step(self, batch: Dict[str, torch.Tensor],
                       batch_idx: int) -> torch.Tensor:
         logg.debug('')
-        loss = self.run_model(batch)
+        loss = self.run_model(batch['model'])
         # logger=True => TensorBoard; x-axis is always in steps=batches
         self.log('train_loss',
                  loss,
@@ -76,7 +76,7 @@ class ctbModel(LightningModule):
     def validation_step(self, batch: Dict[str, torch.Tensor],
                         batch_idx: int) -> torch.Tensor:
         logg.debug('')
-        loss = self.run_model(batch)
+        loss = self.run_model(batch['model'])
         # checkpoint-callback monitors epoch val_loss, so on_epoch=True
         self.log('val_loss',
                  loss,
@@ -88,13 +88,65 @@ class ctbModel(LightningModule):
 
     def validation_epoch_end(self, val_step_outputs: List[torch.Tensor]):
         logg.debug('')
-        avg_loss = torch.stack([x for x in val_step_outputs]).mean()
+        avg_loss = torch.stack(val_step_outputs).mean()
         # on TensorBoard, want to see x-axis in epochs (not steps=batches)
         self.logger.experiment.add_scalar('val_loss_epoch', avg_loss,
                                           self.current_epoch)
 
     def test_step(self, batch: Dict[str, torch.Tensor],
                   batch_idx: int) -> torch.Tensor:
+        logg.debug('')
+        loss = self.run_model(batch['model'])
+        # checkpoint-callback monitors epoch val_loss, so on_epoch=True
+        self.log('test_loss_step',
+                 loss,
+                 on_step=True,
+                 on_epoch=True,
+                 prog_bar=True,
+                 logger=True)
+        try:
+            if self.pass_fail_stat:
+                self.pass_fail_stat_step(batch)
+        except AttributeError:
+            pass
+        return loss
+
+    def test_epoch_end(self, test_step_outputs: List[torch.Tensor]):
+        logg.debug('')
+        avg_loss = torch.stack(test_step_outputs).mean()
+        ppl = torch.exp(avg_loss)
+        logg.info(f'avg loss = {avg_loss}')
+        logg.info(f'perplexity = {ppl}')
+        self.log('test_perplexity',
+                 ppl,
+                 on_step=False,
+                 on_epoch=True,
+                 prog_bar=True,
+                 logger=True)
+        try:
+            if self.pass_fail_stat:
+                self.pass_fail_stat_end()
+        except AttributeError:
+            pass
+
+    def run_model(self, batch: Dict[str, torch.Tensor]) -> torch.Tensor:
+        outputs = self.model(**batch, labels=batch["input_ids"])
+        return outputs[0]  # mean of losses from each example in batch
+
+    def configure_optimizers(self):
+        logg.debug('')
+        return torch.optim.Adam(
+            [p for p in self.parameters() if p.requires_grad],
+            lr=2e-05,
+            eps=1e-08)
+
+    def clear_pass_fail_stat(self):
+        self.pass_fail_stat = False
+
+    def set_pass_fail_stat(self):
+        self.pass_fail_stat = True
+
+    def pass_fail_stat_step(self, batch: Dict[str, torch.Tensor]):
         logg.debug('')
         model_kwargs = {
             'attention_mask': batch['attention_mask'],
@@ -107,7 +159,7 @@ class ctbModel(LightningModule):
             # parameter = None => replace with self.config.parameter
             input_ids=batch['input_ids'],
             max_length=self.tokenizer.max_model_input_sizes['distilgpt2'],
-            min_length=None,
+            min_length=1,
             do_sample=False,
             early_stopping=None,
             num_beams=2,
@@ -134,51 +186,5 @@ class ctbModel(LightningModule):
         print(f"outputs={self.tokenizer.batch_decode(outputs[:, batch['input_ids'].shape[1]:], skip_special_tokens=True)}")
         print('end')
 
-        # checkpoint-callback monitors epoch val_loss, so on_epoch=True
-        '''
-        self.log('test_loss',
-                 loss,
-                 on_step=True,
-                 on_epoch=True,
-                 prog_bar=True,
-                 logger=True)
-        return loss
-        '''
-        '''
-        batch, y = batch
-        y_hat = self(batch)
-
-        loss = F.cross_entropy(y_hat, y.long())
-        labels_hat = torch.argmax(y_hat, dim=1)
-        n_correct_pred = torch.sum(y == labels_hat).item()
-
-        return {'test_loss': loss, "n_correct_pred": n_correct_pred, "n_pred": len(y)}
-    '''
-
-    #def test_step_end(self, batch_parts):
-    #    logg.debug('')
-
-    def test_epoch_end(self, test_step_outputs: List[torch.Tensor]):
+    def pass_fail_stat_end(self):
         logg.debug('')
-        avg_loss = torch.stack([x for x in test_step_outputs]).mean()
-        # on TensorBoard, want to see x-axis in epochs (not steps=batches)
-        self.logger.experiment.add_scalar('test_loss_epoch', avg_loss,
-                                          self.current_epoch)
-        '''
-        avg_loss = torch.stack([x['test_loss'] for x in outputs]).mean()
-        test_acc = sum([x['n_correct_pred'] for x in outputs]) / sum(x['n_pred'] for x in outputs)
-        tensorboard_logs = {'test_loss': avg_loss, 'test_acc': test_acc, 'step': self.current_epoch}
-
-        return {'log': tensorboard_logs}
-    '''
-
-    def run_model(self, batch: Dict[str, torch.Tensor]) -> torch.Tensor:
-        outputs = self.model(**batch, labels=batch["input_ids"])
-        return outputs[0]  # mean of losses from each example in batch
-
-    def configure_optimizers(self):
-        logg.debug('')
-        return torch.optim.Adam(
-            [p for p in self.parameters() if p.requires_grad],
-            lr=2e-05,
-            eps=1e-08)
