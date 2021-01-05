@@ -50,8 +50,9 @@ epoch=00-val_loss=0.2329.ckpt
 
 # parameters for file "ctbData.py"
 # 'default_format_path': 'path to training dataset'
-{'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train', 'batch_size_test': 2} 
+{'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train'} 
 
 # parameters for Lightning Trainer
+# For a list of parameters, see Trainer.__init__(...) in PyTorch Lightning documentation
 {'gpus': 1}
 
