@@ -43,18 +43,20 @@ epoch=00-val_loss=0.2329.ckpt
 
 # parameters for file "ctbMain.py"
 # 'save_top_k': number of checkpointed files to save
-{'save_top_k': 3}
+{'save_top_k': 4}
 
 # parameters for file "ctbModel.py"
 # 'model_type': 'name of pretrained model plus name of training dataset'
 # 'tokenizer_type': 'name of pretrained tokenizer plus name of training
 #                    dataset whose tokens are added'
+# 'lr': initial learning rate
 {'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2'} 
 
 # parameters for file "ctbData.py"
 # 'default_format_path': 'path to training dataset'
-{'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train', 'batch_size_train': 2, 'batch_size_val': 2, 'batch_size_test': 2} 
+{'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train'} 
 
 # parameters for Lightning Trainer
+# For a list of parameters, see Trainer.__init__(...) in PyTorch Lightning documentation
 {'gpus': 1, 'max_epochs': 9, 'resume_from_checkpoint': 'ctb_lightning_logs/distilgpt2_params/version_0/checkpoints/epoch=00-val_loss=0.2329.ckpt'}
 
