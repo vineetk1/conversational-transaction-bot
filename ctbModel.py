@@ -19,8 +19,9 @@ class ctbModel(LightningModule):
         logg.debug('')
         super().__init__()
         self.save_hyperparameters()
-        self.model_type = d_params['model_type']
-        self.tokenizer_type = d_params['tokenizer_type']
+        self.lr = d_params.pop('lr', 1e-08)
+        self.model_type = d_params.pop('model_type', 'distilgpt2-dstc2')
+        self.tokenizer_type = d_params.pop('tokenizer_type', 'gpt2-dstc2')
         if self.model_type == "distilgpt2-dstc2":
             from transformers import GPT2LMHeadModel
             self.model = GPT2LMHeadModel.from_pretrained('distilgpt2')
@@ -135,10 +136,7 @@ class ctbModel(LightningModule):
 
     def configure_optimizers(self):
         logg.debug('')
-        return torch.optim.Adam(
-            [p for p in self.parameters() if p.requires_grad],
-            lr=2e-05,
-            eps=1e-08)
+        return torch.optim.Adam(self.parameters(), lr=self.lr)
 
     def clear_pass_fail_stat(self):
         self.pass_fail_stat = False
