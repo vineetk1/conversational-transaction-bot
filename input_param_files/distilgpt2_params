@@ -46,9 +46,9 @@ epoch=00-val_loss=0.2329.ckpt
 {'save_top_k': 4}
 
 # parameters for file "ctbModel.py"
-# 'model_type': name of pretrained model plus name of training dataset
-# 'tokenizer_type': name of pretrained tokenizer plus name of training
-#                    dataset whose tokens are added  
+# 'model_type': 'name of pretrained model plus name of training dataset'
+# 'tokenizer_type': 'name of pretrained tokenizer plus name of training
+#                    dataset whose tokens are added'  
 # 'lr': initial learning rate
 {'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2'} 
 
