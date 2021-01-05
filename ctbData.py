@@ -17,7 +17,9 @@ class ctbData(LightningDataModule):
     def __init__(self, d_params: dict):
         logg.debug('')
         super().__init__()
-        self.d_params = d_params
+        self.batch_size = d_params.pop('batch_size', 2)
+        if d_params:
+            self.d_params = d_params
 
     def prepare_data(self,
                      tokenizer,
@@ -58,7 +60,7 @@ class ctbData(LightningDataModule):
     def train_dataloader(self) -> DataLoader:
         logg.debug('')
         return DataLoader(self.train_data,
-                          batch_size=self.d_params['batch_size_train'],
+                          batch_size=self.batch_size,
                           shuffle=False,
                           sampler=RandomSampler(self.train_data),
                           batch_sampler=None,
@@ -71,7 +73,7 @@ class ctbData(LightningDataModule):
     def val_dataloader(self) -> DataLoader:
         logg.debug('')
         return DataLoader(self.valid_data,
-                          batch_size=self.d_params['batch_size_val'],
+                          batch_size=self.batch_size,
                           shuffle=False,
                           sampler=RandomSampler(self.valid_data),
                           batch_sampler=None,
@@ -84,7 +86,7 @@ class ctbData(LightningDataModule):
     def test_dataloader(self) -> DataLoader:
         logg.debug('')
         return DataLoader(self.test_data,
-                          batch_size=self.d_params['batch_size_test'],
+                          batch_size=self.batch_size,
                           shuffle=False,
                           sampler=RandomSampler(self.test_data),
                           batch_sampler=None,
