@@ -35,7 +35,8 @@ def main():
     checkpoint_callback = ModelCheckpoint(
         monitor='val_loss',
         mode='min',
-        save_top_k=param_dicts[0]['save_top_k'],
+        save_top_k=param_dicts[0]['save_top_k']
+        if 'save_top_k' in param_dicts[0] else 1,
         period=1,
         filename='{epoch:02d}-{val_loss:.4f}')
     trainer = Trainer(logger=tb_logger,
@@ -49,6 +50,7 @@ def main():
                       tokenizer_type=model.get_model_id()['tokenizer_type'])
     data.setup()
 
+    trainer.tune(model, datamodule=data)
     trainer.fit(model, datamodule=data)
     trainer.test()  # auto loads checkpoint file with lowest val loss
 
