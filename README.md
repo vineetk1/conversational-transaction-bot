@@ -39,8 +39,10 @@ Verify that the current working directory is the default directory. Following co
 ```
 python3 ctbMain.py input_param_files/distilgpt2_params
 ```
-The user-settable hyper-parameters are in the file *input_param_files/distilgpt2_params*. It is envisioned that there will be many such files, in the *input_param_files* directory, each with their own unique set of hyperparameters. A list of all hyper-parameters can be found in the <a href="https://www.pytorchlightning.ai" target="_blank">PyTorch-Lightning documentation</a>, and any hyper-parameter can be used. To assist in Training, this software can automatically find an initial Learning-Rate and a Batch-Size.   
-As training progresses, graphs of *"training-loss vs. epoch #"* and *"validation-loss vs. epoch #"* are plotted in real-time using TensorBoard.
+The user-settable hyper-parameters are in the file *input_param_files/distilgpt2_params*. It is envisioned that there will be many such files, in the *input_param_files* directory, each with their own unique set of hyperparameters. A list of all the hyper-parameters can be found in the <a href="https://www.pytorchlightning.ai" target="_blank">PyTorch-Lightning documentation</a>, and any hyper-parameter can be used.    
+To assist in Training, this software can automatically find an initial Learning-Rate and a Batch-Size.    
+As training progresses, graphs of *"training-loss vs. epoch #"* and *"validation-loss vs. epoch #"* are plotted in real-time using TensorBoard.   
+
 ## Evaluate the trained model
 Verify that the current working directory is the default directory.
 ```
