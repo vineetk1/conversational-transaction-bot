@@ -39,7 +39,7 @@ Verify that the current working directory is the default directory. Following co
 ```
 python3 ctbMain.py input_param_files/distilgpt2_params
 ```
-The user-settable hyper-parameters are in the file *input_param_files/distilgpt2_params*. It is envisioned that there will be many such files, in the *input_param_files* directory, each with their own unique set of hyperparameters.
+The user-settable hyper-parameters are in the file *input_param_files/distilgpt2_params*. It is envisioned that there will be many such files, in the *input_param_files* directory, each with their own unique set of hyperparameters. A list of all hyper-parameters can be found in the PyTorch-Lightning documentation https://www.pytorchlightning.ai/, and any hyper-parameter can be used.
 ## Evaluate the trained model
 Verify that the current working directory is the default directory.
 ```
