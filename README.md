@@ -35,7 +35,7 @@ python3 convert_to_default_formats/dstc2_to_defaultFormat.py
 ```
 Note that the above program converts the DSTC2 dataset to the default format. A new conversion program will have to be written for a dataset that has a different format from that of the DSTC2 dataset. 
 ## Train, validate, and test a model
-Following command-line trains a model, saves checkpoints that have the lowest validation loss, runs the test dataset on the checkpointed model that has the lowest validation loss, and outputs a Perplexity value of the model:
+Following command-line trains a model, saves checkpoints that have the lowest validation loss, runs the test dataset on the checkpointed model with the lowest validation loss, and outputs a Perplexity value of the model:
 ```
 python3 ctbMain.py input_param_files/distilgpt2_params
 ```
