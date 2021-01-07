@@ -27,7 +27,7 @@ rm dialog-bAbI-tasks_1_.tgz
 ```
 Verify that the DSTC2 dataset is in the directory *data/dialog-bAbI-tasks*.   
 ## Convert DSTC2 dataset to the default format
-Convert all formats of datasets into a default format. An example of the default format is shown in the file *convert_to_default_formats/default_format_example.md*.   
+Convert dataset into a default format. An example of the default format is shown in the file *convert_to_default_formats/default_format_example.md*.   
 
 Verify that the current working directory is the default directory. Following command-line converts the downloaded dataset to the default format, and saves it in the files - *defaultFormat.train, defaultFormat.valid, defaultFormat.test* - of the directory *data/dialog-bAbI-tasks/dstc2*:
 ```
