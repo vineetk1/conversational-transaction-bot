@@ -42,6 +42,7 @@ def main():
                       testing_only=True)
     data.setup()
 
+    trainer.tune(model, datamodule=data)    # determine batch-size
     if 'pass_fail_stat' in param_dicts[0] and param_dicts[0]['pass_fail_stat']:
         model.set_pass_fail_stat()
     trainer.test(model, test_dataloaders=data.test_dataloader())
