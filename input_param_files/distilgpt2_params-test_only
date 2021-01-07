@@ -54,5 +54,5 @@ epoch=00-val_loss=0.2329.ckpt
 
 # parameters for Lightning Trainer
 # For a list of parameters, see Trainer.__init__(...) in PyTorch Lightning documentation
-{'gpus': 1', auto_scale_batch_size': True}
+{'gpus': 1', 'auto_scale_batch_size': True}
 
