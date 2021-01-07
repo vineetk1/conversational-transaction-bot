@@ -29,13 +29,13 @@ Verify that the DSTC2 dataset is in the directory *data/dialog-bAbI-tasks*.
 ## Convert DSTC2 dataset to the default format
 Convert dataset into a default format. An example of the default format is shown in the file *convert_to_default_formats/default_format_example.md*.   
 
-Verify that the current working directory is the default directory. Following command-line converts the downloaded dataset to the default format, and saves it in the files - *defaultFormat.train, defaultFormat.valid, defaultFormat.test* - of the directory *data/dialog-bAbI-tasks/dstc2*:
+Verify that the current working directory is the default directory. Following command converts the downloaded dataset to the default format, and saves it in the files - *defaultFormat.train, defaultFormat.valid, defaultFormat.test* - of the directory *data/dialog-bAbI-tasks/dstc2*:
 ```
 python3 convert_to_default_formats/dstc2_to_defaultFormat.py
 ```
 Note that the above program converts the DSTC2 dataset to the default format. A new conversion program will have to be written for a dataset that has a different format from that of the DSTC2 dataset. 
 ## Train, validate, and test a model
-Following command-line trains a model, saves checkpoints that have the lowest validation loss, runs the test dataset on the checkpointed model with the lowest validation loss, and outputs a Perplexity value of the model:
+Following command trains a model, saves checkpoints that have the lowest validation loss, runs the test dataset on the checkpointed model with the lowest validation loss, and outputs a Perplexity value of the model:
 ```
 python3 ctbMain.py input_param_files/distilgpt2_params
 ```
@@ -43,13 +43,13 @@ The user-settable hyper-parameters are in the file *input_param_files/distilgpt2
 To assist in Training, the parameters *auto_lr_find* and *auto_scale_batch_size* in the file *input_param_files/distilgpt2_params* enable the software to automatically find an initial Learning-Rate and a Batch-Size respectively.    
 As training progresses, graphs of *"training-loss vs. epoch #"* and *"validation-loss vs. epoch #"* are plotted in real-time using TensorBoard.   
 
-In some cases, a model is trained for a certain number of epochs. The hyper-parameters are then changed, and training resumes. This is done by first training a model by using the previous command. Then training resumes with the following command-line:
+In some cases, a model is trained for a certain number of epochs. The hyper-parameters are then changed, and training resumes. This is done by first training a model by using the previous command. Then training resumes with the following command:
 ```
 python3 ctbMain.py input_param_files/distilgpt2_params-resume_training
 ```
 The user-settable hyper-parameters are in the file *input_param_files/distilgpt2_params-resume_training*.
 ## Load and test a model
-A checkpointed model can be loaded and tested with the following command-line:
+A checkpointed model can be loaded and tested with the following command:
 ```
 python3 ctbLoadTest.py input_param_files/distilgpt2_params-test_only 
 ```
