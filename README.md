@@ -56,3 +56,5 @@ In some cases, a model is trained for a certain number of epochs. The hyper-para
 python3 ctbMain.py input_param_files/distilgpt2_params-resume_training
 ```
 The user-settable hyper-parameters are in the file *input_param_files/distilgpt2_params-resume_training*.   
+## Interact with the model
+Work In Progress.
