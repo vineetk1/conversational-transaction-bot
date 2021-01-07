@@ -43,7 +43,7 @@ The user-settable hyper-parameters are in the file *input_param_files/distilgpt2
 To assist in Training, the two parameters *auto_lr_find* and *auto_scale_batch_size* in the file *input_param_files/distilgpt2_params* enable the software to automatically find an initial Learning-Rate and a Batch-Size respectively.    
 As training progresses, graphs of *"training-loss vs. epoch #"* and *"validation-loss vs. epoch #"* are plotted in real-time using TensorBoard as follows:
      
-<img src=images/train_loss_epoch.png width=40 height=250> <img src=images/val_loss_epoch.png width=400 height=250>
+<img src=images/train_loss_epoch.png width=400 height=250> <img src=images/val_loss_epoch.png width=400 height=250>
 ## Load and test a model
 A checkpointed model can be loaded and tested with the following command:
 ```
