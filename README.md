@@ -14,7 +14,7 @@ pip3 install tensorboard
 git clone https://github.com/vineetk1/conversational-transaction-bot.git
 cd conversational-transaction-bot
 ```
-Note that the default directory is *conversational-transaction-bot*. Unless otherwise stated, all commands from the commandline are delivered from the default directory.
+Note that the default directory is *conversational-transaction-bot*. Unless otherwise stated, all commands from the command-line are delivered from the default directory.
 
 ## Download DSTC2 dataset
 1. Go to https://fb-public.app.box.com/s/chnq60iivzv5uckpvj2n2vijlyepze6w 
@@ -43,13 +43,13 @@ The user-settable hyper-parameters are in the file *input_param_files/distilgpt2
 To assist in Training, the file *input_param_files/distilgpt2_params* has parameters that enable the software to automatically find an initial Learning-Rate and a Batch-Size.    
 As training progresses, graphs of *"training-loss vs. epoch #"* and *"validation-loss vs. epoch #"* are plotted in real-time using TensorBoard.   
 
-In some cases, a model is trained for a certain number of epochs. The hyper-parameters are then changed, and training resumes. This is done by first training a model by using the previous command. Then training resumes with the following commandline:
+In some cases, a model is trained for a certain number of epochs. The hyper-parameters are then changed, and training resumes. This is done by first training a model by using the previous command. Then training resumes with the following command-line:
 ```
 python3 ctbMain.py input_param_files/distilgpt2_params-resume_training
 ```
 The user-settable hyper-parameters are in the file *input_param_files/distilgpt2_params-resume_training*.
 ## Load and test a model
-A checkpointed model can be loaded and tested with the following commandline:
+A checkpointed model can be loaded and tested with the following command-line:
 ```
 python3 ctbLoadTest.py input_param_files/distilgpt2_params-test_only 
 ```
