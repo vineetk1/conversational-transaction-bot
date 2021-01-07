@@ -42,7 +42,7 @@ python3 ctbMain.py input_param_files/distilgpt2_params
 The user-settable hyper-parameters are in the file *input_param_files/distilgpt2_params*. It is envisioned that there will be many such files, in the *input_param_files* directory, each with their own unique set of hyperparameters. A list of all the hyper-parameters is in the <a href="https://www.pytorchlightning.ai" target="_blank">PyTorch-Lightning documentation</a>, and any hyper-parameter can be used.    
 To assist in Training, the two parameters *auto_lr_find* and *auto_scale_batch_size* in the file *input_param_files/distilgpt2_params* enable the software to automatically find an initial Learning-Rate and a Batch-Size respectively.    
 As training progresses, graphs of *"training-loss vs. epoch #"* and *"validation-loss vs. epoch #"* are plotted in real-time using TensorBoard.   
-![training loss vs. epoch #](images/train_loss_epoch.png)
+<img src=images/train_loss_epoch.png>
 ## Load and test a model
 A checkpointed model can be loaded and tested with the following command:
 ```
