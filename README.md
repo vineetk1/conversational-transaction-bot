@@ -48,6 +48,12 @@ In some cases, a model is trained for a certain number of epochs. The hyper-para
 python3 ctbMain.py input_param_files/distilgpt2_params-resume_training
 ```
 The user-settable hyper-parameters are in the file *input_param_files/distilgpt2_params-resume_training*.
+## Load and test a model
+A checkpointed file can be loaded and tested with the following commandline:
+```
+python3 ctbLoadTest.py input_param_files/distilgpt2_params-test_only 
+```
+The user-settable hyper-parameters are in the file *input_param_files/distilgpt2_params-resume_training*.
 ## Evaluate the trained model
 Verify that the current working directory is the default directory.
 ```
