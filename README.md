@@ -27,22 +27,27 @@ rm dialog-bAbI-tasks_1_.tgz
 ```
 Verify that the DSTC2 dataset is in the directory *data/dialog-bAbI-tasks*.   
 ## Convert DSTC2 dataset to the default format
-All datasets must be converted to the default format. An example of the default format is shown in the file *convert_to_default_formats/default_format_example.md*.   
+Convert all formats of datasets into a default format. An example of the default format is shown in the file *convert_to_default_formats/default_format_example.md*.   
 
 Verify that the current working directory is the default directory. Following command-line converts the downloaded dataset to the default format, and saves it in the files - *defaultFormat.train, defaultFormat.valid, defaultFormat.test* - of the directory *data/dialog-bAbI-tasks/dstc2*:
 ```
 python3 convert_to_default_formats/dstc2_to_defaultFormat.py
 ```
-Note that the above program converts the DSTC2 dataset to the default format. A new conversion program will have to be written for a dataset that is different from the DSTC2 dataset. 
+Note that the above program converts the DSTC2 dataset to the default format. A new conversion program will have to be written for a dataset that has a different format from that of the DSTC2 dataset. 
 ## Train, validate, and test a model
 Verify that the current working directory is the default directory. Following command-line trains a model, saves checkpoints that have the lowest validation loss, runs the test dataset on the checkpointed model that has the lowest validation loss, and outputs a Perplexity value of the model.
 ```
 python3 ctbMain.py input_param_files/distilgpt2_params
 ```
-The user-settable hyper-parameters are in the file *input_param_files/distilgpt2_params*. It is envisioned that there will be many such files, in the *input_param_files* directory, each with their own unique set of hyperparameters. A list of all the hyper-parameters can be found in the <a href="https://www.pytorchlightning.ai" target="_blank">PyTorch-Lightning documentation</a>, and any hyper-parameter can be used.    
-To assist in Training, this software can automatically find an initial Learning-Rate and a Batch-Size.    
+The user-settable hyper-parameters are in the file *input_param_files/distilgpt2_params*. It is envisioned that there will be many such files, in the *input_param_files* directory, each with their own unique set of hyperparameters. A list of all the hyper-parameters is in the <a href="https://www.pytorchlightning.ai" target="_blank">PyTorch-Lightning documentation</a>, and any hyper-parameter can be used.    
+To assist in Training, the file *input_param_files/distilgpt2_params* has parameters that enable the software to automatically find an initial Learning-Rate and a Batch-Size.    
 As training progresses, graphs of *"training-loss vs. epoch #"* and *"validation-loss vs. epoch #"* are plotted in real-time using TensorBoard.   
 
+In some cases, a model is trained for a certain number of epochs. The hyper-parameters are then changed, and training resumes. This can be done by first training a model by using the previous commandline. Then training resumes with the following commandline:
+```
+python3 ctbMain.py input_param_files/distilgpt2_params-resume_training
+```
+The user-settable hyper-parameters are in the file *input_param_files/distilgpt2_params-resume_training*.
 ## Evaluate the trained model
 Verify that the current working directory is the default directory.
 ```
