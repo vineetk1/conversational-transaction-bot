@@ -7,6 +7,7 @@ import torch
 from logging import getLogger
 from sys import exit
 from typing import Dict, List
+from importlib import import_module
 
 logg = getLogger(__name__)
 
@@ -19,9 +20,11 @@ class ctbModel(LightningModule):
         logg.debug('')
         super().__init__()
         self.save_hyperparameters()
-        self.lr = d_params.pop('lr', 1e-08)
+        self.lr = d_params.pop('optz_lr', 9e-08)
         self.model_type = d_params.pop('model_type', 'distilgpt2-dstc2')
         self.tokenizer_type = d_params.pop('tokenizer_type', 'gpt2-dstc2')
+        if d_params:
+            self.d_params = d_params
         if self.model_type == "distilgpt2-dstc2":
             from transformers import GPT2LMHeadModel
             self.model = GPT2LMHeadModel.from_pretrained('distilgpt2')
@@ -136,7 +139,44 @@ class ctbModel(LightningModule):
 
     def configure_optimizers(self):
         logg.debug('')
-        return torch.optim.Adam(self.parameters(), lr=self.lr)
+        if 'optz' in self.d_params and self.d_params['optz']:
+            if 'optz_params' in self.d_params and self.d_params['optz_params']:
+                optimizer = getattr(import_module('torch.optim'),
+                                    self.d_params['optz'])(
+                                        self.parameters(),
+                                        lr=self.lr,
+                                        **self.d_params['optz_params'])
+            else:
+                optimizer = getattr(import_module('torch.optim'),
+                                    self.d_params['optz'])(self.parameters(),
+                                                           lr=self.lr)
+        else:
+            optimizer = torch.optim.Adam(self.parameters(), lr=self.lr)
+
+        if 'lr_sched' in self.d_params and self.d_params['lr_sched']:
+            if 'lr_sched_params' in self.d_params and self.d_params[
+                    'lr_sched_params']:
+                scheduler = getattr(import_module('torch.optim.lr_scheduler'),
+                                    self.d_params['lr_sched'])(
+                                        optimizer=optimizer,
+                                        **self.d_params['lr_sched_params'])
+            else:
+                scheduler = getattr(
+                    import_module('torch.optim.lr_scheduler'),
+                    self.d_params['lr_sched'])(optimizer=optimizer)
+
+        if 'scheduler' in locals():
+            return {
+                'optimizer':
+                optimizer,
+                'lr_scheduler':
+                scheduler,
+                'monitor':
+                'val_loss'
+                if self.d_params['lr_sched'] == 'ReduceLROnPlateau' else None
+            }
+        else:
+            return optimizer
 
     def clear_pass_fail_stat(self):
         self.pass_fail_stat = False
@@ -179,9 +219,15 @@ class ctbModel(LightningModule):
             prefix_allowed_tokens_fn=None,
             **model_kwargs)
 
-        print(f"input_ids={self.tokenizer.batch_decode(batch['input_ids'], skip_special_tokens=True)}")
-        print(f"labels_ids={self.tokenizer.batch_decode(batch['label_ids'], skip_special_tokens=True)}")
-        print(f"outputs={self.tokenizer.batch_decode(outputs[:, batch['input_ids'].shape[1]:], skip_special_tokens=True)}")
+        print(
+            f"input_ids={self.tokenizer.batch_decode(batch['input_ids'], skip_special_tokens=True)}"
+        )
+        print(
+            f"labels_ids={self.tokenizer.batch_decode(batch['label_ids'], skip_special_tokens=True)}"
+        )
+        print(
+            f"outputs={self.tokenizer.batch_decode(outputs[:, batch['input_ids'].shape[1]:], skip_special_tokens=True)}"
+        )
         print('end')
 
     def pass_fail_stat_end(self):
