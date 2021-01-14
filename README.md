@@ -44,9 +44,9 @@ To assist in Training, the two parameters *auto_lr_find* and *auto_scale_batch_s
 As training progresses, graphs of *"training-loss vs. epoch #"* and *"validation-loss vs. epoch #"* are plotted in real-time using TensorBoard as follows:
      
 <img src=images/train_loss_epoch.png width=400 height=250> <img src=images/val_loss_epoch.png width=400 height=250>    
-Training can be stopped by typing ctrl-c at the commandline. The current training information is checkpointed, so training can be resumed at some future time.
+Training is stopped by typing, at the commandline, the keystroke ctrl-c. The current training information is checkpointed, and training stops. Training is resumed at some future time from the checkpointed file.
 ## Resume training, validation, and testing a model
-Resumption of training is done with the following command:
+Training is resumed with the following command:
 ```
 python3 ctbMain.py input_param_files/distilgpt2_params-resume_training
 ```
