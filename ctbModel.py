@@ -23,8 +23,7 @@ class ctbModel(LightningModule):
         self.lr = d_params.pop('optz_lr', 9e-08)
         self.model_type = d_params.pop('model_type', 'distilgpt2-dstc2')
         self.tokenizer_type = d_params.pop('tokenizer_type', 'gpt2-dstc2')
-        if d_params:
-            self.d_params = d_params
+        self.d_params = d_params
         if self.model_type == "distilgpt2-dstc2":
             from transformers import GPT2LMHeadModel
             self.model = GPT2LMHeadModel.from_pretrained('distilgpt2')
