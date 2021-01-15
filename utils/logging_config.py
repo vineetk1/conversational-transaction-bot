@@ -22,7 +22,7 @@ LOG_CONFIG = {
     'handlers': {
         'file': {
             'filename': 'ctb_logs',
-            'level': 'DEBUG',
+            'level': 'ERROR',
             'class': 'logging.FileHandler',
             'formatter': 'fileFormatter',
         },
@@ -36,7 +36,7 @@ LOG_CONFIG = {
         '':
         {  # root logger
             'handlers': ['file', 'console'],
-            'level': 'INFO',
+            'level': 'DEBUG',
         },
     },
 }
