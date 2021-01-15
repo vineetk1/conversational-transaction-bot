@@ -17,7 +17,6 @@ class ctbModel(LightningModule):
                  d_params: dict,
                  special_tokens: Dict[str, str] = None,
                  dstc2_tokens: List[str] = None):
-        logg.debug('')
         super().__init__()
         self.save_hyperparameters()
         self.lr = d_params.pop('optz_lr', 9e-08)
@@ -55,7 +54,6 @@ class ctbModel(LightningModule):
 
     def training_step(self, batch: Dict[str, torch.Tensor],
                       batch_idx: int) -> torch.Tensor:
-        logg.debug('')
         loss = self.run_model(batch['model'])
         # logger=True => TensorBoard; x-axis is always in steps=batches
         self.log('train_loss',
@@ -69,7 +67,6 @@ class ctbModel(LightningModule):
     def training_epoch_end(self,
                            training_step_outputs: List[Dict[str,
                                                             torch.Tensor]]):
-        logg.debug('')
         avg_loss = torch.stack([x['loss']
                                 for x in training_step_outputs]).mean()
         # on TensorBoard, want to see x-axis in epochs (not steps=batches)
@@ -78,7 +75,6 @@ class ctbModel(LightningModule):
 
     def validation_step(self, batch: Dict[str, torch.Tensor],
                         batch_idx: int) -> torch.Tensor:
-        logg.debug('')
         loss = self.run_model(batch['model'])
         # checkpoint-callback monitors epoch val_loss, so on_epoch=True
         self.log('val_loss',
@@ -90,7 +86,6 @@ class ctbModel(LightningModule):
         return loss
 
     def validation_epoch_end(self, val_step_outputs: List[torch.Tensor]):
-        logg.debug('')
         avg_loss = torch.stack(val_step_outputs).mean()
         # on TensorBoard, want to see x-axis in epochs (not steps=batches)
         self.logger.experiment.add_scalar('val_loss_epoch', avg_loss,
@@ -98,7 +93,6 @@ class ctbModel(LightningModule):
 
     def test_step(self, batch: Dict[str, torch.Tensor],
                   batch_idx: int) -> torch.Tensor:
-        logg.debug('')
         loss = self.run_model(batch['model'])
         # checkpoint-callback monitors epoch val_loss, so on_epoch=True
         self.log('test_loss_step',
@@ -115,7 +109,6 @@ class ctbModel(LightningModule):
         return loss
 
     def test_epoch_end(self, test_step_outputs: List[torch.Tensor]):
-        logg.debug('')
         avg_loss = torch.stack(test_step_outputs).mean()
         ppl = torch.exp(avg_loss)
         logg.info(f'avg loss = {avg_loss}')
@@ -137,7 +130,6 @@ class ctbModel(LightningModule):
         return outputs[0]  # mean of losses from each example in batch
 
     def configure_optimizers(self):
-        logg.debug('')
         if 'optz' in self.d_params and self.d_params['optz']:
             if 'optz_params' in self.d_params and self.d_params['optz_params']:
                 optimizer = getattr(import_module('torch.optim'),
