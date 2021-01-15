@@ -6,6 +6,7 @@ from pytorch_lightning import seed_everything
 from pytorch_lightning import Trainer
 from pytorch_lightning.loggers import TensorBoardLogger
 from pytorch_lightning.callbacks import ModelCheckpoint
+from pytorch_lightning.callbacks import LearningRateMonitor
 from ctbData import ctbData
 from ctbModel import ctbModel
 from ast import literal_eval
@@ -19,7 +20,6 @@ logg = getLogger(__name__)
 
 
 def main():
-    logg.debug('')
     # last file in command-line has dictionaries of parameters
     params_file_path = argv[len(argv) - 1]
     with open(params_file_path, 'r') as paramF:
@@ -27,7 +27,7 @@ def main():
             dictionary for line in paramF if line[0] == '{'
             and isinstance(dictionary := literal_eval(line), dict)
         ]
-    tb_logger = TensorBoardLogger('ctb_lightning_logs',
+    tb_logger = TensorBoardLogger('tensorboard_logs',
                                   name=Path(params_file_path).name)
     seed_everything(63)
     model = ctbModel(param_dicts[1], utils.NEW_TOKENS.SPECIAL_TOKENS,
@@ -37,12 +37,15 @@ def main():
         mode='min',
         save_top_k=param_dicts[0]['save_top_k']
         if 'save_top_k' in param_dicts[0] else 1,
+        save_last=True,
         period=1,
-        filename='{epoch:02d}-{val_loss:.4f}')
+        filename=param_dicts[0]['ckpt_filename']
+        if 'ckpt_filename' in param_dicts[0] else '{epoch:02d}-{val_loss:.5f}')
+    lr_monitor = LearningRateMonitor(logging_interval='step')
     trainer = Trainer(logger=tb_logger,
                       deterministic=True,
                       num_sanity_val_steps=0,
-                      callbacks=[checkpoint_callback],
+                      callbacks=[checkpoint_callback, lr_monitor],
                       **param_dicts[3])
 
     data = ctbData(param_dicts[2])
@@ -52,7 +55,9 @@ def main():
 
     trainer.tune(model, datamodule=data)
     trainer.fit(model, datamodule=data)
-    trainer.test()  # auto loads checkpoint file with lowest val loss
+    if 'no_testing' not in param_dicts[0] or param_dicts[0][
+            'no_testing'] is False:
+        trainer.test()  # auto loads checkpoint file with lowest val loss
 
 
 if __name__ == '__main__':
