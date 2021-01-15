@@ -15,7 +15,6 @@ logg = getLogger(__name__)
 
 class ctbData(LightningDataModule):
     def __init__(self, d_params: dict):
-        logg.debug('')
         super().__init__()
         self.batch_size = d_params.pop('batch_size', 2)
         if d_params:
@@ -25,7 +24,6 @@ class ctbData(LightningDataModule):
                      tokenizer,
                      tokenizer_type: str,
                      testing_only: bool = False):
-        logg.debug('')
         self.tokenizer = tokenizer
         if tokenizer_type == "gpt2-dstc2":
             from utils.defaultFormat_to_gpt2Format import \
@@ -55,10 +53,9 @@ class ctbData(LightningDataModule):
             exit()
 
     def setup(self):
-        logg.debug('')
+        pass
 
     def train_dataloader(self) -> DataLoader:
-        logg.debug('')
         return DataLoader(self.train_data,
                           batch_size=self.batch_size,
                           shuffle=False,
@@ -71,7 +68,6 @@ class ctbData(LightningDataModule):
                           timeout=0)
 
     def val_dataloader(self) -> DataLoader:
-        logg.debug('')
         return DataLoader(self.valid_data,
                           batch_size=self.batch_size,
                           shuffle=False,
@@ -84,7 +80,6 @@ class ctbData(LightningDataModule):
                           timeout=0)
 
     def test_dataloader(self) -> DataLoader:
-        logg.debug('')
         return DataLoader(self.test_data,
                           batch_size=self.batch_size,
                           shuffle=False,
@@ -100,7 +95,6 @@ class ctbData(LightningDataModule):
             self,
             idxs_examples: List[Tuple[int,
                                       List[int]]]) -> Dict[str, torch.Tensor]:
-        logg.debug('')
 
         idxs, examples = zip(*idxs_examples)
 
@@ -145,14 +139,11 @@ class ctbDataset(Dataset):
     # example = feature plus label
     def __init__(self, features: Union[List[List[int]],
                                        List[Tuple[List[int], List[int]]]]):
-        logg.debug('')
         self.features = features
 
     def __len__(self) -> int:
-        logg.debug('')
         return len(self.features)
 
     def __getitem__(self,
                     idx: int) -> Union[List[int], Tuple[List[int], List[int]]]:
-        logg.debug('')
         return (idx, self.features[idx])
