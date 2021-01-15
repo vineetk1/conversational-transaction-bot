@@ -14,8 +14,6 @@ logg = getLogger(__name__)
 
 def defaultFormat_to_gpt2Format(tokenizer, tokenizer_type,
                                 default_format_path: str) -> Dict:
-    logg.debug('')
-
     dirP = pathlib.Path(default_format_path).parents[0].resolve(strict=True)
     stem = pathlib.Path(default_format_path).stem
 
