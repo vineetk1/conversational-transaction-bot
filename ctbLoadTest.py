@@ -14,7 +14,6 @@ logg = getLogger(__name__)
 
 
 def main():
-    logg.debug('')
     # last file in command-line has dictionaries of parameters
     params_file_path = argv[len(argv) - 1]
     with open(params_file_path, 'r') as paramF:
