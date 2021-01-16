@@ -1,4 +1,3 @@
-'''
 Vineet Kumar, sioom.ai
 
 This input file has a unique set of user-settable hyper-parameters for
@@ -19,43 +18,49 @@ Path to ctb logs files:
 -----------------------
 It is the default directory, and the name of the file is "ctb_logs".
 
-Path to Lightning logs files:
+Path to TensorBoard logs files:
 -----------------------------
-It includes the following directories: (i) ctb_lightning_logs, (ii) name
+It includes the following directories: (i) tensorboard_logs, (ii) name
 of this file, (iii) a unique version number that increases every time this
 file is used for training. Following is an example:
-ctb_lightning_logs/distilgpt2_params-test_only/version_0
+tensorboard_logs/distilgpt2_params/version_0
 
 Path to Checkpointed files:
 ---------------------------
-It includes the following directories: (i) path of Lightning logs files,
+It includes the following directories: (i) path of TensorBoard logs files,
 (ii) checkpoints. Following is an example:
-ctb_lightning_logs/distilgpt2_params-test_only/version_0/checkpoints
+tensorboard_logs//distilgpt2_params/version_0/checkpoints
 
 Name of Checkpointed files:
 ---------------------------
-During training, the checkpointed files are those that have the lowest
-validation loss. The name includes the epoch number plus the value of the
+During training, the last epoch is always checkpointed in the file 'last.ckpt'. 
+Additionally, epochs with the lowest validation loss are also checkpointed. The
+names of these files includes the epoch number plus the value of the
 validation loss. Following is an example:
-'epoch=00-val_loss=0.2329.ckpt'
-'''
+last.ckpt, 'epoch=10-val_loss=0.23297.ckpt', 'epoch=22-val_loss=0.14760.ckpt'
 
 
-# parameters for file "ctbMain.py"
+parameters for file "ctbMain.py"
+- 'chkpt': 'path to checkpoint file'
+- 'pass_fail_stat': whether to run statistics		Default: False
+- 
 {'chkpt': 'ctb_lightning_logs/distilgpt2_params/version_0/checkpoints/epoch=02-val_loss=0.1540.ckpt', 'pass_fail_stat': False}
 
 
-# parameters for file "ctbModel.py"
-# Dictionary MUST be empty because these parameters are loaded from checkpoint file
+parameters for file "ctbModel.py"
+- Dictionary MUST be empty because these parameters are loaded from checkpoint file
+- 
 {}
 
 
-# parameters for file "ctbData.py"
-# 'default_format_path': 'path to training dataset'
+parameters for file "ctbData.py"
+- 'default_format_path': 'path to training dataset'
+- 
 {'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train'} 
 
 
-# parameters for Lightning Trainer
-# For a list of parameters, see Trainer.__init__(...) in PyTorch Lightning documentation
+parameters for Lightning Trainer
+- For a list of parameters, see Trainer.__init__(...) in PyTorch Lightning documentation
+- 
 {'gpus': 1, 'auto_scale_batch_size': True}
 
