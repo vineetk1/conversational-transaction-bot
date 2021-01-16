@@ -1,4 +1,3 @@
-'''
 Vineet Kumar, sioom.ai
 
 This input file has a unique set of user-settable hyper-parameters for
@@ -19,57 +18,63 @@ Path to ctb logs files:
 -----------------------
 It is the default directory, and the name of the file is "ctb_logs".
 
-Path to Lightning logs files:
+Path to TensorBoard logs files:
 -----------------------------
-It includes the following directories: (i) ctb_lightning_logs, (ii) name
+It includes the following directories: (i) tensorboard_logs, (ii) name
 of this file, (iii) a unique version number that increases every time this
 file is used for training. Following is an example:
-ctb_lightning_logs/distilgpt2_params/version_0
+tensorboard_logs/distilgpt2_params/version_0
+
 
 Path to Checkpointed files:
 ---------------------------
-It includes the following directories: (i) path of Lightning logs files,
+It includes the following directories: (i) path of TensorBoard logs files,
 (ii) checkpoints. Following is an example:
-ctb_lightning_logs/distilgpt2_params/version_0/checkpoints
+tensorboard_logs//distilgpt2_params/version_0/checkpoints
 
 Name of Checkpointed files:
 ---------------------------
-During training, the checkpointed files are those that have the lowest
-validation loss. The name includes the epoch number plus the value of the
+During training, the last epoch is always checkpointed in the file 'last.ckpt'. 
+Additionally, epochs with the lowest validation loss are also checkpointed. The
+names of these files includes the epoch number plus the value of the
 validation loss. Following is an example:
-epoch=00-val_loss=0.2329.ckpt
-'''
+last.ckpt, 'epoch=10-val_loss=0.23297.ckpt', 'epoch=22-val_loss=0.14760.ckpt'
 
 
-# parameters for file "ctbMain.py"
-# 'save_top_k': number of checkpointed files to save
-{'save_top_k': 4}
+parameters for file "ctbMain.py"
+- 'save_top_k':    number of checkpointed files to save		Default: 1
+- 'ckpt_filename': name of checkpoint files	Default:'{epoch:02d}-{val_loss:.5f}'
+- 'no_testing':    whether to not test a trained model		Default: False
+-
+{'save_top_k': 2, 'ckpt_filename': 'SGD-e-05,CyclicLR-pat=1,{epoch:02d}-{val_loss:.5f}', 'no_testing': True}
 
 
-,,,
 parameters for file "ctbModel.py"
-'model_type':      'name of pretrained model plus name of training dataset'
-'tokenizer_type':  'name of pretrained tokenizer plus name of training
-                     dataset whose tokens are added'
-'optz':            'name of optimizer'		Default: 'Adam'
-'optz_lr':         initial learning-rate	(1) Default: 9e-08 if auto_lr_find=False
-	             (2) Default: automatically find if auto_lr_find=True
-'optz_params':     {parameters and values of optimizer EXCLUDING initial learning-rate}
-lr_sched':         'name of lr-scheduler'
-'lr_sched_params': {parameters and values of scheduler EXCLUDING optimizer}
-'''
-{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_lr': 9.120108393559096e-08, 'optz_params': {}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min'}} 
+- 'model_type':      'name of pretrained model plus name of training dataset'
+- 'tokenizer_type':  'name of pretrained tokenizer plus name of training
+                         dataset whose tokens are added'
+- 'optz':            'name of optimizer'		Default: 'Adam'
+- 'optz_lr':         initial learning-rate	(1) Default: 9e-08 if auto_lr_find=False
+	                (2) Default: automatically find if auto_lr_find=True
+- 'optz_params':     {parameters and values of optimizer EXCLUDING initial learning-rate}
+- 'lr_sched':        'name of lr-scheduler'
+- 'lr_sched_params': {parameters and values of scheduler EXCLUDING optimizer}
+- 
+#{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_lr': 1e-05, 'optz_params': {}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 1, 'verbose': True}} 
 #{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'SGD', 'optz_lr': 9.120108393559096e-08, 'optz_params': {'momentum': 0.9}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min'}} 
-#{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'SGD', 'optz_lr': 9.120108393559096e-08, 'optz_params': {'momentum': 0.9}, 'lr_sched': 'CyclicLR', 'lr_sched_params': {'base_lr': 9.120108393559096e-08, 'max_lr': 0.1}} 
+{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'SGD', 'optz_lr': 9.120108393559096e-06, 'optz_params': {'momentum': 0.9}, 'lr_sched': 'CyclicLR', 'lr_sched_params': {'base_lr': 9.120108393559096e-08, 'max_lr': 0.1}} 
 
 
-# parameters for file "ctbData.py"
-# 'default_format_path': 'path to training dataset'
+parameters for file "ctbData.py"
+- 'default_format_path': 'path to training dataset'
+- 
 {'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train', 'batch_size': 2} 
 
 
-# parameters for Lightning Trainer 
-# For a list of parameters, see Trainer.__init__(...) in PyTorch Lightning documentation
-# The following will make Lightning fail because of a bug: 'auto_lr_find': True, 'auto_scale_batch_size': True
-{'gpus': 1, 'max_epochs': 300, 'auto_lr_find': True, 'auto_scale_batch_size': True}
+parameters for Lightning Trainer 
+- For a list of parameters, see Trainer.__init__(...) in PyTorch Lightning documentation
+- The following will make Lightning fail because of a bug: 
+     'auto_lr_find': True, 'auto_scale_batch_size': True
+- 
+{'gpus': 1, 'auto_lr_find': False, 'auto_scale_batch_size': False}
 
