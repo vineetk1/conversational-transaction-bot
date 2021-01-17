@@ -41,9 +41,10 @@ last.ckpt, 'epoch=10-val_loss=0.23297.ckpt', 'epoch=22-val_loss=0.14760.ckpt'
 
 
 parameters for file "ctbMain.py"
-- 'save_top_k':    number of checkpointed files to savei		Default: 1
-- 'ckpt_filename': name of checkpoint files	Default:'{epoch:02d}-{val_loss:.5f}'
-- 'no_testing':    whether to not test a trained model		Default: False
+- 'save_top_k':    number of checkpointed files to save		Default: 1
+- 'ckpt_filename': name of files that will be checkpointed
+		      Default:'{epoch:02d}-{val_loss:.5f}'
+- 'no_testing':    whether to not-test a trained model		Default: False
 - 
 {'save_top_k': 2, 'ckpt_filename': 'adam-e-02,ReduceLROnPlateau-pat=0,{epoch:02d}-{val_loss:.5f}', 'no_testing': True}
 
@@ -53,16 +54,12 @@ parameters for file "ctbModel.py"
 - 'model_type':      'name of pretrained model plus name of training dataset'
 - 'tokenizer_type':  'name of pretrained tokenizer plus name of training
                          dataset whose tokens are added'
-- 'optz':            'name of optimizer'		Default: 'Adam'
-- 'optz_lr':         initial learning-rate	(1) Default: 9e-08 if auto_lr_find=False
-	                (2) Default: automatically find if auto_lr_find=True
-- 'optz_params':     {parameters and values of optimizer EXCLUDING initial learning-rate}
+- 'optz':            'name of optimizer'
+- 'optz_params':     {parameters of optimizer EXCLUDING "params"}
 - 'lr_sched':        'name of lr-scheduler'
-- 'lr_sched_params': {parameters and values of scheduler EXCLUDING optimizer}
+- 'lr_sched_params': {parameters of scheduler EXCLUDING "optimizer"}
 - 
-#{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_lr': 1e-05, 'optz_params': {}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 1, 'verbose': True}} 
-#{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'SGD', 'optz_lr': 9.120108393559096e-08, 'optz_params': {'momentum': 0.9}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min'}} 
-{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'SGD', 'optz_lr': 9.120108393559096e-06, 'optz_params': {'momentum': 0.9}, 'lr_sched': 'CyclicLR', 'lr_sched_params': {'base_lr': 9.120108393559096e-08, 'max_lr': 0.1}} 
+{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 5, 'verbose': True}} 
 
 
 parameters for file "ctbData.py"
@@ -77,5 +74,5 @@ parameters for Lightning Trainer
      "trainer.tune()" is useless. This means, do not use 'auto_lr_find' and 
      'auto_scale_batch_size'
 - 
-{'gpus': 1, 'resume_from_checkpoint': 'tensorboard_logs/distilgpt2_params/version_7/checkpoints/last.ckpt'}
+{'gpus': 1, 'resume_from_checkpoint': 'tensorboard_logs/distilgpt2_params/version_13/checkpoints/last.ckpt'}
 
