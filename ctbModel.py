@@ -8,6 +8,7 @@ from logging import getLogger
 from sys import exit
 from typing import Dict, List
 from importlib import import_module
+import math
 
 logg = getLogger(__name__)
 
@@ -19,7 +20,9 @@ class ctbModel(LightningModule):
                  dstc2_tokens: List[str] = None):
         super().__init__()
         self.save_hyperparameters()
-        self.lr = d_params.pop('optz_lr', 9e-08)
+        # auto_lr_find requires self.lr
+        self.lr = d_params['optz_params'].pop(
+            'lr', None) if 'optz_params' in d_params else None
         self.model_type = d_params.pop('model_type', 'distilgpt2-dstc2')
         self.tokenizer_type = d_params.pop('tokenizer_type', 'gpt2-dstc2')
         self.d_params = d_params
@@ -132,17 +135,29 @@ class ctbModel(LightningModule):
     def configure_optimizers(self):
         if 'optz' in self.d_params and self.d_params['optz']:
             if 'optz_params' in self.d_params and self.d_params['optz_params']:
-                optimizer = getattr(import_module('torch.optim'),
-                                    self.d_params['optz'])(
-                                        self.parameters(),
-                                        lr=self.lr,
-                                        **self.d_params['optz_params'])
+                if self.lr is not None:
+                    optimizer = getattr(import_module('torch.optim'),
+                                        self.d_params['optz'])(
+                                            self.parameters(),
+                                            lr=self.lr,
+                                            **self.d_params['optz_params'])
+                else:
+                    optimizer = getattr(import_module('torch.optim'),
+                                        self.d_params['optz'])(
+                                            self.parameters(),
+                                            **self.d_params['optz_params'])
             else:
-                optimizer = getattr(import_module('torch.optim'),
-                                    self.d_params['optz'])(self.parameters(),
-                                                           lr=self.lr)
+                if self.lr is not None:
+                    optimizer = getattr(import_module('torch.optim'),
+                                        self.d_params['optz'])(
+                                            self.parameters(), lr=self.lr)
+                else:
+                    optimizer = getattr(import_module('torch.optim'),
+                                        self.d_params['optz'])(
+                                            self.parameters())
         else:
-            optimizer = torch.optim.Adam(self.parameters(), lr=self.lr)
+            logg.critical('Must specify an Optimizer')
+            exit()
 
         if 'lr_sched' in self.d_params and self.d_params['lr_sched']:
             if 'lr_sched_params' in self.d_params and self.d_params[
