@@ -20,9 +20,7 @@ It is the default directory, and the name of the file is "ctb_logs".
 
 Path to TensorBoard logs files:
 -----------------------------
-It includes the following directories: (i) tensorboard_logs, (ii) name
-of this file, (iii) a unique version number that increases every time this
-file is used for training. Following is an example:
+It includes the following directory: tensorboard_logs. Following is an example:
 tensorboard_logs/distilgpt2_params/version_0
 
 Path to Checkpointed files:
@@ -41,8 +39,8 @@ last.ckpt, 'epoch=10-val_loss=0.23297.ckpt', 'epoch=22-val_loss=0.14760.ckpt'
 
 
 parameters for file "ctbMain.py"
-- 'chkpt': 'path to checkpoint file'
-- 'pass_fail_stat': whether to run statistics		Default: False
+- 'chkpt': 'path to checkpoint file that will be loaded'
+- 'pass_fail_stat': whether to gather statistics	Default: False
 - 
 {'chkpt': 'ctb_lightning_logs/distilgpt2_params/version_0/checkpoints/epoch=02-val_loss=0.1540.ckpt', 'pass_fail_stat': False}
 
