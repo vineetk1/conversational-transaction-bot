@@ -1,9 +1,7 @@
 Vineet Kumar, sioom.ai
 
-This input file has a unique set of user-settable hyper-parameters to resume 
-training of a checkpointed model. It is envisioned that there will be many input
-files, in the "input_param_files" directory, each with their own unique set
-of hyperparameters.
+This input file has user-settable hyper-parameters to resume training of
+   a checkpointed model. 
 
 Note the following:
 	(1) This file should be last in the command-line.
@@ -14,39 +12,12 @@ Command-line:
 -------------
 python3 ctbMain.py input_param_files/distilgpt2_params-resume_training 
 
-Path to ctb logs files:
------------------------
-It is the default directory, and the name of the file is "ctb_logs".
-
-Path to TensorBoard logs files:
------------------------------
-It includes the following directories: (i) tensorboard_logs, (ii) name
-of this file, (iii) a unique version number that increases every time this
-file is used for training. Following is an example:
-tensorboard_logs/distilgpt2_params-resume_training/version_0
-
-Path to Checkpointed files:
----------------------------
-It includes the following directories: (i) path of TensorBoard logs files,
-(ii) checkpoints. Following is an example:
-tensorboard_logs/distilgpt2_params-resume_training/version_0/checkpoints
-
-Name of Checkpointed files:
----------------------------
-During training, the last epoch is always checkpointed in the file 'last.ckpt'. 
-Additionally, epochs with the lowest validation loss are also checkpointed. The
-names of these files includes the epoch number plus the value of the
-validation loss. Following is an example:
-last.ckpt, 'epoch=10-val_loss=0.23297.ckpt', 'epoch=22-val_loss=0.14760.ckpt'
-
 
 parameters for file "ctbMain.py"
 - 'save_top_k':    number of checkpointed files to save		Default: 1
-- 'ckpt_filename': name of files that will be checkpointed
-		      Default:'{epoch:02d}-{val_loss:.5f}'
 - 'no_testing':    whether to not-test a trained model		Default: False
 - 
-{'save_top_k': 2, 'ckpt_filename': 'adam-e-02,ReduceLROnPlateau-pat=0,{epoch:02d}-{val_loss:.5f}', 'no_testing': True}
+{'save_top_k': 2, 'no_testing': True}
 
 
 parameters for file "ctbModel.py"
@@ -58,8 +29,15 @@ parameters for file "ctbModel.py"
 - 'optz_params':     {parameters of optimizer EXCLUDING "params"}
 - 'lr_sched':        'name of lr-scheduler'
 - 'lr_sched_params': {parameters of scheduler EXCLUDING "optimizer"}
+- eu = euler's number; e = exponent with a base of 10
+- eu1 =   2.71828182846     eu-1 =  3.6787944117e-1     eu-2 =  1.3533528323e-1
+- eu-3 =  4.978706836e-2    eu-4 =  1.831563888e-2      eu-5 =  6.73794699e-3
+- eu-6 =  2.47875217e-3     eu-7 =  9.1188196e-4        eu-8 =  3.3546262e-4
+- eu-9 =  1.234098e-4       eu-10 = 4.539992e-5         eu-11 = 1.67017e-5 
+- eu-12 = 6.14421e-6
 - 
-{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 5, 'verbose': True}} 
+{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_params': {'lr': 0.9}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 1, 'verbose': True}} 
+#{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'SGD', 'optz_params': {'lr': 0.8}, 'lr_sched': 'CyclicLR', 'lr_sched_params': {'base_lr': 0.0001, 'max_lr': 0.1}} 
 
 
 parameters for file "ctbData.py"
@@ -74,5 +52,5 @@ parameters for Lightning Trainer
      "trainer.tune()" is useless. This means, do not use 'auto_lr_find' and 
      'auto_scale_batch_size'
 - 
-{'gpus': 1, 'resume_from_checkpoint': 'tensorboard_logs/distilgpt2_params/version_13/checkpoints/last.ckpt'}
+{'gpus': 1, 'resume_from_checkpoint': 'tensorboard_logs/distilgpt2_params-resume_training/version_10/checkpoints/last.ckpt'}
 
