@@ -26,7 +26,8 @@ class ctbModel(LightningModule):
         self.model_type = d_params.pop('model_type', 'distilgpt2-dstc2')
         self.tokenizer_type = d_params.pop('tokenizer_type', 'gpt2-dstc2')
         self.d_params = d_params
-        if self.model_type == "distilgpt2-dstc2":
+        if self.model_type == "distilgpt2-dstc2" or\
+                self.model_type == "distilgpt2":
             from transformers import GPT2LMHeadModel
             self.model = GPT2LMHeadModel.from_pretrained('distilgpt2')
         else:
@@ -114,8 +115,6 @@ class ctbModel(LightningModule):
     def test_epoch_end(self, test_step_outputs: List[torch.Tensor]):
         avg_loss = torch.stack(test_step_outputs).mean()
         ppl = torch.exp(avg_loss)
-        logg.info(f'avg loss = {avg_loss}')
-        logg.info(f'perplexity = {ppl}')
         self.log('test_perplexity',
                  ppl,
                  on_step=False,
