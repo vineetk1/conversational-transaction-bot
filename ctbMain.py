@@ -11,10 +11,10 @@ from ctbData import ctbData
 from ctbModel import ctbModel
 from ast import literal_eval
 from sys import argv
-from pathlib import Path
 from logging import getLogger
 import utils.logging_config
 import utils.NEW_TOKENS
+import collections.abc
 
 logg = getLogger(__name__)
 
@@ -27,8 +27,24 @@ def main():
             dictionary for line in paramF if line[0] == '{'
             and isinstance(dictionary := literal_eval(line), dict)
         ]
-    tb_logger = TensorBoardLogger('tensorboard_logs',
-                                  name=Path(params_file_path).name)
+
+    tb_subDir = ",".join([
+        f'{item}={param_dicts[1][item]}'
+        for item in ['model_type', 'tokenizer_type'] if item in param_dicts[1]
+    ])
+
+    ckpt_filename = ""
+    for item in ['optz', 'optz_params', 'lr_sched', 'lr_sched_params']:
+        if item in param_dicts[1]:
+            if isinstance(param_dicts[1][item], str):
+                ckpt_filename += f'{item}={param_dicts[1][item]},'
+            elif isinstance(param_dicts[1][item], collections.abc.Iterable):
+                for k, v in param_dicts[1][item].items():
+                    ckpt_filename += f'{k}={v},'
+    ckpt_filename += '{epoch:02d}-{val_loss:.5f}'
+
+    tb_logger = TensorBoardLogger('tensorboard_logs', name=tb_subDir)
+
     seed_everything(63)
     model = ctbModel(param_dicts[1], utils.NEW_TOKENS.SPECIAL_TOKENS,
                      utils.NEW_TOKENS.DSTC2_TOKENS)
@@ -39,12 +55,13 @@ def main():
         if 'save_top_k' in param_dicts[0] else 1,
         save_last=True,
         period=1,
-        filename=param_dicts[0]['ckpt_filename']
-        if 'ckpt_filename' in param_dicts[0] else '{epoch:02d}-{val_loss:.5f}')
-    lr_monitor = LearningRateMonitor(logging_interval='step')
+        filename=ckpt_filename)
+    lr_monitor = LearningRateMonitor(logging_interval='step',
+                                     log_momentum=True)
     trainer = Trainer(logger=tb_logger,
                       deterministic=True,
                       num_sanity_val_steps=0,
+                      log_every_n_steps=100,
                       callbacks=[checkpoint_callback, lr_monitor],
                       **param_dicts[3])
 
@@ -55,8 +72,8 @@ def main():
 
     trainer.tune(model, datamodule=data)
     trainer.fit(model, datamodule=data)
-    if 'no_testing' not in param_dicts[0] or param_dicts[0][
-            'no_testing'] is False:
+    if 'no_testing' not in param_dicts[
+            0] or param_dicts[0]['no_testing'] is False:
         trainer.test()  # auto loads checkpoint file with lowest val loss
 
 
