@@ -60,9 +60,9 @@ The Perplexity of the model is calculated from the test dataset. The user-settab
 Work In Progress.
 ## Fine-tuning Distilgpt2 with DSTC2 dataset
 <img src=images/tensorboard,val_loss-5_epochs,nag.png width=800 height=500>    
-&emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; <pre>  </pre> <epoch -->
-   
+<pre>                                      epoch --></pre>    
+**Graph:** Validation-loss vs. Epoch
 **Hyperparameters:**    
 &emsp; &emsp; Optimizer Parameters -- SGD, lr: variable, momentum:0.9, weight_decay: 0, dampening: 0 nesterov: True    
-&emsp; &emsp; LR-Scheduler Parameters -- None
-The eight curves have different learning-rates expressed in euler number (en = 2.71828) raised to a negative power. The "color, learning-rate, val-loss at epoch 0" of the eight curves is as follows: Aqua, en<sup>-12</sup>, 1.69; &emsp; Dark Red, en<sup>-11</sup>, 1.15; &emsp; Blue, en<sup>-10</sup>, 0.814; &emsp; Pink, en<sup>-6</sup>, 0.6802; &emsp; Orange, en<sup>-9</sup>, 0.6443; &emsp; Green, en<sup>-5</sup>, 0.6143; &emsp; Grey, en<sup>-8</sup>, 0.5248; &emsp; Green, en<sup>-7</sup>, 0.4954
+&emsp; &emsp; LR-Scheduler Parameters -- None    
+"Color of curve, Learning-Rate, Val-loss at epoch 0" (en =euler number = 2.71828) -- Aqua, en<sup>-12</sup>, 1.69; &emsp; Dark Red, en<sup>-11</sup>, 1.15; &emsp; Blue, en<sup>-10</sup>, 0.814; &emsp; Pink, en<sup>-6</sup>, 0.6802; &emsp; Orange, en<sup>-9</sup>, 0.6443; &emsp; Green, en<sup>-5</sup>, 0.6143; &emsp; Grey, en<sup>-8</sup>, 0.5248; &emsp; Green, en<sup>-7</sup>, 0.4954
