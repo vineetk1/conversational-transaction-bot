@@ -59,6 +59,7 @@ The Perplexity of the model is calculated from the test dataset. The user-settab
 ## Interact with the deployed model
 Work In Progress.
 ## Fine-tuning Distilgpt2 with DSTC2 dataset
+**Graph:** Validation-loss vs. Epoch   
 <img src=images/tensorboard,val_loss-5_epochs,nag.png width=800 height=500>     
 **Hyperparameters:**    
 &emsp; &emsp; Optimizer Parameters -- SGD, lr: variable, momentum:0.9, weight_decay: 0, dampening: 0 nesterov: True    
