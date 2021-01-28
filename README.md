@@ -60,5 +60,6 @@ The Perplexity of the model is calculated from the test dataset. The user-settab
 Work In Progress.
 ## Training Distilgpt2
 The y-axis of the graph is in validation loss and the x-axis is in epochs. The eight curves have different learning-rates expressed in euler number (eu = 2.71828) raised to a negative power. The learning-rates from low-to-high at epoch 0 of the eight curves is as follows:    
-Aqua, eu<sup>-12</sup>, 1.69; &emsp; Dark Red, eu<sup>-11</sup>, 1.15
+Aqua, eu<sup>-12</sup>, 1.69; &emsp; Dark Red, eu<sup>-11</sup>, 1.15; &emsp; Blue, eu<sup>-10</sup>, 0.814; &emsp; Pink, eu<sup>-6</sup>, 0.6802   
+Orange, eu<sup>-9</sup>, 0.6443; &emsp; Green, eu<sup>-5</sup>, 0.6143; &emsp; Grey, eu<sup>-8</sup>, 0.5248; &emsp; Green, eu<sup>-7</sup>, 0.4954   
 <img src=images/tensorboard,val_loss-5_epochs,nag.png width=800 height=500>
