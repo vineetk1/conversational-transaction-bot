@@ -59,12 +59,9 @@ The Perplexity of the model is calculated from the test dataset. The user-settab
 ## Interact with the deployed model
 Work In Progress.
 ## Fine-tuning Distilgpt2 with DSTC2 dataset
-#### &emsp; &emsp; Graph: Validation-loss vs. Epoch for varying Learning-Rates
 <img src=images/tensorboard,val_loss-5_epochs,nag.png width=800 height=500>     
-Graph: Validation-loss vs. Epoch for varying Learning-Rates
-- ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) `#f03c15`
-<span style="background-color: #FFFF00">en<sup>-12</sup>, 1.69</span>
-<span style="background-color: #FFFF00">en<sup>-12</sup>, 1.69</span>   
+Graph: Validation-loss vs. Epoch for varying Learning-Rates. (Color of curve, Learning-Rate, Val-loss at epoch 0) where en =euler number = 2.71828 -- (Aqua, en<sup>-12</sup>, 1.69), (Dark Red, en<sup>-11</sup>, 1.15), (Blue, en<sup>-10</sup>, 0.814), (Pink, en<sup>-6</sup>, 0.6802), (Orange, en<sup>-9</sup>, 0.6443), (Green, en<sup>-5</sup>, 0.6143), (Grey, en<sup>-8</sup>, 0.5248), (Green, en<sup>-7</sup>, 0.4954)   
+   
 
 
 **Hyperparameters:**    
