@@ -62,6 +62,7 @@ Work In Progress.
 #### &emsp; &emsp; Graph: Validation-loss vs. Epoch for varying Learning-Rates
 <img src=images/tensorboard,val_loss-5_epochs,nag.png width=800 height=500>     
 Graph: Validation-loss vs. Epoch for varying Learning-Rates
+- ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) `#f03c15`
 <span style="background-color: #FFFF00">en<sup>-12</sup>, 1.69</span>
 <span style="background-color: #FFFF00">en<sup>-12</sup>, 1.69</span>   
 
