@@ -59,8 +59,10 @@ The Perplexity of the model is calculated from the test dataset. The user-settab
 ## Interact with the deployed model
 Work In Progress.
 ## Fine-tuning Distilgpt2 with DSTC2 dataset
-#### &emsp; &emsp; Using NAG with varying initial Learning Rates
+### &emsp; &emsp; Using NAG with varying initial Learning Rates
 **Hyperparameters:**    
+``*`` Optimizer Parameters -- SGD, lr: variable, momentum:0.9, weight_decay: 0, dampening: 0 nesterov: True
+``*`` LR-Scheduler Parameters -- None   
 &emsp; &emsp; Optimizer Parameters -- SGD, lr: variable, momentum:0.9, weight_decay: 0, dampening: 0 nesterov: True    
 &emsp; &emsp; LR-Scheduler Parameters -- None    
 <img src=images/tensorboard,val_loss-5_epochs,nag.png width=800 height=500>     
