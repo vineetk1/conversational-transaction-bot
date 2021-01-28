@@ -61,14 +61,10 @@ Work In Progress.
 ## Fine-tuning Distilgpt2 with DSTC2 dataset
 ### &emsp; &emsp; Using NAG with varying initial Learning Rates
 **Hyperparameters:**    
-``*`` Optimizer Parameters -- SGD, lr: variable, momentum:0.9, weight_decay: 0, dampening: 0 nesterov: True
+``*`` Optimizer Parameters -- SGD, lr: variable, momentum:0.9, weight_decay: 0, dampening: 0 nesterov: True   
 ``*`` LR-Scheduler Parameters -- None   
 &emsp; &emsp; Optimizer Parameters -- SGD, lr: variable, momentum:0.9, weight_decay: 0, dampening: 0 nesterov: True    
 &emsp; &emsp; LR-Scheduler Parameters -- None    
 <img src=images/tensorboard,val_loss-5_epochs,nag.png width=800 height=500>     
 *Graph: Validation-loss vs. Epoch for varying Learning-Rates. (Color of curve, Learning-Rate, Val-loss at epoch 0) where en =euler number = 2.71828 -- (Aqua, en<sup>-12</sup>, 1.69), (Dark Red, en<sup>-11</sup>, 1.15), (Blue, en<sup>-10</sup>, 0.814), (Pink, en<sup>-6</sup>, 0.6802), (Orange, en<sup>-9</sup>, 0.6443), (Green, en<sup>-5</sup>, 0.6143), (Grey, en<sup>-8</sup>, 0.5248), (Green, en<sup>-7</sup>, 0.4954)*   
-**Hyperparameters:**    
-&emsp; &emsp; Optimizer Parameters -- SGD, lr: variable, momentum:0.9, weight_decay: 0, dampening: 0 nesterov: True    
-&emsp; &emsp; LR-Scheduler Parameters -- None    
-&emsp; &emsp; "Color of curve, Learning-Rate, Val-loss at epoch 0" (en =euler number = 2.71828) -- Aqua, en<sup>-12</sup>, 1.69; &emsp; Dark Red, en<sup>-11</sup>, 1.15    
-&emsp; &emsp; &emsp; &emsp; Blue, en<sup>-10</sup>, 0.814; &emsp; Pink, en<sup>-6</sup>, 0.6802; &emsp; Orange, en<sup>-9</sup>, 0.6443; &emsp; Green, en<sup>-5</sup>, 0.6143; &emsp; Grey, en<sup>-8</sup>, 0.5248; &emsp; Green, en<sup>-7</sup>, 0.4954    
+
