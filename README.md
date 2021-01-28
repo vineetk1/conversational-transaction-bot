@@ -61,6 +61,11 @@ Work In Progress.
 ## Fine-tuning Distilgpt2 with DSTC2 dataset
 #### &emsp; &emsp; Graph: Validation-loss vs. Epoch for varying Learning-Rates
 <img src=images/tensorboard,val_loss-5_epochs,nag.png width=800 height=500>     
+Graph: Validation-loss vs. Epoch for varying Learning-Rates
+<span style="background-color: #FFFF00">en<sup>-12</sup>, 1.69</span>
+<span style="background-color: #FFFF00">en<sup>-12</sup>, 1.69</span>   
+
+
 **Hyperparameters:**    
 &emsp; &emsp; Optimizer Parameters -- SGD, lr: variable, momentum:0.9, weight_decay: 0, dampening: 0 nesterov: True    
 &emsp; &emsp; LR-Scheduler Parameters -- None    
