@@ -60,3 +60,6 @@ The Perplexity of the model is calculated from the test dataset. The user-settab
   
 ## Interact with the deployed model
 Work In Progress.
+
+## Training
+<img src=images/tensorboard,val_loss-5_epochs,nag.png width=400 height=250>
