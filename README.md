@@ -40,10 +40,7 @@ python3 ctbMain.py input_param_files/distilgpt2_params
 ```
 The user-settable hyper-parameters are in the file *input_param_files/distilgpt2_params*. A list of all the hyper-parameters is in the <a href="https://www.pytorchlightning.ai" target="_blank">PyTorch-Lightning documentation</a>, and any hyper-parameter can be used.    
 To assist in Training, the two parameters *auto_lr_find* and *auto_scale_batch_size* in the file *input_param_files/distilgpt2_params* enable the software to automatically find an initial Learning-Rate and a Batch-Size respectively.    
-As training progresses, graphs of *"training-loss vs. epoch #"*, and *"validation-loss vs. epoch #"* are plotted in real-time using TensorBoard as follows:
-     
-<img src=images/train_loss_epoch.png width=400 height=250> <img src=images/val_loss_epoch.png width=400 height=250>    
-Training is stopped by typing, at the commandline, the keystroke ctrl-c. The current training information is checkpointed, and training stops. Training can be resumed, at some future time, from the checkpointed file.
+As training progresses, graphs of *"training-loss vs. epoch #"*, *"validation-loss vs. epoch #"*, and "learning-rate vs. batch" are plotted in real-time on TensorBoard. Training is stopped by typing, at the commandline, the keystroke ctrl-c. The current training information is checkpointed, and training stops. Training can be resumed, at some future time, from the checkpointed file.   
 ## Resume training, validation, and testing a model
 Training is resumed with the following command:
 ```
@@ -72,4 +69,4 @@ Work In Progress.
 ``*`` LR-Scheduler Parameters -- None   
 <img src=images/tensorboard,val_loss-5_epochs,adam.png width=800 height=500>     
 *Graph: Validation-loss vs. Epoch for varying initial Learning-Rates.   
-(Color of curve, Learning-Rate, Val-loss at epoch 0 and epoch 5) where en = euler number = 2.71828 -- (Aqua, en<sup>-12</sup>, 1.69, 0.8783), (Dark Red, en<sup>-11</sup>, 1.15, 0.6272), (Blue, en<sup>-10</sup>, 0.814, 0.4331), (Pink, en<sup>-6</sup>, 0.6802, 0.1893), (Orange, en<sup>-9</sup>, 0.6443, 0.2957), (Green, en<sup>-5</sup>, 0.6143, 0.1748), (Grey, en<sup>-8</sup>, 0.5248, 0.2281), (Green, en<sup>-7</sup>, 0.4954, 0.1887)*   
+(Color of curve, Learning-Rate, Val-loss at epoch 0 and epoch 5) where en = euler number = 2.71828 -- (Grey, en<sup>-13</sup>, 0.2225, 0.206), (Green, en<sup>-12</sup>, 0.3575, 0.1593), (Pink, en<sup>-11</sup>, 0.23, 0.1562), (Aqua, en<sup>-10</sup>, 0.1859, 0.1726), (Orange, en<sup>-7</sup>, 0.1814, 0.1971), (Blue, en<sup>-8</sup>, 0.1647, 0.2095), (Brown, en<sup>-9</sup>, 0.1634, 0.1924)*   
