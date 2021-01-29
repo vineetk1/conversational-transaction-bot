@@ -65,7 +65,7 @@ Work In Progress.
 ``*`` LR-Scheduler Parameters -- None   
 <img src=images/tensorboard,val_loss-5_epochs,nag.png width=800 height=500>     
 *Graph: Validation-loss vs. Epoch for varying initial Learning-Rates.   
-(Color of curve, Learning-Rate, Val-loss at epoch 0 and epoch 5) where en = euler number = 2.71828 -- (Aqua, en<sup>-12</sup>, 1.69, 0.8783), (Dark Red, en<sup>-11</sup>, 1.15, 0.6272), (Blue, en<sup>-10</sup>, 0.814, 0.4331), (Pink, en<sup>-6</sup>, 0.6802, 0.1893), (Orange, en<sup>-9</sup>, 0.6443, 0.2957), (Green, en<sup>-5</sup>, 0.6143, 0.1748), (Grey, en<sup>-8</sup>, 0.5248, 0.2281), (Green, en<sup>-7</sup>, 0.4954, 0.1887)*   
+(Color of curve, Learning-Rate, Val-loss at epoch 0 and epoch 5) where en = euler number = 2.71828 -- (Aqua, en<sup>-12</sup>, 1.69, 0.8783), (Brown, en<sup>-11</sup>, 1.15, 0.6272), (Blue, en<sup>-10</sup>, 0.814, 0.4331), (Pink, en<sup>-6</sup>, 0.6802, 0.1893), (Orange, en<sup>-9</sup>, 0.6443, 0.2957), (Green, en<sup>-5</sup>, 0.6143, 0.1748), (Grey, en<sup>-8</sup>, 0.5248, 0.2281), (Green, en<sup>-7</sup>, 0.4954, 0.1887)*   
 ### &emsp; &emsp; Using Adam with varying initial Learning Rates
 **Hyperparameters:**    
 ``*`` Optimizer Parameters -- Adam, lr: variable, betas: (0.9, 0.999), eps: 1e-8, weight_decay: 0, amsgrad: False   
