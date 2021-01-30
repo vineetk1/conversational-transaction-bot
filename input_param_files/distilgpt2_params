@@ -59,10 +59,11 @@ parameters for file "ctbModel.py"
 - eu-3 =  4.978706836e-2    eu-4 =  1.831563888e-2      eu-5 =  6.73794699e-3
 - eu-6 =  2.47875217e-3     eu-7 =  9.1188196e-4        eu-8 =  3.3546262e-4
 - eu-9 =  1.234098e-4       eu-10 = 4.539992e-5         eu-11 = 1.67017e-5 
-- eu-12 = 6.14421e-6
+- eu-12 = 6.14421e-6        eu-13 = 2.2603294e-6        eu-14 = 8.31528719e-7
 - 
+{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_params': {'lr': 8.31528719e-7}} 
 #{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_params': {'lr': 9.120108393559096e-08}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 11, 'factor': 0.001, 'verbose': True}} 
-{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'SGD', 'optz_params': {'lr': 6.73794699e-3, 'momentum': 0.9, 'nesterov': True}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 9}}
+#{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'SGD', 'optz_params': {'lr': 1.831563888e-2, 'momentum': 0.9, 'nesterov': True}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 9}}
 # If lr_sched=CyclicLR, then base_lr is the initial learning-rate
 #{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'SGD', 'optz_params': {'lr': 0, 'momentum': 0.9, 'nesterov': True}, 'lr_sched': 'CyclicLR', 'lr_sched_params': {'base_lr': 6.14421e-6, 'max_lr': 1}} 
 
