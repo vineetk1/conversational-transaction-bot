@@ -154,9 +154,6 @@ class ctbModel(LightningModule):
                     optimizer = getattr(import_module('torch.optim'),
                                         self.d_params['optz'])(
                                             self.parameters())
-        else:
-            logg.critical('Must specify an Optimizer')
-            exit()
 
         if 'lr_sched' in self.d_params and self.d_params['lr_sched']:
             if 'lr_sched_params' in self.d_params and self.d_params[
@@ -170,7 +167,10 @@ class ctbModel(LightningModule):
                     import_module('torch.optim.lr_scheduler'),
                     self.d_params['lr_sched'])(optimizer=optimizer)
 
-        if 'scheduler' in locals():
+        # If scheduler is specified then optimizer must be specified
+        # If Trainer('resume_from_checkpoint',...), then optimizer and
+        # scheduler may not be specified
+        if 'optimizer' in locals() and 'scheduler' in locals():
             return {
                 'optimizer':
                 optimizer,
@@ -180,7 +180,7 @@ class ctbModel(LightningModule):
                 'val_loss'
                 if self.d_params['lr_sched'] == 'ReduceLROnPlateau' else None
             }
-        else:
+        elif 'optimizer' in locals():
             return optimizer
 
     def clear_pass_fail_stat(self):
