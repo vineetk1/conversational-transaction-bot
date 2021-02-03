@@ -8,35 +8,31 @@ Note the following:
 	(2) Do NOT change the order of python-dictionaries in this file.
 	(3) The default directory is "conversational-transaction-bot"
  
-Command-line:
--------------
+## Command-line:
 python3 ctbMain.py input_param_files/distilgpt2_dstc2 
-
-Path to ctb logs files:
------------------------
+## Path to ctb logs files:
 It is the default directory, and the name of the file is "ctb_logs".
 
-Path to TensorBoard logs files:
------------------------------
+## Path to TensorBoard logs files:
 It includes the following directories: (i) tensorboard_logs, (ii) model-type
 and tokenizer-type, (iii) a unique version number that increases every time
 training is done. Following is an example:
 tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_0
 
-Path to Checkpointed files:
----------------------------
-It includes the following directories: (i) path of TensorBoard logs files,
-(ii) checkpoints. Following is an example:
-tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_0/checkpoints
+## Path to Checkpointed files:
+It includes the following directories:
+1. Path of TensorBoard logs files.
+1. Checkpoints. 
+Following is an example: tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_0/checkpoints
 
-Name of Checkpointed files:
----------------------------
-During training, the last epoch is always checkpointed in the file 'last.ckpt'. 
+## Name of Checkpointed files:
+During training, the last epoch is always checkpointed in the file *last.ckpt*. 
 Additionally, epochs with the lowest validation loss are also checkpointed. The
-names of these files includes the following: (i) optimizer and its parameters,
-(ii) lr-scheduler and its parameters, (iii) epoch number plus the validation loss.
-Following is an example:
-optz=SGD,lr=1.67017e-05,momentum=0.9,nesterov=True,lr_sched=ReduceLROnPlateau,mode=min,patience=9,epoch=00-val_loss=1.15033.ckpt
+names of these files includes the following:
+1. Optimizer and its parameters.
+1. LR-scheduler and its parameters.
+1. Epoch number plus the validation loss.
+Following is an example: optz=SGD,lr=1.67017e-05,momentum=0.9,nesterov=True,lr_sched=ReduceLROnPlateau,mode=min,patience=9,epoch=00-val_loss=1.15033.ckpt
 
 Scenario:
 ----------
