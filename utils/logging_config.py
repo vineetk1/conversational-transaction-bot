@@ -27,7 +27,7 @@ LOG_CONFIG = {
             'formatter': 'fileFormatter',
         },
         'console': {
-            'level': 'DEBUG',
+            'level': 'INFO',
             'class': 'logging.StreamHandler',
             'formatter': 'consoleFormatter',
         },
