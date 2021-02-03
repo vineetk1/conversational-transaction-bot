@@ -1,8 +1,3 @@
-Vineet Kumar, sioom.ai
-
-This input file has user-settable hyper-parameters for training and testing
-  a model.
-
 Note the following:
 	(1) This file name should be last in the command-line.
 	(2) Do NOT change the order of python-dictionaries in this file.
@@ -57,15 +52,10 @@ Stop training and load_checkpoint and change hyperparams.
 * lr_sched (see PyTorch documentation, optional) -- hyper-parameters of lr-scheduler   
 * lr_sched_params (see PyTorch documentation, optional) -- hyper-parameters of scheduler EXCLUDING "optimizer"      
 ### &emsp; &emsp; Parameters used in python-dictionary 2   
-* default_format_path': 'path to training dataset'
-- 
-{'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train', 'batch_size': 2} 
-
-
-parameters for Lightning Trainer 
-- For a list of parameters, see Trainer.__init__(...) in PyTorch Lightning documentation
-- The following will make Lightning fail because of a bug: 
-     'auto_lr_find': True, 'auto_scale_batch_size': True
-- 
-{'gpus': 1, 'auto_lr_find': False, 'auto_scale_batch_size': False}
-
+* default_format_path (str) -- path to training dataset  
+* batch_size (int, optional) -- batch size (Default: 2)  
+### &emsp; &emsp; Parameters used in python-dictionary 3
+See Lightning Trainer documentation for parameters that can be used in this python-dictionary. Some parameters are listed as follows:   
+* gpus (Union\[int, str, List\[int], None]) –- number of gpus to train on (int) or which GPUs to train on (list or str) applied per node   
+* auto_lr_find (bool, optional) -- automatically find the initial learning-rate (Default: False)   
+* auto_scale_batch_size (bool, optional) -- automatically find the batch-size (Default: False)   
