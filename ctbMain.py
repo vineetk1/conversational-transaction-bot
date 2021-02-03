@@ -36,9 +36,9 @@ def main():
         if not ('no_training' in param_dicts[0]
                 and param_dicts[0]['no_training']):
             # Train checkpointed model with new hyperparameters
-            param_dicts[1]['model_type'] = model.get_model_id()['model_type'],
+            param_dicts[1]['model_type'] = model.get_model_id()['model_type']
             param_dicts[1]['tokenizer_type'] = model.get_model_id(
-            )['tokenizer_type'],
+            )['tokenizer_type']
             # param_dicts[1] needed by tb_subDir and ckpt_filename, so it
             # must not change
             param_dicts1 = copy.deepcopy(param_dicts[1])
