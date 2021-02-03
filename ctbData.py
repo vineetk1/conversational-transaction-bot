@@ -16,14 +16,15 @@ logg = getLogger(__name__)
 class ctbData(LightningDataModule):
     def __init__(self, d_params: dict):
         super().__init__()
+        # Trainer('auto_scale_batch_size': True...) requires self.batch_size
         self.batch_size = d_params.pop('batch_size', 2)
-        if d_params:
-            self.d_params = d_params
+        self.d_params = d_params
 
     def prepare_data(self,
                      tokenizer,
                      tokenizer_type: str,
-                     testing_only: bool = False):
+                     no_training: bool = False,
+                     no_testing: bool = False):
         self.tokenizer = tokenizer
         if tokenizer_type == "gpt2-dstc2":
             from utils.defaultFormat_to_gpt2Format import \
@@ -33,15 +34,15 @@ class ctbData(LightningDataModule):
                 self.d_params['default_format_path'])
             for name, f_path in data_info['f_paths'].items():
                 with f_path.open('rb') as file:
-                    if name == 'train' and not testing_only:
+                    if name == 'train' and not no_training:
                         self.train_data = ctbDataset(load(file))
                         logg.info(
                             f'{len(self.train_data)} examples in Training set')
-                    elif name == 'valid' and not testing_only:
+                    elif name == 'valid' and not no_training:
                         self.valid_data = ctbDataset(load(file))
                         logg.info(
                             f'{len(self.valid_data)} examples in Valid set')
-                    elif name == 'test':
+                    elif name == 'test' and not no_testing:
                         self.test_data = ctbDataset(load(file))
                         logg.info(
                             f'{len(self.test_data)} examples in Test set')
