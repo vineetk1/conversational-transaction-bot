@@ -8,7 +8,7 @@ from logging import getLogger
 from sys import exit
 from typing import Dict, List
 from importlib import import_module
-import math
+import copy
 
 logg = getLogger(__name__)
 
@@ -20,12 +20,14 @@ class ctbModel(LightningModule):
                  dstc2_tokens: List[str] = None):
         super().__init__()
         self.save_hyperparameters()
-        # auto_lr_find requires self.lr
-        self.lr = d_params['optz_params'].pop(
-            'lr', None) if 'optz_params' in d_params else None
-        self.model_type = d_params.pop('model_type', 'distilgpt2-dstc2')
-        self.tokenizer_type = d_params.pop('tokenizer_type', 'gpt2-dstc2')
-        self.d_params = d_params
+        # ctbModel.load_from_checkpoint(...) requires that d_params not change
+        self.d_params = copy.deepcopy(d_params)
+        # Trainer('auto_lr_find': True,...) requires self.lr
+        self.lr = self.d_params['optz_params'].pop(
+                       'lr', None) if 'optz_params' in self.d_params else None
+        self.model_type = self.d_params.pop('model_type', None)
+        self.tokenizer_type = self.d_params.pop('tokenizer_type', None)
+
         if self.model_type == "distilgpt2-dstc2" or\
                 self.model_type == "distilgpt2":
             from transformers import GPT2LMHeadModel
@@ -52,6 +54,11 @@ class ctbModel(LightningModule):
             'model_type': self.model_type,
             'tokenizer_type': self.tokenizer_type,
         }
+
+    def change_hperparams(self, d_params: dict):
+        self.d_params = d_params
+        self.lr = self.d_params['optz_params'].pop(
+                      'lr', None) if 'optz_params' in self.d_params else None
 
     def forward(self):
         logg.debug('')
@@ -191,6 +198,7 @@ class ctbModel(LightningModule):
 
     def pass_fail_stat_step(self, batch: Dict[str, torch.Tensor]):
         logg.debug('')
+        return
         model_kwargs = {
             'attention_mask': batch['attention_mask'],
             'token_type_ids': batch['token_type_ids']
