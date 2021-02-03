@@ -38,13 +38,19 @@ names of these files includes the following:
 
 Following is an example: optz=SGD,lr=1.67017e-05,momentum=0.9,nesterov=True,lr_sched=ReduceLROnPlateau,mode=min,patience=9,epoch=00-val_loss=1.15033.ckpt
 
-Scenario:
-----------
+## Scenario:
 Stop training and resume training using same hyperparams. Stop with ctrl-c
 Stop training and load_checkpoint and change hyperparams.
 
+## Parameters used in python-dictionary 0
+| Parameter | Description | Default |
+  ---------   -----------   -------
+|  save_top_k | number of checkpointed files to save | 1 |
+| chkpt | path to checkpoint file that will be loaded. Path is not provided if a Huggingface pre-trained model is oaded or a custom-made model is initialized | 
+| no_training | do not train a model | False |
 
-parameters for file "ctbMain.py"
+
+
 - 'save_top_k':    	 number of checkpointed files to save		 Default: 1
 - 'chkpt': 		 'path to checkpoint file that will be loaded'
 			    Path is not provided if a Huggingface pre-trained model is     
