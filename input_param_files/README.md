@@ -42,25 +42,13 @@ Following is an example: optz=SGD,lr=1.67017e-05,momentum=0.9,nesterov=True,lr_s
 Stop training and resume training using same hyperparams. Stop with ctrl-c
 Stop training and load_checkpoint and change hyperparams.
 
-## Parameters used in python-dictionary 0
-| Parameter | Description | Default |
-  ---------   -----------   -------
-|  save_top_k | number of checkpointed files to save | 1 |
-| chkpt | path to checkpoint file that will be loaded. Path is not provided if a Huggingface pre-trained model is oaded or a custom-made model is initialized | 
-| no_training | do not train a model | False |
+## Parameters used in python-dictionary 0   
+* save_top_k (int, optional) -- number of checkpoint files to save (Default: 1)   
+* chkpt (str, optional) -- path to checkpoint file that will be loaded   
+* no_training (bool, optional) -- do not train the model (Default: False) 
+* no_testing (bool, optional) -- do not test the model (Default: False)   
+* test_pass_fail_stat (bool, optional) --  whether to collect statistics on the trained model \[no_testing=False] (Default: False)
 
-
-
-- 'save_top_k':    	 number of checkpointed files to save		 Default: 1
-- 'chkpt': 		 'path to checkpoint file that will be loaded'
-			    Path is not provided if a Huggingface pre-trained model is     
-			    loaded or a custom-made model is initialized
-- 'no_training':   	 whether to not train a model			 Default: False
-- 'no_testing':    	 whether to not test a trained model		 Default: False
-- 'test_pass_fail_stat': whether to collect statistic on a trained model Default: False
-                         this parameter is active only when 'no_testing': False
--
-{'save_top_k': 2, 'no_testing': True}
 
 
 parameters for file "ctbModel.py"
