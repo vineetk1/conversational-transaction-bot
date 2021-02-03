@@ -14,15 +14,16 @@ python3 ctbMain.py input_param_files/distilgpt2_dstc2
 It is the default directory, and the name of the file is "ctb_logs".
 
 ## Path to TensorBoard logs files:
-It includes the following directories: (i) tensorboard_logs, (ii) model-type
-and tokenizer-type, (iii) a unique version number that increases every time
-training is done. Following is an example:
-tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_0
+It includes the following directories:
+1. tensorboard_logs.
+1. Model-type and tokenizer-type.
+1. A unique version number that increases every time training is done.   
+Following is an example: tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_0
 
 ## Path to Checkpointed files:
 It includes the following directories:
 1. Path of TensorBoard logs files.
-1. Checkpoints. 
+1. Checkpoints.    
 Following is an example: tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_0/checkpoints
 
 ## Name of Checkpointed files:
@@ -31,7 +32,7 @@ Additionally, epochs with the lowest validation loss are also checkpointed. The
 names of these files includes the following:
 1. Optimizer and its parameters.
 1. LR-scheduler and its parameters.
-1. Epoch number plus the validation loss.
+1. Epoch number plus the validation loss.    
 Following is an example: optz=SGD,lr=1.67017e-05,momentum=0.9,nesterov=True,lr_sched=ReduceLROnPlateau,mode=min,patience=9,epoch=00-val_loss=1.15033.ckpt
 
 Scenario:
