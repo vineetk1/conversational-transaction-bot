@@ -18,12 +18,14 @@ It includes the following directories:
 1. tensorboard_logs.
 1. Model-type and tokenizer-type.
 1. A unique version number that increases every time training is done.   
+
 Following is an example: tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_0
 
 ## Path to Checkpointed files:
 It includes the following directories:
 1. Path of TensorBoard logs files.
-1. Checkpoints.    
+1. Checkpoints.   
+
 Following is an example: tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_0/checkpoints
 
 ## Name of Checkpointed files:
@@ -33,6 +35,7 @@ names of these files includes the following:
 1. Optimizer and its parameters.
 1. LR-scheduler and its parameters.
 1. Epoch number plus the validation loss.    
+
 Following is an example: optz=SGD,lr=1.67017e-05,momentum=0.9,nesterov=True,lr_sched=ReduceLROnPlateau,mode=min,patience=9,epoch=00-val_loss=1.15033.ckpt
 
 Scenario:
