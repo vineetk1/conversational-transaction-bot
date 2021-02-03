@@ -43,7 +43,7 @@ To assist in Training, the two parameters *auto_lr_find* and *auto_scale_batch_s
 As training progresses, graphs of *"training-loss vs. epoch #"*, *"validation-loss vs. epoch #"*, and "learning-rate vs. batch #" are plotted in real-time on TensorBoard. Training is stopped by typing, at the commandline, the keystroke ctrl-c. The current training information is checkpointed, and training stops. Training can be resumed, at some future time, from the checkpointed file.   
 Testing calculates the Perplexity of the model from the test dataset. A detailed statistics on the model is generated in the files *failed_dialogs_stat.txt* and *passed_dialogs_stat.txt*. The *failed_dialogs_stat.txt* file has information about the dialogs that failed, and *passed_dialogs_stat.txt* has information about the dialogs that passed.
 ## Resume training, validation, and testing a model
-Resume training, from where it was previously stopped, with the same model- and training-state by using the following command:
+Resume training, from where it was previously stopped, with the same model- and training-states by using the following command:
 ```
 python3 ctbMain.py input_param_files/distilgpt2_dstc2-resume_training
 ```
