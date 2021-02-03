@@ -42,39 +42,22 @@ Following is an example: optz=SGD,lr=1.67017e-05,momentum=0.9,nesterov=True,lr_s
 Stop training and resume training using same hyperparams. Stop with ctrl-c
 Stop training and load_checkpoint and change hyperparams.
 
-## Parameters used in python-dictionary 0   
+## Parameters
+### &emsp; &emsp; Parameters used in python-dictionary 0   
 * save_top_k (int, optional) -- number of checkpoint files to save (Default: 1)   
 * chkpt (str, optional) -- path to checkpoint file that will be loaded   
 * no_training (bool, optional) -- do not train the model (Default: False) 
 * no_testing (bool, optional) -- do not test the model (Default: False)   
 * test_pass_fail_stat (bool, optional) --  whether to collect statistics on the trained model \[no_testing=False] (Default: False)
-
-
-
-parameters for file "ctbModel.py"
-- 'model_type':      'name of pretrained model plus name of training dataset'
-- 'tokenizer_type':  'name of pretrained tokenizer plus name of training
-                         dataset whose tokens are added'
-- 'optz':            'name of optimizer'  {optional if resume_training}
-- 'optz_params':     {parameters of optimizer EXCLUDING "params"} {optional}
-- 'lr_sched':        'name of lr-scheduler' {optional}
-- 'lr_sched_params': {parameters of scheduler EXCLUDING "optimizer"} {optional}
-- eu = euler's number; e = exponent with a base of 10
-  eu1 =   2.71828182846     eu-1 =  3.6787944117e-1     eu-2 =  1.3533528323e-1
-  eu-3 =  4.978706836e-2    eu-4 =  1.831563888e-2      eu-5 =  6.73794699e-3
-  eu-6 =  2.47875217e-3     eu-7 =  9.1188196e-4        eu-8 =  3.3546262e-4
-  eu-9 =  1.234098e-4       eu-10 = 4.539992e-5         eu-11 = 1.67017e-5 
-  eu-12 = 6.14421e-6        eu-13 = 2.2603294e-6        eu-14 = 8.31528719e-7
-- 
-{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_params': {'lr': 8.31528719e-7}} 
-#{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_params': {'lr': 9.120108393559096e-08}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 11, 'factor': 0.001, 'verbose': True}} 
-#{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'SGD', 'optz_params': {'lr': 1.831563888e-2, 'momentum': 0.9, 'nesterov': True}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 9}}
-# If lr_sched=CyclicLR, then base_lr is the initial learning-rate
-#{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'SGD', 'optz_params': {'lr': 0, 'momentum': 0.9, 'nesterov': True}, 'lr_sched': 'CyclicLR', 'lr_sched_params': {'base_lr': 6.14421e-6, 'max_lr': 1}} 
-
-
-parameters for file "ctbData.py"
-- 'default_format_path': 'path to training dataset'
+### &emsp; &emsp; Parameters used in python-dictionary 1   
+* model_type (str) -- name of model and dataset to load   
+* tokenizer_type (str) -- name of tokenizer and dataset to load   
+* optz (see PyTorch documentation, optional if training is resumed) -- name of optimizer   
+* optz_params (see PyTorch documentation, optional if training is resumed) -- hyper-parameters of optimizer EXCLUDING "params"   
+* lr_sched (see PyTorch documentation, optional) -- hyper-parameters of lr-scheduler   
+* lr_sched_params (see PyTorch documentation, optional) -- hyper-parameters of scheduler EXCLUDING "optimizer"      
+### &emsp; &emsp; Parameters used in python-dictionary 2   
+* default_format_path': 'path to training dataset'
 - 
 {'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train', 'batch_size': 2} 
 
