@@ -34,7 +34,7 @@ python3 convert_to_default_formats/dstc2_to_defaultFormat.py
 ```
 Note that the above program converts the DSTC2 dataset to the default format. A new conversion program will have to be implemented for a dataset that has a different format from that of the DSTC2 dataset. 
 ## Train, validate, and test a model
-Following command trains a model, saves checkpoints that have the lowest validation loss, runs the test dataset on the checkpointed model with the lowest validation loss, and outputs a Perplexity value of the model:
+Following command trains a model, saves the last checkpoint plus checkpoints that have the lowest validation loss, runs the test dataset on the checkpointed model with the lowest validation loss, and outputs a Perplexity value of the model:
 ```
 python3 ctbMain.py input_param_files/distilgpt2_dstc2
 ```
@@ -43,13 +43,13 @@ To assist in Training, the two parameters *auto_lr_find* and *auto_scale_batch_s
 As training progresses, graphs of *"training-loss vs. epoch #"*, *"validation-loss vs. epoch #"*, and "learning-rate vs. batch #" are plotted in real-time on TensorBoard. Training is stopped by typing, at the commandline, the keystroke ctrl-c. The current training information is checkpointed, and training stops. Training can be resumed, at some future time, from the checkpointed file.   
 Testing calculates the Perplexity of the model from the test dataset. A detailed statistics on the model is generated in the files *failed_dialogs_stat.txt* and *passed_dialogs_stat.txt*. The *failed_dialogs_stat.txt* file has information about the dialogs that failed, and *passed_dialogs_stat.txt* has information about the dialogs that passed.
 ## Resume training, validation, and testing a model
-Resume training, from where it was previously stopped, with the same model- and training-states by using the following command:
+Resume training, from where it was previously stopped or from any other checkpoint, with the same model- and training-states by using the following command:
 ```
 python3 ctbMain.py input_param_files/distilgpt2_dstc2-resume_training
 ```
 The user-settable hyper-parameters are in the file *input_param_files/distilgpt2_params-resume_training*.  An explanation on the contents of this file is at *input_param_files/README.md*.
 ## Continue training, validation, and testing a model with different hyper-parameters
-Continue training, from where it was previously stopped, with the same model-state but different hyperparameters for the training-state by using the following command:
+Continue training, from where it was previously stopped or from any other checkpoint, with the same model-state but different hyperparameters for the training-state by using the following command:
 ```
 python3 ctbMain.py input_param_files/distilgpt2_dstc2-load_change_params
 ```
