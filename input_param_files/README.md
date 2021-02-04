@@ -1,15 +1,9 @@
-Note the following:
-	(1) This file name should be last in the command-line.
-	(2) Do NOT change the order of python-dictionaries in this file.
-	(3) The default directory is "conversational-transaction-bot"
- 
-## Command-line:
-python3 ctbMain.py input_param_files/distilgpt2_dstc2 
+# Parameters to train, validate, and test models 
 ## Path to ctb logs files:
-It is the default directory, and the name of the file is "ctb_logs".
+"ctb_logs" file in the the default (i.e.  conversational-transaction-bot) directory.
 ## Path to TensorBoard logs files:
 It includes the following directories:
-1. tensorboard_logs.
+1. tensorboard_logs directory in the the default (i.e.  conversational-transaction-bot) directory.
 1. Model-type and tokenizer-type.
 1. A unique version number that increases every time training is done.   
 
