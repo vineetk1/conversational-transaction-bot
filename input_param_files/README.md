@@ -1,6 +1,6 @@
 # Parameters to train, validate, and test models 
 ## Path to ctb logs files:
-"ctb_logs" file is in the the default (i.e.  conversational-transaction-bot) directory.
+*ctb_logs* file is in the the default (i.e.  conversational-transaction-bot) directory.
 ## Path to TensorBoard logs files:
 It includes the following directories:
 1. tensorboard_logs directory in the default (i.e.  conversational-transaction-bot) directory.
