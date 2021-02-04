@@ -15,9 +15,7 @@ It includes the following directories:
 
 Following is an example: tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_0/checkpoints   
 ## Name of Checkpointed files:
-During training, the last epoch is always checkpointed in the file *last.ckpt*. 
-Additionally, epochs with the lowest validation loss are also checkpointed. The
-names of these files includes the following:
+When training stops, the state of the model is checkpointed in the file *last.ckpt*. Additionally, epochs with the lowest validation loss are also checkpointed. The names of files with lowest validation loss includes the following:
 1. Optimizer and its parameters.
 1. LR-scheduler and its parameters.
 1. Epoch number plus the validation loss.    
