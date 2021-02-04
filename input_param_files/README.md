@@ -28,7 +28,8 @@ names of these files includes the following:
 1. LR-scheduler and its parameters.
 1. Epoch number plus the validation loss.    
 
-Following is an example: optz=SGD,lr=1.67017e-05,momentum=0.9,nesterov=True,lr_sched=ReduceLROnPlateau,mode=min,patience=9,epoch=00-val_loss=1.15033.ckpt   
+Following is an example:    
+optz=SGD,lr=1.67017e-05,momentum=0.9,nesterov=True,lr_sched=ReduceLROnPlateau,mode=min,patience=9,epoch=00-val_loss=1.15033.ckpt   
 ## Parameters
 ### &emsp; &emsp; Parameters used in python-dictionary 0   
 * save_top_k (int, optional) -- number of checkpoint files to save (Default: 1)   
