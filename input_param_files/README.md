@@ -12,13 +12,12 @@ It includes the following directories:
 1. tensorboard_logs.
 1. Model-type and tokenizer-type.
 1. A unique version number that increases every time training is done.   
-<!-- end of the list -->
-Following is an example: tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_0
+<a/>Following is an example: tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_0
 ## Path to Checkpointed files:
 It includes the following directories:
 1. Path of TensorBoard logs files.
 1. Checkpoints.   
-
+<a/>
 Following is an example: tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_0/checkpoints
 ## Name of Checkpointed files:
 During training, the last epoch is always checkpointed in the file *last.ckpt*. 
