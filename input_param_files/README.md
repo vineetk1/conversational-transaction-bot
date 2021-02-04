@@ -1,94 +1,75 @@
-Vineet Kumar, sioom.ai
+# Parameters to train, validate, and test models 
+## Location of log and checkpoint files
+### &emsp; &emsp; Path to ctb logs files 
+*ctb_logs* file is in the the default (i.e.  conversational-transaction-bot) directory.
+### &emsp; &emsp; Path to TensorBoard logs files
+It includes the following directories:
+1. tensorboard_logs directory in the default (i.e.  conversational-transaction-bot) directory.
+1. Model-type and tokenizer-type.
+1. A unique version number that increases every time training is done.   
 
-This input file has user-settable hyper-parameters for training and testing
-  a model.
+Following is an example: tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_0
+### &emsp; &emsp; Path to Checkpoint files
+It includes the following directories:
+1. Path of TensorBoard logs files.
+1. checkpoints.   
 
-Note the following:
-	(1) This file name should be last in the command-line.
-	(2) Do NOT change the order of python-dictionaries in this file.
-	(3) The default directory is "conversational-transaction-bot"
- 
-Command-line:
--------------
-python3 ctbMain.py input_param_files/distilgpt2_dstc2 
+Following is an example: tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_0/checkpoints   
+### &emsp; &emsp; Name of Checkpoint files
+When training stops, the state of the model is checkpointed in the file *last.ckpt*. Additionally, epochs with the lowest validation loss are also checkpointed. The names of files with lowest validation loss includes the following:
+1. Optimizer and its parameters.
+1. LR-scheduler and its parameters.
+1. Epoch number plus the validation loss.    
 
-Path to ctb logs files:
------------------------
-It is the default directory, and the name of the file is "ctb_logs".
-
-Path to TensorBoard logs files:
------------------------------
-It includes the following directories: (i) tensorboard_logs, (ii) model-type
-and tokenizer-type, (iii) a unique version number that increases every time
-training is done. Following is an example:
-tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_0
-
-Path to Checkpointed files:
----------------------------
-It includes the following directories: (i) path of TensorBoard logs files,
-(ii) checkpoints. Following is an example:
-tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_0/checkpoints
-
-Name of Checkpointed files:
----------------------------
-During training, the last epoch is always checkpointed in the file 'last.ckpt'. 
-Additionally, epochs with the lowest validation loss are also checkpointed. The
-names of these files includes the following: (i) optimizer and its parameters,
-(ii) lr-scheduler and its parameters, (iii) epoch number plus the validation loss.
-Following is an example:
-optz=SGD,lr=1.67017e-05,momentum=0.9,nesterov=True,lr_sched=ReduceLROnPlateau,mode=min,patience=9,epoch=00-val_loss=1.15033.ckpt
-
-Scenario:
-----------
-Stop training and resume training using same hyperparams. Stop with ctrl-c
-Stop training and load_checkpoint and change hyperparams.
-
-
-parameters for file "ctbMain.py"
-- 'save_top_k':    	 number of checkpointed files to save		 Default: 1
-- 'chkpt': 		 'path to checkpoint file that will be loaded'
-			    Path is not provided if a Huggingface pre-trained model is     
-			    loaded or a custom-made model is initialized
-- 'no_training':   	 whether to not train a model			 Default: False
-- 'no_testing':    	 whether to not test a trained model		 Default: False
-- 'test_pass_fail_stat': whether to collect statistic on a trained model Default: False
-                         this parameter is active only when 'no_testing': False
--
-{'save_top_k': 2, 'no_testing': True}
-
-
-parameters for file "ctbModel.py"
-- 'model_type':      'name of pretrained model plus name of training dataset'
-- 'tokenizer_type':  'name of pretrained tokenizer plus name of training
-                         dataset whose tokens are added'
-- 'optz':            'name of optimizer'  {optional if resume_training}
-- 'optz_params':     {parameters of optimizer EXCLUDING "params"} {optional}
-- 'lr_sched':        'name of lr-scheduler' {optional}
-- 'lr_sched_params': {parameters of scheduler EXCLUDING "optimizer"} {optional}
-- eu = euler's number; e = exponent with a base of 10
-  eu1 =   2.71828182846     eu-1 =  3.6787944117e-1     eu-2 =  1.3533528323e-1
-  eu-3 =  4.978706836e-2    eu-4 =  1.831563888e-2      eu-5 =  6.73794699e-3
-  eu-6 =  2.47875217e-3     eu-7 =  9.1188196e-4        eu-8 =  3.3546262e-4
-  eu-9 =  1.234098e-4       eu-10 = 4.539992e-5         eu-11 = 1.67017e-5 
-  eu-12 = 6.14421e-6        eu-13 = 2.2603294e-6        eu-14 = 8.31528719e-7
-- 
-{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_params': {'lr': 8.31528719e-7}} 
-#{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_params': {'lr': 9.120108393559096e-08}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 11, 'factor': 0.001, 'verbose': True}} 
-#{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'SGD', 'optz_params': {'lr': 1.831563888e-2, 'momentum': 0.9, 'nesterov': True}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 9}}
-# If lr_sched=CyclicLR, then base_lr is the initial learning-rate
-#{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'SGD', 'optz_params': {'lr': 0, 'momentum': 0.9, 'nesterov': True}, 'lr_sched': 'CyclicLR', 'lr_sched_params': {'base_lr': 6.14421e-6, 'max_lr': 1}} 
-
-
-parameters for file "ctbData.py"
-- 'default_format_path': 'path to training dataset'
-- 
-{'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train', 'batch_size': 2} 
-
-
-parameters for Lightning Trainer 
-- For a list of parameters, see Trainer.__init__(...) in PyTorch Lightning documentation
-- The following will make Lightning fail because of a bug: 
-     'auto_lr_find': True, 'auto_scale_batch_size': True
-- 
-{'gpus': 1, 'auto_lr_find': False, 'auto_scale_batch_size': False}
-
+Following is an example: optz=SGD,lr=1.67017e-05,momentum=0.9,nesterov=True,lr_sched=ReduceLROnPlateau,mode=min,patience=9,epoch=00-val_loss=1.15033.ckpt   
+## Parameters
+### &emsp; &emsp; Parameters used in python-dictionary 0   
+* save_top_k (int, optional) -- number of checkpoint files to save (Default: 1)   
+* chkpt (str, optional) -- path to checkpoint file that will be loaded   
+* no_training (bool, optional) -- do not train the model (Default: False) 
+* no_testing (bool, optional) -- do not test the model (Default: False)   
+* test_pass_fail_stat (bool, optional) --  collect statistics on the trained model when no_testing=False (Default: False)
+### &emsp; &emsp; Parameters used in python-dictionary 1   
+* model_type (str, optional if "chkpt" path in python_dictionary #0) -- name of model and dataset to load   
+* tokenizer_type (str, optional if "chkpt" path is specified in python_dictionary #0) -- name of tokenizer and dataset to load   
+* optz (see PyTorch documentation, optional if 'resume_from_checkpoint' path in python_dictionary #3) -- name of optimizer   
+* optz_params (see PyTorch documentation, optional) -- hyper-parameters of optimizer EXCLUDING "params"   
+* lr_sched (see PyTorch documentation, optional) -- hyper-parameters of lr-scheduler   
+* lr_sched_params (see PyTorch documentation, optional) -- hyper-parameters of scheduler EXCLUDING "optimizer"      
+### &emsp; &emsp; Parameters used in python-dictionary 2   
+* default_format_path (str) -- path to training dataset  
+* batch_size (int, optional) -- batch size (Default: 2)  
+### &emsp; &emsp; Parameters used in python-dictionary 3
+See Lightning Trainer documentation for parameters that can be used in this python-dictionary. Some parameters are listed as follows:   
+* gpus (Union\[int, str, List\[int], None]) –- number of gpus to train on (int) or which GPUs to train on (list or str) applied per node   
+* auto_lr_find (bool, optional) -- automatically find the initial learning-rate (Default: False)   
+* auto_scale_batch_size (bool, optional) -- automatically find the batch-size (Default: False)   
+* resume_from_checkpoint (str, optional) -- path to checkpoint file so training can be resumed
+## Scenarios
+### &emsp; &emsp; Fine-tune a pre-trained model
+Note that model_type=distilgpt2-dstc2 means that the DistilGPT2 pretrained model will be loaded and it will be fine-tuned with the DSTC2 dataset   
+Note that tokenizer_type=gpt2-dstc2 means that the GPT2 tokenizer will be loaded and it will be fine-tuned with tokens from the DSTC2 dataset   
+{'save_top_k': 2, 'no_testing': True}   
+{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_params': {'lr': 1e-06}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 11, 'factor': 0.001}}   
+{'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train'}   
+{'gpus': 1, 'auto_scale_batch_size': True}   
+### &emsp; &emsp; Resume training a checkpoint model with the same hyper-parameters
+{'save_top_k': 3, 'test_pass_fail_stat': True}     
+{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2'}       
+{'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train'}   
+{'gpus': 1, 'resume_from_checkpoint': 'tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_17/checkpoints/last.ckpt'}   
+### &emsp; &emsp; Start training a checkpoint model with different hyper-parameters
+{'save_top_k': 4, 'no_testing': True, 'chkpt': 'tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_20/checkpoints/optz=Adam,lr=1e-06,lr_sched=ReduceLROnPlateau,mode=min,patience=11,factor=0.001,verbose=True,epoch=22-val_loss=0.15321.ckpt'}    
+{'optz': 'SGD', 'optz_params': {'lr': 0, 'momentum': 0.9, 'nesterov': True}, 'lr_sched': 'CyclicLR', 'lr_sched_params': {'base_lr': 1e-12, 'max_lr': 1e-2}}   
+{'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train', 'batch_size': 2}   
+{'gpus': 1}   
+### &emsp; &emsp; Test a pre-trained model with DSTC2 dataset
+{'no_training': True, 'test_pass_fail_stat': True}    
+{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2'}    
+{'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train', 'batch_size': 2}   
+{'gpus': 1}   
+### &emsp; &emsp; Test a checkpoint model with DSTC2 dataset
+{'no_training': True, 'chkpt': 'tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_20/checkpoints/optz=Adam,lr=1e-06,lr_sched=ReduceLROnPlateau,mode=min,patience=11,factor=0.001,verbose=True,epoch=22-val_loss=0.15321.ckpt'}   
+{}   
+{'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train', 'batch_size': 2}   
+{'gpus': 1}   
