@@ -30,9 +30,9 @@ Following is an example: optz=SGD,lr=1.67017e-05,momentum=0.9,nesterov=True,lr_s
 * no_testing (bool, optional) -- do not test the model (Default: False)   
 * test_pass_fail_stat (bool, optional) --  collect statistics on the trained model when no_testing=False (Default: False)
 ### &emsp; &emsp; Parameters used in python-dictionary 1   
-* model_type (str, optional if "chkpt" is specified in python_dictionary #0) -- name of model and dataset to load   
-* tokenizer_type (str, optional if "chkpt" is specified in python_dictionary #0) -- name of tokenizer and dataset to load   
-* optz (see PyTorch documentation, optional if training is resumed) -- name of optimizer   
+* model_type (str, optional if "chkpt" path in python_dictionary #0) -- name of model and dataset to load   
+* tokenizer_type (str, optional if "chkpt" path is specified in python_dictionary #0) -- name of tokenizer and dataset to load   
+* optz (see PyTorch documentation, optional if 'resume_from_checkpoint' path in python_dictionary #3) -- name of optimizer   
 * optz_params (see PyTorch documentation, optional) -- hyper-parameters of optimizer EXCLUDING "params"   
 * lr_sched (see PyTorch documentation, optional) -- hyper-parameters of lr-scheduler   
 * lr_sched_params (see PyTorch documentation, optional) -- hyper-parameters of scheduler EXCLUDING "optimizer"      
@@ -44,6 +44,7 @@ See Lightning Trainer documentation for parameters that can be used in this pyth
 * gpus (Union\[int, str, List\[int], None]) –- number of gpus to train on (int) or which GPUs to train on (list or str) applied per node   
 * auto_lr_find (bool, optional) -- automatically find the initial learning-rate (Default: False)   
 * auto_scale_batch_size (bool, optional) -- automatically find the batch-size (Default: False)   
+* resume_from_checkpoint (str, optional) -- path to checkpoint file so training can be resumed
 ## Scenarios:
 ### &emsp; &emsp; Fine-tune a pre-trained model
 Note that model_type=distilgpt2-dstc2 means that the DistilGPT2 pretrained model will be loaded and it will be fine-tuned with the DSTC2 dataset   
@@ -52,12 +53,12 @@ Note that tokenizer_type=gpt2-dstc2 means that the GPT2 tokenizer will be loaded
 {'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_params': {'lr': 1e-06}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 11, 'factor': 0.001}}   
 {'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train'}   
 {'gpus': 1, 'auto_scale_batch_size': True}   
-### &emsp; &emsp; Resume training the model from where it was stopped
+### &emsp; &emsp; Resume training a checkpoint model with the same hyper-parameters
 {'save_top_k': 3, 'test_pass_fail_stat': True}     
 {'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2'}       
 {'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train'}   
 {'gpus': 1, 'resume_from_checkpoint': 'tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_17/checkpoints/last.ckpt'}   
-### &emsp; &emsp; Continue training with different hyper-parameters the checkpoint model that has the lowest validation loss
+### &emsp; &emsp; Start training a checkpoint model with different hyper-parameters
 {'save_top_k': 4, 'no_testing': True, 'chkpt': 'tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_20/checkpoints/optz=Adam,lr=1e-06,lr_sched=ReduceLROnPlateau,mode=min,patience=11,factor=0.001,verbose=True,epoch=22-val_loss=0.15321.ckpt'}    
 {'optz': 'SGD', 'optz_params': {'lr': 0, 'momentum': 0.9, 'nesterov': True}, 'lr_sched': 'CyclicLR', 'lr_sched_params': {'base_lr': 1e-12, 'max_lr': 1e-2}}   
 {'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train', 'batch_size': 2}   
