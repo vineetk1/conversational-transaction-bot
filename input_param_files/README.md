@@ -33,7 +33,7 @@ Following is an example: optz=SGD,lr=1.67017e-05,momentum=0.9,nesterov=True,lr_s
 * model_type (str, optional if "chkpt" is specified in python_dictionary #0) -- name of model and dataset to load   
 * tokenizer_type (str, optional if "chkpt" is specified in python_dictionary #0) -- name of tokenizer and dataset to load   
 * optz (see PyTorch documentation, optional if training is resumed) -- name of optimizer   
-* optz_params (see PyTorch documentation, optional if training is resumed) -- hyper-parameters of optimizer EXCLUDING "params"   
+* optz_params (see PyTorch documentation, optional) -- hyper-parameters of optimizer EXCLUDING "params"   
 * lr_sched (see PyTorch documentation, optional) -- hyper-parameters of lr-scheduler   
 * lr_sched_params (see PyTorch documentation, optional) -- hyper-parameters of scheduler EXCLUDING "optimizer"      
 ### &emsp; &emsp; Parameters used in python-dictionary 2   
