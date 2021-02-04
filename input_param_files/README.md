@@ -3,7 +3,7 @@
 "ctb_logs" file is in the the default (i.e.  conversational-transaction-bot) directory.
 ## Path to TensorBoard logs files:
 It includes the following directories:
-1. tensorboard_logs directory in the the default (i.e.  conversational-transaction-bot) directory.
+1. tensorboard_logs directory in the default (i.e.  conversational-transaction-bot) directory.
 1. Model-type and tokenizer-type.
 1. A unique version number that increases every time training is done.   
 
