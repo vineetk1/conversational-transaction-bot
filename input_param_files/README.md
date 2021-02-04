@@ -45,7 +45,7 @@ See Lightning Trainer documentation for parameters that can be used in this pyth
 * auto_lr_find (bool, optional) -- automatically find the initial learning-rate (Default: False)   
 * auto_scale_batch_size (bool, optional) -- automatically find the batch-size (Default: False)   
 * resume_from_checkpoint (str, optional) -- path to checkpoint file so training can be resumed
-## Scenarios:
+## Scenarios
 ### &emsp; &emsp; Fine-tune a pre-trained model
 Note that model_type=distilgpt2-dstc2 means that the DistilGPT2 pretrained model will be loaded and it will be fine-tuned with the DSTC2 dataset   
 Note that tokenizer_type=gpt2-dstc2 means that the GPT2 tokenizer will be loaded and it will be fine-tuned with tokens from the DSTC2 dataset   
