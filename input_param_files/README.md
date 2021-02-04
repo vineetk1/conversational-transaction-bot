@@ -12,7 +12,7 @@ Following is an example: tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_
 ### &emsp; &emsp; Path to Checkpoint files
 It includes the following directories:
 1. Path of TensorBoard logs files.
-1. Checkpoints.   
+1. checkpoints.   
 
 Following is an example: tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_0/checkpoints   
 ### &emsp; &emsp; Name of Checkpoint files
