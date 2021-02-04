@@ -49,7 +49,7 @@ python3 ctbMain.py input_param_files/distilgpt2_dstc2-resume_training
 ```
 The user-settable hyper-parameters are in the file *input_param_files/distilgpt2_params-resume_training*.  An explanation on the contents of this file is at *input_param_files/README.md*.
 ## Continue training, validation, and testing a model with different hyper-parameters
-Start re-training, from where it was previously stopped, with the same model-state but different hyperparameters for the training-state by using the following command:
+Continue training, from where it was previously stopped, with the same model-state but different hyperparameters for the training-state by using the following command:
 ```
 python3 ctbMain.py input_param_files/distilgpt2_dstc2-load_change_params
 ```
