@@ -1,20 +1,21 @@
 # Parameters to train, validate, and test models 
-## Path to ctb logs files:
+## Location of log and checkpoint files
+### &emsp; &emsp; Path to ctb logs files 
 *ctb_logs* file is in the the default (i.e.  conversational-transaction-bot) directory.
-## Path to TensorBoard logs files:
+### &emsp; &emsp; Path to TensorBoard logs files
 It includes the following directories:
 1. tensorboard_logs directory in the default (i.e.  conversational-transaction-bot) directory.
 1. Model-type and tokenizer-type.
 1. A unique version number that increases every time training is done.   
 
 Following is an example: tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_0
-## Path to Checkpointed files:
+### &emsp; &emsp; Path to Checkpoint files
 It includes the following directories:
 1. Path of TensorBoard logs files.
 1. Checkpoints.   
 
 Following is an example: tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_0/checkpoints   
-## Name of Checkpointed files:
+### &emsp; &emsp; Name of Checkpoint files
 When training stops, the state of the model is checkpointed in the file *last.ckpt*. Additionally, epochs with the lowest validation loss are also checkpointed. The names of files with lowest validation loss includes the following:
 1. Optimizer and its parameters.
 1. LR-scheduler and its parameters.
