@@ -27,7 +27,7 @@ Following is an example: optz=SGD,lr=1.67017e-05,momentum=0.9,nesterov=True,lr_s
 * chkpt (str, optional) -- path to checkpoint file that will be loaded   
 * no_training (bool, optional) -- do not train the model (Default: False) 
 * no_testing (bool, optional) -- do not test the model (Default: False)   
-* test_pass_fail_stat (bool, optional) --  collect statistics on the trained model \[no_testing=False] (Default: False)
+* test_pass_fail_stat (bool, optional) --  collect statistics on the trained model when no_testing=False (Default: False)
 ### &emsp; &emsp; Parameters used in python-dictionary 1   
 * model_type (str, optional if "chkpt" is specified in python_dictionary #0) -- name of model and dataset to load   
 * tokenizer_type (str, optional if "chkpt" is specified in python_dictionary #0) -- name of tokenizer and dataset to load   
