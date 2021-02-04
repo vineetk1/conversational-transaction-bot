@@ -3,7 +3,8 @@ Vineet Kumar, sioom.ai
 This input file has user-settable hyper-parameters to resume training of
    a checkpointed model. 
 Use Case: A user stops training for any reason and then later resumes it. Training
-   can be stopped through the keystroke ctrl-c or using certain hyperparameters.
+   can be stopped through the keystroke ctrl-c or by using appropriate
+   hyperparameters.
 
 Note the following:
 	(1) This file name should be last in the command-line.
@@ -12,38 +13,26 @@ Note the following:
  
 Command-line:
 -------------
-python3 ctbMain.py input_param_files/distilgpt2_params-resume_training 
+python3 ctbMain.py input_param_files/distilgpt2_dstc2-resume_training 
 
 
-parameters for file "ctbMain.py"
-- 'save_top_k':    number of checkpointed files to save		Default: 1
-- 'no_testing':    whether to not-test a trained model		Default: False
+parameters for python-dictionary #0
 - 
 {'save_top_k': 2, 'no_testing': True}
 
 
-parameters for file "ctbModel.py"
-- These parameters are loaded from checkpoint file, so this Dictionary can be empty.
-- If python-directory is empty, then following is the path of a checkpoint file:
-     tensorboard_logs/version_X/checkpoints/epoch=Y-val_loss=Z.ckpt
-     where X is a unique number, Y is an epoch number, Z is a loss number
-- The resumed chekpoint file will have a similar name and directory-path as that 
-     of loaded checkpoint file if the parameters in the two python-directories
-     is the same 
+parameters for python-dictionary #1
 -
-{}
+{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_params': {'lr': 6.14421e-6}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 2, 'factor': 0.01, 'verbose': True}} 
+#version 22 {'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_params': {'lr': 6.14421e-6}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 2, 'factor': 0.001, 'verbose': True}} 
 
-parameters for file "ctbData.py"
-- 'default_format_path': 'path to training dataset'
+
+parameters for python-dictionary #2
 - 
 {'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train', 'batch_size': 2} 
 
 
-parameters for Lightning Trainer
-- For a list of parameters, see Trainer.__init__(...) in PyTorch Lightning documentation
-- The Model and Training state is restored during "trainer.fit()", therefore
-     "trainer.tune()" is useless. This means, do not use 'auto_lr_find' and 
-     'auto_scale_batch_size'
+parameters for python-dictionary #3
 - 
-{'gpus': 1, 'resume_from_checkpoint': 'tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_19/checkpoints/last.ckpt'}
+{'gpus': 1, 'resume_from_checkpoint': 'tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_17/checkpoints/last.ckpt'}
 
