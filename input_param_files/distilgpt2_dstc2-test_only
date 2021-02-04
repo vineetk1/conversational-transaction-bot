@@ -10,7 +10,7 @@ Note the following:
  
 Command-line:
 -------------
-python3 ctbLoadTest.py input_param_files/distilgpt2_params-test_only 
+python3 ctbLoadTest.py input_param_files/distilgpt2_dstc2-test_only 
 
 
 
@@ -19,8 +19,8 @@ parameters for file "ctbMain.py"
 	       Path is not provided if a pre-trained model is loaded 
 - 'pass_fail_stat': whether to gather statistics	Default: False
 - 
-{'chkpt': 'tensorboard_logs/distilgpt2_params/version_15/checkpoints/sgd-nest,lr=6:73794699e-3,ReduceLROnPlateau,pat=11,epoch=06-val_loss=0.17058.ckpt', 'pass_fail_stat': False}
-#{'pass_fail_stat': False}
+{'chkpt': 'tensorboard_logs/distilgpt2_params/version_15/checkpoints/sgd-nest,lr=6:73794699e-3,ReduceLROnPlateau,pat=11,epoch=06-val_loss=0.17058.ckpt', 'test_pass_fail_stat': False}
+#{'test_pass_fail_stat': False}
 
 
 parameters for file "ctbModel.py"
