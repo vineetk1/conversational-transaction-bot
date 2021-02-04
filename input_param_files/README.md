@@ -7,7 +7,6 @@ Note the following:
 python3 ctbMain.py input_param_files/distilgpt2_dstc2 
 ## Path to ctb logs files:
 It is the default directory, and the name of the file is "ctb_logs".
-
 ## Path to TensorBoard logs files:
 It includes the following directories:
 1. tensorboard_logs.
@@ -15,14 +14,12 @@ It includes the following directories:
 1. A unique version number that increases every time training is done.   
 
 Following is an example: tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_0
-
 ## Path to Checkpointed files:
 It includes the following directories:
 1. Path of TensorBoard logs files.
 1. Checkpoints.   
 
 Following is an example: tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_0/checkpoints
-
 ## Name of Checkpointed files:
 During training, the last epoch is always checkpointed in the file *last.ckpt*. 
 Additionally, epochs with the lowest validation loss are also checkpointed. The
@@ -32,11 +29,6 @@ names of these files includes the following:
 1. Epoch number plus the validation loss.    
 
 Following is an example: optz=SGD,lr=1.67017e-05,momentum=0.9,nesterov=True,lr_sched=ReduceLROnPlateau,mode=min,patience=9,epoch=00-val_loss=1.15033.ckpt
-
-## Scenario:
-Stop training and resume training using same hyperparams. Stop with ctrl-c
-Stop training and load_checkpoint and change hyperparams.
-
 ## Parameters
 ### &emsp; &emsp; Parameters used in python-dictionary 0   
 * save_top_k (int, optional) -- number of checkpoint files to save (Default: 1)   
@@ -59,3 +51,6 @@ See Lightning Trainer documentation for parameters that can be used in this pyth
 * gpus (Union\[int, str, List\[int], None]) –- number of gpus to train on (int) or which GPUs to train on (list or str) applied per node   
 * auto_lr_find (bool, optional) -- automatically find the initial learning-rate (Default: False)   
 * auto_scale_batch_size (bool, optional) -- automatically find the batch-size (Default: False)   
+## Scenario:
+Stop training and resume training using same hyperparams. Stop with ctrl-c
+Stop training and load_checkpoint and change hyperparams.
