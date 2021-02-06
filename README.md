@@ -14,7 +14,7 @@ pip3 install tensorboard
 git clone https://github.com/vineetk1/conversational-transaction-bot.git
 cd conversational-transaction-bot
 ```
-Note that the default directory is *conversational-transaction-bot*. Unless otherwise stated, all commands from the command-line must be delivered from the default directory.
+Note that the default directory is *conversational-transaction-bot*. Unless otherwise stated, all commands from the Command-Line-Interface must be delivered from the default directory.
 ## Download DSTC2 dataset
 1. Go to https://fb-public.app.box.com/s/chnq60iivzv5uckpvj2n2vijlyepze6w 
 1. Download *dialog-bAbI-tasks_1_.tgz* in directory *data*  
