@@ -1,0 +1,33 @@
+Vineet Kumar, sioom.ai
+
+This input file has user-settable hyper-parameters for loading a checkpoint model
+   and testing it.
+
+Note the following:
+	(1) This file name should be last in the command-line.
+	(2) Do NOT change the order of python-dictionaries in this file.
+	(3) The default directory is "conversational-transaction-bot"
+ 
+Command-line:
+-------------
+python3 ctbMain.py input_param_files/distilgpt2_dstc2-test_only 
+
+
+parameters for python-dictionary #0
+-
+{'no_training': True, 'test_pass_fail_stat': True, 'chkpt': 'tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_22/checkpoints/last.ckpt'}
+
+
+parameters for python-dictionary #1
+- 
+{}
+
+parameters for python-dictionary #2
+- 
+{'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train', 'batch_size': 2} 
+
+
+parameters for python-dictionary #3
+- 
+{'gpus': 1}
+
