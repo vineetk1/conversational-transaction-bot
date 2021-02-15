@@ -23,8 +23,7 @@ parameters for python-dictionary #0
 
 parameters for python-dictionary #1
 -
-{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_params': {'lr': 6.14421e-6}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 2, 'factor': 0.01, 'verbose': True}} 
-#version 22 {'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_params': {'lr': 6.14421e-6}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 2, 'factor': 0.001, 'verbose': True}} 
+{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2'} 
 
 
 parameters for python-dictionary #2
