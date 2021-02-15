@@ -14,7 +14,7 @@ pip3 install tensorboard
 git clone https://github.com/vineetk1/conversational-transaction-bot.git
 cd conversational-transaction-bot
 ```
-Note that the default directory is *conversational-transaction-bot*. Unless otherwise stated, all commands from the command-line must be delivered from the default directory.
+Note that the default directory is *conversational-transaction-bot*. Unless otherwise stated, all commands from the Command-Line-Interface must be delivered from the default directory.
 ## Download DSTC2 dataset
 1. Go to https://fb-public.app.box.com/s/chnq60iivzv5uckpvj2n2vijlyepze6w 
 1. Download *dialog-bAbI-tasks_1_.tgz* in directory *data*  
@@ -40,7 +40,7 @@ python3 ctbMain.py input_param_files/distilgpt2_dstc2
 ```
 The user-settable hyper-parameters are in the file *input_param_files/distilgpt2_dstc2*. An explanation on the contents of this file is at *input_param_files/README.md*. A list of all the hyper-parameters is in the <a href="https://www.pytorchlightning.ai" target="_blank">PyTorch-Lightning documentation</a>, and any hyper-parameter can be used.    
 To assist in Training, the two parameters *auto_lr_find* and *auto_scale_batch_size* in the file *input_param_files/distilgpt2_dstc2* enable the software to automatically find an initial Learning-Rate and a Batch-Size respectively.    
-As training progresses, graphs of *"training-loss vs. epoch #"*, *"validation-loss vs. epoch #"*, and "learning-rate vs. batch #" are plotted in real-time on TensorBoard. Training is stopped by typing, at the commandline, the keystroke ctrl-c. The current training information is checkpointed, and training stops. Training can be resumed, at some future time, from the checkpointed file.   
+As training progresses, graphs of *"training-loss vs. epoch #"*, *"validation-loss vs. epoch #"*, and "learning-rate vs. batch #" are plotted in real-time on TensorBoard. Training is stopped by typing, at the Command-Line-Interface, the keystroke ctrl-c. The current training information is checkpointed, and training stops. Training can be resumed, at some future time, from the checkpointed file.   
 Testing calculates the Perplexity of the model from the test dataset. A detailed statistics on the model is generated in the files *failed_dialogs_stat.txt* and *passed_dialogs_stat.txt*. The *failed_dialogs_stat.txt* file has information about the dialogs that failed, and *passed_dialogs_stat.txt* has information about the dialogs that passed.
 ## Resume training, validation, and testing a model with same hyper-parameters
 Resume training a checkpoint model with the same model- and training-states by using the following command:
