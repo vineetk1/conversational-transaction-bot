@@ -11,6 +11,7 @@ from importlib import import_module
 from pathlib import Path
 import copy
 import pickle
+from utils.dialogs_info_out import DialogsInfoOut
 
 logg = getLogger(__name__)
 
@@ -202,25 +203,12 @@ class ctbModel(LightningModule):
         self.temp_file = stat_dir.joinpath('temp.txt')
         self.temp_file.touch()
         #self.temp_file.write_text('')   # empty the file
-        self.dlgs_pass_noTrunc_file = stat_dir.joinpath('dlgs_pass_noTrunc.txt')
-        self.dlgs_pass_noTrunc_file.touch()
-        self.dlgs_pass_noTrunc_file.write_text('')   # empty the file
-        self.dlgs_fail_noTrunc_file = stat_dir.joinpath('dlgs_fail_noTrunc.txt')
-        self.dlgs_fail_noTrunc_file.touch()
-        self.dlgs_fail_noTrunc_file.write_text('')   # empty the file
-        self.dlgs_pass_trunc_file = stat_dir.joinpath('dlgs_pass_trunc.txt')
-        self.dlgs_pass_trunc_file.touch()
-        self.dlgs_pass_trunc_file.write_text('')   # empty the file
-        self.dlgs_fail_trunc_file = stat_dir.joinpath('dlgs_fail_trunc.txt')
-        self.dlgs_fail_trunc_file.touch()
-        self.dlgs_fail_trunc_file.write_text('')   # empty the file
-        self.dlgs_stat_file = stat_dir.joinpath('dlgs_stat.txt')
-        self.dlgs_stat_file.touch()
-        self.dlgs_stat_file.write_text('')   # empty the file
         self.dlgs_idxs_file = stat_dir.joinpath('dlgs_idxs.test')
         if not self.dlgs_idxs_file.exists():
-            logg.critical(f'Following file does not exist: {self.dlgs_idxs_file}')
+            logg.critical(
+                f'Following file does not exist: {self.dlgs_idxs_file}')
             exit()
+        self.dlg_info_out = DialogsInfoOut()
 
     def pass_fail_stat_step(self, batch: Dict[str, torch.Tensor]):
         self.pass_fail_stat_end()
@@ -300,9 +288,55 @@ class ctbModel(LightningModule):
                 file.write(strng)
 
     def pass_fail_stat_end(self):
-        with self.dlgs_idxs_file.open('rb') as bfile:
-            dlgs_idxs = pickle.load(bfile)
-        #dlgs_turns = self.temp_file.read_text()
-        with self.temp_file.open('r') as dlgs_turns:
-            for dlg_turn in dlgs_turns:
-                pass
+        with self.dlgs_idxs_file.open('rb') as dlgs_idxs_file:
+            # entries are indexes of start of dialogs except last entry which
+            # is index of last turn minus 1
+            dlgs_idxs = pickle.load(dlgs_idxs_file)
+        turns = [[] for _ in range(dlgs_idxs[-1])]
+        with self.temp_file.open('r') as turns_file:
+            # sort in asending order of turns' indexes
+            for turn_str in turns_file:
+                turn_lst = turn_str.rstrip('\n').split('\t')
+                turns[int(turn_lst[0])].append(turn_lst)
+                # turns[3] => an example of a dialog turn at index 3
+                # turns[3][0] => a string with content of the turn
+                # turns[3][0][0] => index of turn
+                # turns[3][0][1] => True if exact-match between actual and
+                #                      predicted output; otherwise False
+                # turns[3][0][2] => input
+                # turns[3][0][3] => actual output
+                # turns[3][0][4] => predicted output
+        dlg_idx_start = dlgs_idxs[0]
+        for dlg_idx_end_plus1 in dlgs_idxs[1:]:  # next dialog
+            dlg_passed = all([
+                turn[0][1] == 'True'
+                for turn in turns[dlg_idx_start:dlg_idx_end_plus1]
+            ])
+            # find # of consecutive turns, counting from beginning, that passed
+            for num_consec_turns_passed, turn in enumerate(
+                    turns[dlg_idx_start:dlg_idx_end_plus1]):
+                if turn[0][1] == 'False':
+                    break
+            # find # of turns in dialog whose inputs were not truncated
+            turn_untrunc_idx = 0
+            turn_prev = turns[dlg_idx_start]
+            for turn_nxt in turns[dlg_idx_start + 1:dlg_idx_end_plus1]:
+                if turn_prev[0][2] != turn_nxt[0][2][:len(turn_prev[0][2])]:
+                    break
+                turn_untrunc_idx += 1
+                turn_prev = turn_nxt
+
+            self.dlg_info_out.dlg_info(dlg_passed,
+                                       num_consec_turns_passed,
+                                       num_turns_in_dlg=dlg_idx_end_plus1 -
+                                       dlg_idx_start)
+            for i, turn in enumerate(turns[dlg_idx_start:dlg_idx_end_plus1]):
+                self.dlg_info_out.turn_info(turn_num_in_dlgs=i + 1,
+                                            passed=turn[0][1],
+                                            untrunc=(i <= turn_untrunc_idx),
+                                            input=turn[0][2],
+                                            actual_output=turn[0][3],
+                                            predicted_output=turn[0][4])
+            dlg_idx_start = dlg_idx_end_plus1
+        self.dlg_info_out.print_statistics()
+        pass
