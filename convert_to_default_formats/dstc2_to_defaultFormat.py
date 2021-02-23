@@ -47,6 +47,7 @@ def dstc2_to_defaultFormat() -> None:
             user, bot, bot_idx, api_call_result = [], [], [], []
             start_of_file = True
             prev_line_apiCall = False
+            dlg_lineno = 0
             for lineno, line in enumerate(fromF):  # new line
                 if line == '\n':
                     continue
@@ -58,8 +59,9 @@ def dstc2_to_defaultFormat() -> None:
                     sys.exit()
                 if num == '1':  # new dialog
                     if not start_of_file:
-                        save_previous_dialog(dialogs_list, user, bot, bot_idx,
-                                             api_call_result)
+                        save_previous_dialog(dialogs_list, dlg_lineno, user,
+                                             bot, bot_idx, api_call_result)
+                    dlg_lineno = lineno
                     user.clear(), bot.clear(), bot_idx.clear()
                     api_call_result.clear()
                     start_of_file = False
@@ -72,19 +74,20 @@ def dstc2_to_defaultFormat() -> None:
                 # save line info
                 if user_utt is not None:
                     assert (bot_utt is not None)
-                    user.append(user_utt)
-                    bot.append(bot_utt)
+                    user.append(copy.deepcopy(user_utt))
+                    bot.append(copy.deepcopy(bot_utt))
                 if api_out is not None:
                     assert (user_utt is None and bot_utt is None)
                     if prev_line_apiCall is False:
                         bot_idx.append(len(bot) - 1)
-                        api_call_result.append([api_out])
+                        api_call_result.append(copy.deepcopy([api_out]))
                         prev_line_apiCall = True
                     else:
-                        api_call_result[len(bot_idx) - 1].append(api_out)
+                        api_call_result[len(bot_idx) - 1].append(
+                            copy.deepcopy(api_out))
             else:  # for-else; EOF
-                save_previous_dialog(dialogs_list, user, bot, bot_idx,
-                                     api_call_result)
+                save_previous_dialog(dialogs_list, dlg_lineno, user, bot,
+                                     bot_idx, api_call_result)
                 with toFile.open('wb') as toF:
                     logger.info(f'Done writing to file {toFile}')
                     pickle.dump(dialogs_list,
@@ -93,10 +96,11 @@ def dstc2_to_defaultFormat() -> None:
                 del dialogs_list
 
 
-def save_previous_dialog(dialogs_list: List[Dict], user: List[str],
-                         bot: List[str], bot_idx: List[int],
+def save_previous_dialog(dialogs_list: List[Dict], dlg_lineno: int,
+                         user: List[str], bot: List[str], bot_idx: List[int],
                          api_call_result: List[List[str]]) -> None:
     dialog = {
+        'dlg_start_lineno': dlg_lineno,
         'persona': [],
         'user': user,
         'bot': bot,
