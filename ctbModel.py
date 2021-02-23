@@ -300,14 +300,15 @@ class ctbModel(LightningModule):
                 turns[int(turn_lst[0])].append(turn_lst)
                 # turns[3] => an example of a dialog turn at index 3
                 # turns[3][0] => a string with content of the turn
-                # turns[3][0][0] => index of turn
+                # turns[3][0][0] => index of turn (str)
                 # turns[3][0][1] => True if exact-match between actual and
-                #                      predicted output; otherwise False
-                # turns[3][0][2] => input
-                # turns[3][0][3] => actual output
-                # turns[3][0][4] => predicted output
+                #                      predicted output; otherwise False (str)
+                # turns[3][0][2] => input (str)
+                # turns[3][0][3] => actual output (str)
+                # turns[3][0][4] => predicted output (str)
         dlg_idx_start = dlgs_idxs[0]
         for dlg_idx_end_plus1 in dlgs_idxs[1:]:  # next dialog
+            # find if dialog passed
             dlg_passed = all([
                 turn[0][1] == 'True'
                 for turn in turns[dlg_idx_start:dlg_idx_end_plus1]
@@ -322,6 +323,10 @@ class ctbModel(LightningModule):
             turn_prev = turns[dlg_idx_start]
             for turn_nxt in turns[dlg_idx_start + 1:dlg_idx_end_plus1]:
                 if turn_prev[0][2] != turn_nxt[0][2][:len(turn_prev[0][2])]:
+                    # turn_nxt = turn_prev + user_string; If user_string is
+                    # greater than max allowed input length then user_string
+                    # would have been truncated but this case will not be
+                    # detedted here
                     break
                 turn_untrunc_idx += 1
                 turn_prev = turn_nxt
@@ -331,8 +336,9 @@ class ctbModel(LightningModule):
                                        num_turns_in_dlg=dlg_idx_end_plus1 -
                                        dlg_idx_start)
             for i, turn in enumerate(turns[dlg_idx_start:dlg_idx_end_plus1]):
-                self.dlg_info_out.turn_info(turn_num_in_dlgs=i + 1,
-                                            passed=turn[0][1],
+                self.dlg_info_out.turn_info(dlg_passed=dlg_passed,
+                                            turn_num_in_dlgs=i + 1,
+                                            passed=turn[0][1] == 'True',
                                             untrunc=(i <= turn_untrunc_idx),
                                             input=turn[0][2],
                                             actual_output=turn[0][3],
