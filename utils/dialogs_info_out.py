@@ -18,57 +18,48 @@ class DialogsInfoOut(object):
             pass
         with open('passed_dialogs_info.txt', 'w'):
             pass
-        self.write_out('Abbrevations\n------------',
+        self.write_out(strng='Abbrevations\n------------',
                        write_to=["passF", "failF"])
-        strng = ('Line # (L) of the line in hmn and bot test files;'
-                 'Pass (P); Fail (F); Turn (Tr); Source Sequence (S);'
-                 ' Target Sequence (T); Hypothesis Sequence: (H0) has '
-                 'highest probability, (H1) has next hightest '
-                 'probability, etc.')
-        self.write_out(strng,
+        strng = ('Turn (Tu); Truncated Input (TI) or Untruncated Input (UI); '
+                 'Actual Output (AO); Predicted Output (PO); '
+                 'Turn Passed (P); Turn Failed (F);')
+        self.write_out(strng=strng,
                        write_to=["passF", "failF"],
-                       next_lines_manual_indent=False)
+                       next_lines_indent=1)
 
     def dlg_info(self, passed: bool, num_consec_turns_passed: int,
                  num_turns_in_dlg: int):
-        self.dlg_passed = passed
         self.max_num_turns_in_dlg = max(num_turns_in_dlg,
                                         self.max_num_turns_in_dlg)
         self.count[f'num_dlgs {passed}'] += 1
         self.count[f'num_turns_in_dlg {passed} {num_turns_in_dlg}'] += 1
         self.count[f'num_consec_turns_passed {num_consec_turns_passed}'] += 1
 
-    def turn_info(self, turn_num_in_dlgs: int, passed: bool, untrunc: bool,
-                  input: str, actual_output: str, predicted_output: str):
+    def turn_info(self, dlg_passed: bool, turn_num_in_dlgs: int, passed: bool,
+                  untrunc: bool, input: str, actual_output: str,
+                  predicted_output: str):
         self.count[f'num_turns {passed} {untrunc}'] += 1
         self.count[f'turn_num_in_dlgs {passed} {turn_num_in_dlgs}'] += 1
+
+        if turn_num_in_dlgs == 1:
+            self.write_out(
+                strng='',  # newline
+                write_to=["passF" if dlg_passed else "failF"])
+        self.write_out(strng=(f"Tu{turn_num_in_dlgs}-"
+                              f"{'UI' if untrunc else 'TI'}:"),
+                       strng1=f"{input}",
+                       write_to=['passF' if dlg_passed else 'failF'])
+        self.write_out(strng=f"Tu{turn_num_in_dlgs}-AO:",
+                       strng1=f"{actual_output}",
+                       write_to=['passF' if dlg_passed else 'failF'])
         self.write_out(
-            f"Tu{turn_num_in_dlgs}-Tc{'(F)' if untrunc else '(T)'}-I:    {input}",
-            write_to=['passF' if self.dlg_passed else 'failF'],
-            first_line_indent_lev=0,
-            next_lines_manual_indent=True,
-            next_lines_indent=16)
-        self.write_out(
-            f"Tu{turn_num_in_dlgs}-Tc{'(F)' if untrunc else '(T)'}-O:    {actual_output}",
-            write_to=['passF' if self.dlg_passed else 'failF'],
-            first_line_indent_lev=0,
-            next_lines_manual_indent=True,
-            next_lines_indent=16)
-        self.write_out(
-            f"Tu{turn_num_in_dlgs}-Tc{'(F)' if untrunc else '(T)'}-PO-{'P' if passed else 'F'}:    {predicted_output}",
-            write_to=['passF' if self.dlg_passed else 'failF'],
-            first_line_indent_lev=0,
-            next_lines_manual_indent=True,
-            next_lines_indent=16)
+            strng=f"Tu{turn_num_in_dlgs}-PO-{'P' if passed else 'F'}:",
+            strng1=f"{predicted_output}",
+            write_to=['passF' if dlg_passed else 'failF'])
 
     def print_statistics(self):
-        self.write_out('Abbrevations\n------------',
-                       write_to=["passF", "failF"])
-        strng = '\nStatistics on the test\n----------------------\n'
-        self.write_out(strng=strng,
-                       write_to=['passF', 'failF', 'stdout'],
-                       bullet=False,
-                       next_lines_manual_indent=False)
+        strng = '\nStatistics on the test set\n--------------------------'
+        self.write_out(strng=strng, write_to=['passF', 'failF', 'stdout'])
 
         # Number of turns
         num_turns = (self.count['num_turns False False']
@@ -82,7 +73,7 @@ class DialogsInfoOut(object):
         self.write_out(strng=f'Number of turns = {num_turns}',
                        write_to=['passF', 'failF', 'stdout'],
                        bullet=True,
-                       next_lines_manual_indent=False)
+                       next_lines_indent=1)
 
         # Percent of turns with truncated inputs
         num_turns_trunc = (self.count['num_turns False False']
@@ -96,7 +87,7 @@ class DialogsInfoOut(object):
                        write_to=['passF', 'failF', 'stdout'],
                        bullet=True,
                        first_line_indent_lev=1,
-                       next_lines_manual_indent=False)
+                       next_lines_indent=1)
 
         # Percent of turns that passed
         num_turns_pass = (self.count['num_turns True True']
@@ -110,7 +101,7 @@ class DialogsInfoOut(object):
                        write_to=['passF', 'failF', 'stdout'],
                        bullet=True,
                        first_line_indent_lev=1,
-                       next_lines_manual_indent=False)
+                       next_lines_indent=1)
 
         # Percent of truncated turns that passed
         if num_turns_trunc:
@@ -123,7 +114,7 @@ class DialogsInfoOut(object):
                            write_to=['passF', 'failF', 'stdout'],
                            bullet=True,
                            first_line_indent_lev=2,
-                           next_lines_manual_indent=False)
+                           next_lines_indent=1)
 
         # Percent of untruncated turns that passed
         num_turns_untrunc = (self.count['num_turns False True']
@@ -141,7 +132,17 @@ class DialogsInfoOut(object):
                            write_to=['passF', 'failF', 'stdout'],
                            bullet=True,
                            first_line_indent_lev=2,
-                           next_lines_manual_indent=False)
+                           next_lines_indent=1)
+
+        # Just checking if the numbers add up
+        assert (num_turns == num_turns_untrunc + num_turns_trunc)
+        assert (num_turns_pass == num_turns_pass_untrunc +
+                num_turns_pass_trunc)
+        num_turns_fail = (self.count['num_turns False True']
+                          if 'num_turns False True' in self.count else
+                          0) + (self.count['num_turns False False'] if
+                                'num_turns False False' in self.count else 0)
+        assert (num_turns == num_turns_pass + num_turns_fail)
 
         # Percent of turns that passed at each turn-number in dialogs
         first_time = True
@@ -174,7 +175,7 @@ class DialogsInfoOut(object):
                        write_to=['passF', 'failF', 'stdout'],
                        bullet=True,
                        first_line_indent_lev=1,
-                       next_lines_manual_indent=False)
+                       next_lines_indent=1)
 
         # Number of dialogs
         num_dlgs = (self.count['num_dlgs True'] if 'num_dlgs True' in self.
@@ -183,18 +184,18 @@ class DialogsInfoOut(object):
         self.write_out(strng=f'Number of dialogs = {num_dlgs}',
                        write_to=['passF', 'failF', 'stdout'],
                        bullet=True,
-                       next_lines_manual_indent=False)
+                       next_lines_indent=1)
 
         # Percent of dialogs that passed
         num_dlgs_passed = self.count[
             'num_dlgs True'] if 'num_dlgs True' in self.count else 0
-        strng = (f'Number of dialogs that passed= {num_dlgs_passed}/{num_dlgs}'
-                 f' x 100 = {(num_dlgs_passed/num_dlgs * 100):.2f}%')
+        strng = (f'Percent of dialogs that passed= {num_dlgs_passed}/'
+                 f'{num_dlgs} x 100 = {(num_dlgs_passed/num_dlgs * 100):.2f}%')
         self.write_out(strng=strng,
                        write_to=['passF', 'failF', 'stdout'],
                        bullet=True,
                        first_line_indent_lev=1,
-                       next_lines_manual_indent=False)
+                       next_lines_indent=1)
 
         # Percent of dialogs with specified number of turns that passed
         first_time = True
@@ -228,7 +229,7 @@ class DialogsInfoOut(object):
                        write_to=['passF', 'failF', 'stdout'],
                        bullet=True,
                        first_line_indent_lev=2,
-                       next_lines_manual_indent=False)
+                       next_lines_indent=1)
 
         # Number of consecutive turns that passed, counting from beginning of
         # dialog
@@ -250,21 +251,32 @@ class DialogsInfoOut(object):
                        write_to=['passF', 'failF', 'stdout'],
                        bullet=True,
                        first_line_indent_lev=2,
-                       next_lines_manual_indent=False)
+                       next_lines_indent=1)
 
     def write_out(self,
                   strng,
+                  strng1="",
                   write_to=["stdout"],
                   bullet=False,
                   first_line_indent_lev=0,
-                  next_lines_manual_indent=True,
                   next_lines_indent=0):
-        init_space = 3 * first_line_indent_lev * " "
-        init_space = init_space + "** " if bullet else init_space
-        if next_lines_manual_indent:
-            next_line_space = next_lines_indent * " "
+        # parameters that determine how the given string is printed: strng1,
+        #   bullet, first_line_indent_lev, next_lines_indent
+        #   (1) if default values are used, strng is printed as-is, otherwise
+        #       text_wrap(...) is used that doesn't print newlines
+        #   (2) if strng1 is used, then bullet, first_line_indent_lev,
+        #        next_lines_indent are ignored
+
+        strng_max_len_plus1 = 11
+        if strng1:
+            remaining_space = strng_max_len_plus1 - len(strng)
+            strng = strng + (remaining_space * " ") + strng1
+            init_space = ""
+            next_line_space = strng_max_len_plus1 * " "
         else:
-            next_line_space = (len(init_space) + 1) * " "
+            init_space = 3 * first_line_indent_lev * " "
+            init_space = init_space + "** " if bullet else init_space
+            next_line_space = (len(init_space) + next_lines_indent) * " "
 
         for out in write_to:
             if out == "passF":
