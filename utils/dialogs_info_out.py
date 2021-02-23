@@ -6,7 +6,8 @@ from collections import Counter
 import sys
 from contextlib import redirect_stdout
 import textwrap
-import os
+from pathlib import Path
+from typing import List
 
 
 class DialogsInfoOut(object):
@@ -14,18 +15,23 @@ class DialogsInfoOut(object):
         self.max_num_turns_in_dlg = 0
         self.count = Counter()
         # clear files if they exists; create files if not already created
-        with open('failed_dialogs_info.txt', 'w'):
-            pass
-        with open('passed_dialogs_info.txt', 'w'):
-            pass
+        stat_dir = Path.cwd().joinpath('statistics')
+        self.passF = stat_dir.joinpath('passed_dialogs_info.txt')
+        self.passF.touch()
+        self.passF.write_text('')  # empty the file
+        self.failF = stat_dir.joinpath('failed_dialogs_info.txt')
+        self.failF.touch()
+        self.failF.write_text('')  # empty the file
+        self.stdout = Path('/dev/null')
         self.write_out(strng='Abbrevations\n------------',
-                       write_to=["passF", "failF"])
+                       write_to=[self.passF, self.failF])
         strng = ('Turn (Tu); Truncated Input (TI) or Untruncated Input (UI); '
                  'Actual Output (AO); Predicted Output (PO); '
                  'Turn Passed (P); Turn Failed (F);')
         self.write_out(strng=strng,
-                       write_to=["passF", "failF"],
+                       write_to=[self.passF, self.failF],
                        next_lines_indent=1)
+        pass
 
     def dlg_info(self, passed: bool, num_consec_turns_passed: int,
                  num_turns_in_dlg: int):
@@ -44,22 +50,23 @@ class DialogsInfoOut(object):
         if turn_num_in_dlgs == 1:
             self.write_out(
                 strng='',  # newline
-                write_to=["passF" if dlg_passed else "failF"])
+                write_to=[self.passF if dlg_passed else self.failF])
         self.write_out(strng=(f"Tu{turn_num_in_dlgs}-"
                               f"{'UI' if untrunc else 'TI'}:"),
                        strng1=f"{input}",
-                       write_to=['passF' if dlg_passed else 'failF'])
+                       write_to=[self.passF if dlg_passed else self.failF])
         self.write_out(strng=f"Tu{turn_num_in_dlgs}-AO:",
                        strng1=f"{actual_output}",
-                       write_to=['passF' if dlg_passed else 'failF'])
+                       write_to=[self.passF if dlg_passed else self.failF])
         self.write_out(
             strng=f"Tu{turn_num_in_dlgs}-PO-{'P' if passed else 'F'}:",
             strng1=f"{predicted_output}",
-            write_to=['passF' if dlg_passed else 'failF'])
+            write_to=[self.passF if dlg_passed else self.failF])
 
     def print_statistics(self):
         strng = '\nStatistics on the test set\n--------------------------'
-        self.write_out(strng=strng, write_to=['passF', 'failF', 'stdout'])
+        self.write_out(strng=strng,
+                       write_to=[self.passF, self.failF, self.stdout])
 
         # Number of turns
         num_turns = (self.count['num_turns False False']
@@ -71,7 +78,7 @@ class DialogsInfoOut(object):
                              0) + (self.count['num_turns True True'] if
                                    'num_turns True True' in self.count else 0)
         self.write_out(strng=f'Number of turns = {num_turns}',
-                       write_to=['passF', 'failF', 'stdout'],
+                       write_to=[self.passF, self.failF, self.stdout],
                        bullet=True,
                        next_lines_indent=1)
 
@@ -84,7 +91,7 @@ class DialogsInfoOut(object):
             f'Percent of turns with truncated inputs = ({num_turns_trunc}/'
             f'{num_turns} x 100) = {(num_turns_trunc/num_turns * 100):.2f}%')
         self.write_out(strng=strng,
-                       write_to=['passF', 'failF', 'stdout'],
+                       write_to=[self.passF, self.failF, self.stdout],
                        bullet=True,
                        first_line_indent_lev=1,
                        next_lines_indent=1)
@@ -98,7 +105,7 @@ class DialogsInfoOut(object):
             f'Percent of turns that passed = ({num_turns_pass}/{num_turns} x '
             f'100) = {(num_turns_pass/num_turns * 100):.2f}%')
         self.write_out(strng=strng,
-                       write_to=['passF', 'failF', 'stdout'],
+                       write_to=[self.passF, self.failF, self.stdout],
                        bullet=True,
                        first_line_indent_lev=1,
                        next_lines_indent=1)
@@ -111,7 +118,7 @@ class DialogsInfoOut(object):
                      f'({num_turns_pass_trunc}/{num_turns_trunc} x 100) = '
                      f'{(num_turns_pass_trunc / num_turns_trunc * 100):.2f}%')
             self.write_out(strng=strng,
-                           write_to=['passF', 'failF', 'stdout'],
+                           write_to=[self.passF, self.failF, self.stdout],
                            bullet=True,
                            first_line_indent_lev=2,
                            next_lines_indent=1)
@@ -129,7 +136,7 @@ class DialogsInfoOut(object):
                 f'({num_turns_pass_untrunc}/{num_turns_untrunc} x 100) = '
                 f'{(num_turns_pass_untrunc / num_turns_untrunc * 100):.2f}%')
             self.write_out(strng=strng,
-                           write_to=['passF', 'failF', 'stdout'],
+                           write_to=[self.passF, self.failF, self.stdout],
                            bullet=True,
                            first_line_indent_lev=2,
                            next_lines_indent=1)
@@ -172,7 +179,7 @@ class DialogsInfoOut(object):
                         '%)')
             strng += stng
         self.write_out(strng=strng,
-                       write_to=['passF', 'failF', 'stdout'],
+                       write_to=[self.passF, self.failF, self.stdout],
                        bullet=True,
                        first_line_indent_lev=1,
                        next_lines_indent=1)
@@ -182,7 +189,7 @@ class DialogsInfoOut(object):
                     count else 0) + (self.count['num_dlgs False']
                                      if 'num_dlgs False' in self.count else 0)
         self.write_out(strng=f'Number of dialogs = {num_dlgs}',
-                       write_to=['passF', 'failF', 'stdout'],
+                       write_to=[self.passF, self.failF, self.stdout],
                        bullet=True,
                        next_lines_indent=1)
 
@@ -192,7 +199,7 @@ class DialogsInfoOut(object):
         strng = (f'Percent of dialogs that passed= {num_dlgs_passed}/'
                  f'{num_dlgs} x 100 = {(num_dlgs_passed/num_dlgs * 100):.2f}%')
         self.write_out(strng=strng,
-                       write_to=['passF', 'failF', 'stdout'],
+                       write_to=[self.passF, self.failF, self.stdout],
                        bullet=True,
                        first_line_indent_lev=1,
                        next_lines_indent=1)
@@ -226,7 +233,7 @@ class DialogsInfoOut(object):
                         '%)')
             strng += stng
         self.write_out(strng=strng,
-                       write_to=['passF', 'failF', 'stdout'],
+                       write_to=[self.passF, self.failF, self.stdout],
                        bullet=True,
                        first_line_indent_lev=2,
                        next_lines_indent=1)
@@ -248,18 +255,18 @@ class DialogsInfoOut(object):
                     stng = (f', ({num_consec_turns_passed}: {count})')
                 strng += stng
         self.write_out(strng=strng,
-                       write_to=['passF', 'failF', 'stdout'],
+                       write_to=[self.passF, self.failF, self.stdout],
                        bullet=True,
                        first_line_indent_lev=2,
                        next_lines_indent=1)
 
     def write_out(self,
-                  strng,
-                  strng1="",
-                  write_to=["stdout"],
-                  bullet=False,
-                  first_line_indent_lev=0,
-                  next_lines_indent=0):
+                  strng: str,
+                  strng1: str = "",
+                  write_to: List = [sys.stdout],
+                  bullet: bool = False,
+                  first_line_indent_lev: int = 0,
+                  next_lines_indent: int = 0):
         # parameters that determine how the given string is printed: strng1,
         #   bullet, first_line_indent_lev, next_lines_indent
         #   (1) if default values are used, strng is printed as-is, otherwise
@@ -279,18 +286,9 @@ class DialogsInfoOut(object):
             next_line_space = (len(init_space) + next_lines_indent) * " "
 
         for out in write_to:
-            if out == "passF":
-                out = 'passed_dialogs_info.txt'
-            elif out == "failF":
-                out = 'failed_dialogs_info.txt'
-            elif out == "stdout":
-                pass
-            else:
-                assert False, f'Illegal argument \'{out}\' in method write_out'
-            with open(os.devnull if out == 'stdout' else out, 'a') \
-                    as dialogs_stat_file:
+            with out.open('a') as dialogs_stat_file:
                 with redirect_stdout(sys.stdout if out ==
-                                     'stdout' else dialogs_stat_file):
+                                     self.stdout else dialogs_stat_file):
                     if init_space or next_line_space:
                         print(
                             textwrap.fill(strng,
