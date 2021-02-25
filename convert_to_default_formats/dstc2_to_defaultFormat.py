@@ -61,7 +61,7 @@ def dstc2_to_defaultFormat() -> None:
                     if not start_of_file:
                         save_previous_dialog(dialogs_list, dlg_lineno, user,
                                              bot, bot_idx, api_call_result)
-                    dlg_lineno = lineno
+                    dlg_lineno = lineno + 1
                     user.clear(), bot.clear(), bot_idx.clear()
                     api_call_result.clear()
                     start_of_file = False
