@@ -47,10 +47,10 @@ def defaultFormat_to_gpt2Format(tokenizer, tokenizer_type,
 
     statistics_dir = pathlib.Path.cwd().joinpath('statistics')
     statistics_dir.mkdir(exist_ok=True)
-    dlgs_info_test_file = statistics_dir.joinpath('dlgs_info.test')
-    dlgs_info_test_file.touch()
-    turns_info_test_file = statistics_dir.joinpath('turns_info.test')
-    turns_info_test_file.touch()
+    dlgs_meta_file_test = statistics_dir.joinpath('dlgs_metadata.test')
+    dlgs_meta_file_test.touch()
+    turns_meta_file_test = statistics_dir.joinpath('turns_metadata.test')
+    turns_meta_file_test.touch()
 
     # find max length of labels in train/val/test files
     labels_max_len = 0
@@ -67,7 +67,7 @@ def defaultFormat_to_gpt2Format(tokenizer, tokenizer_type,
 
     for fromFile, toFile in zip(fromFiles, toFiles):
         default_to_gpt2_format(tokenizer, fromFile, toFile, labels_max_len,
-                               turns_info_test_file, dlgs_info_test_file)
+                               turns_meta_file_test, dlgs_meta_file_test)
     return {
         "f_paths": {
             "train": toTrainF,
@@ -79,26 +79,29 @@ def defaultFormat_to_gpt2Format(tokenizer, tokenizer_type,
 
 def default_to_gpt2_format(tokenizer, fromFile: pathlib.PosixPath,
                            toFile: pathlib.PosixPath, labels_max_len: int,
-                           turns_info_test_file: pathlib.PosixPath,
-                           dlgs_info_test_file: pathlib.PosixPath) -> None:
+                           turns_meta_file_test: pathlib.PosixPath,
+                           dlgs_meta_file_test: pathlib.PosixPath) -> None:
     lst_input_ids = []
-    dlgs_info_test = []
-    turns_info_test = []
+    dlgs_meta = []
+    turns_meta = []
     test_file = fromFile.suffix == '.test'
     with fromFile.open('rb') as fromF:
         lst_dlgs = pickle.load(fromF)
         for dlg in lst_dlgs:
             assert len(dlg['user']) == len(dlg['bot'])
             if test_file:
-                # record: (1) line # from the original dataset file where
-                # this dlg started, (2) the index in lst_input_ids where this
-                # dlg started
-                dlgs_info_test.append(
-                    copy.deepcopy(
-                        [dlg['dlg_start_lineno'],
-                         len(lst_input_ids)]))
+                # metadata: (1) line # from the original dataset file where
+                # this dlg started, (2) index of first turn in dlg
+                dlgs_meta.append({
+                    'lineno':
+                    copy.deepcopy(dlg['dlg_start_lineno']),
+                    'idx_first_trn':
+                    len(lst_input_ids)
+                })
             # persona is not used, so it is ignored
             history = ''
+            max_gpt2_len = tokenizer.max_model_input_sizes[
+                'distilgpt2'] - labels_max_len - 3
             for i, (u_str, b_str) in enumerate(zip(dlg['user'], dlg['bot'])):
                 feature_ids = tokenizer(" ".join([history, u_str]),
                                         return_length=False,
@@ -106,30 +109,34 @@ def default_to_gpt2_format(tokenizer, fromFile: pathlib.PosixPath,
                                         return_attention_mask=False)
 
                 if test_file:
-                    # record whether user-str and history were untruncated
-                    # (True) or truncated (False) in this turn
-                    user_ids = tokenizer(u_str,
-                                         return_length=False,
-                                         return_token_type_ids=False,
-                                         return_attention_mask=False)
-                    turns_info_test.append([
-                        (len(user_ids['input_ids']) <=
-                         (tokenizer.max_model_input_sizes['distilgpt2'] -
-                          labels_max_len - 3)),
-                        (len(feature_ids['input_ids']) <=
-                         (tokenizer.max_model_input_sizes['distilgpt2'] -
-                          labels_max_len - 3))
-                    ])
+                    # record info about this turn
+                    trunc_u_str = trunc_i_str = None
+                    u_ids = tokenizer(u_str,
+                                      return_length=False,
+                                      return_token_type_ids=False,
+                                      return_attention_mask=False)
+                    if (num_trunc :=
+                            len(u_ids['input_ids']) - max_gpt2_len) > 0:
+                        trunc_u_str = tokenizer.decode(
+                            u_ids['input_ids'][:num_trunc])
+                    elif (num_trunc :=
+                          len(feature_ids['input_ids']) - max_gpt2_len) > 0:
+                        trunc_i_str = tokenizer.decode(
+                            feature_ids['input_ids'][:num_trunc])
+                    turns_meta.append(
+                        copy.deepcopy({
+                            'u_str': u_str,
+                            'trunc_u_str': trunc_u_str,
+                            'trunc_i_str': trunc_i_str
+                        }))
 
                 label_ids = tokenizer(b_str,
                                       return_length=False,
                                       return_token_type_ids=False,
                                       return_attention_mask=False)
                 # Policy: If feature_ids is larger than max allowed by GPT2,
-                # then truncate by droping the tokens in the beginning
-                feature_ids_trunc = feature_ids['input_ids'][-(
-                    tokenizer.max_model_input_sizes['distilgpt2'] -
-                    labels_max_len - 3):]
+                # then truncate by dropping the tokens in the beginning
+                feature_ids_trunc = feature_ids['input_ids'][-max_gpt2_len:]
                 lst_input_ids.append(
                     copy.deepcopy([tokenizer.bos_token_id] +
                                   feature_ids_trunc +
@@ -145,18 +152,20 @@ def default_to_gpt2_format(tokenizer, fromFile: pathlib.PosixPath,
                 except ValueError:
                     history = " ".join([history, u_str, b_str])
         # last entry is not a new dlg but the previous dlg with the same
-        # line # but index of last turn
-        dlgs_info_test.append(
-            copy.deepcopy([dlg['dlg_start_lineno'],
-                           len(lst_input_ids)]))
+        # line # but index of last turn plus 1
+        if test_file:
+            dlgs_meta.append({
+                'lineno': copy.deepcopy(dlg['dlg_start_lineno']),
+                'idx_first_trn': len(lst_input_ids)
+            })
 
     with toFile.open('wb') as toF:
         pickle.dump(lst_input_ids, toF, protocol=pickle.HIGHEST_PROTOCOL)
         logg.info(f'Done writing to file {toFile}')
     if test_file:
-        with dlgs_info_test_file.open('wb') as dF, turns_info_test_file.open(
+        with dlgs_meta_file_test.open('wb') as dF, turns_meta_file_test.open(
                 'wb') as tF:
-            pickle.dump(dlgs_info_test, dF, protocol=pickle.HIGHEST_PROTOCOL)
-            logg.info(f'Done writing to file {dlgs_info_test_file}')
-            pickle.dump(turns_info_test, tF, protocol=pickle.HIGHEST_PROTOCOL)
-            logg.info(f'Done writing to file {turns_info_test_file}')
+            pickle.dump(dlgs_meta, dF, protocol=pickle.HIGHEST_PROTOCOL)
+            logg.info(f'Done writing to file {dlgs_meta_file_test}')
+            pickle.dump(turns_meta, tF, protocol=pickle.HIGHEST_PROTOCOL)
+            logg.info(f'Done writing to file {turns_meta_file_test}')
