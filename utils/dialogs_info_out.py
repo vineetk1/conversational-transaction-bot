@@ -7,7 +7,7 @@ import sys
 from contextlib import redirect_stdout
 import textwrap
 from pathlib import Path
-from typing import List
+from typing import List, Tuple, Union
 
 
 class DialogsInfoOut(object):
@@ -25,7 +25,8 @@ class DialogsInfoOut(object):
         self.stdout = Path('/dev/null')
         self.write_out(strng='Abbrevations\n------------',
                        write_to=[self.passF, self.failF])
-        strng = ('Turn (Tu); Truncated Input (TI) or Untruncated Input (UI); '
+        strng = ('TUrn (Tu); USer part of input (Us); Truncated part of Input '
+                 '(TI); Untruncated part of Input (UI); '
                  'Actual Output (AO); Predicted Output (PO); '
                  'Turn Passed (P); Turn Failed (F);')
         self.write_out(strng=strng,
@@ -33,7 +34,7 @@ class DialogsInfoOut(object):
                        next_lines_indent=1)
         pass
 
-    def dlg_info(self, passed: bool, num_consec_turns_passed: int,
+    def dlg_meta(self, lineno: int, passed: bool, num_consec_turns_passed: int,
                  num_turns_in_dlg: int):
         self.max_num_turns_in_dlg = max(num_turns_in_dlg,
                                         self.max_num_turns_in_dlg)
@@ -41,20 +42,26 @@ class DialogsInfoOut(object):
         self.count[f'num_turns_in_dlg {passed} {num_turns_in_dlg}'] += 1
         self.count[f'num_consec_turns_passed {num_consec_turns_passed}'] += 1
 
-    def turn_info(self, dlg_passed: bool, turn_num_in_dlgs: int, passed: bool,
-                  untrunc: bool, input: str, actual_output: str,
-                  predicted_output: str):
-        self.count[f'num_turns {passed} {untrunc}'] += 1
+        self.write_out(
+            strng=f'\n{lineno}',  # newline
+            write_to=[self.passF if passed else self.failF])
+
+    def turn_meta(self, dlg_passed: bool, turn_num_in_dlgs: int, passed: bool,
+                  truncation: Union[None, Tuple[str, str]], user_inp: str,
+                  actual_output: str, predicted_output: str):
+        self.count[f'num_turns {passed} {truncation is None}'] += 1
         self.count[f'turn_num_in_dlgs {passed} {turn_num_in_dlgs}'] += 1
 
-        if turn_num_in_dlgs == 1:
-            self.write_out(
-                strng='',  # newline
-                write_to=[self.passF if dlg_passed else self.failF])
-        self.write_out(strng=(f"Tu{turn_num_in_dlgs}-"
-                              f"{'UI' if untrunc else 'TI'}:"),
-                       strng1=f"{input}",
+        self.write_out(strng=f"Tu{turn_num_in_dlgs}-Us:",
+                       strng1=f"{user_inp}",
                        write_to=[self.passF if dlg_passed else self.failF])
+        if truncation is not None:
+            self.write_out(strng=f"Tu{turn_num_in_dlgs}-TI:",
+                           strng1=f"{truncation[1]}",
+                           write_to=[self.passF if dlg_passed else self.failF])
+            self.write_out(strng=f"Tu{turn_num_in_dlgs}-UI:",
+                           strng1=f"{truncation[0]}",
+                           write_to=[self.passF if dlg_passed else self.failF])
         self.write_out(strng=f"Tu{turn_num_in_dlgs}-AO:",
                        strng1=f"{actual_output}",
                        write_to=[self.passF if dlg_passed else self.failF])
