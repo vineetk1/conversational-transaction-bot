@@ -15,7 +15,8 @@ python3 ctbMain.py input_param_files/distilgpt2_dstc2
 
 parameters for python-dictionary #0
 -
-{'save_top_k': 2, 'no_testing': True}
+{'save_top_k': 2, 'no_testing': False, 'dlgs_statistics': True}
+#{'save_top_k': 2, 'no_testing': True}
 
 
 parameters for python-dictionary #1
@@ -35,5 +36,6 @@ parameters for python-dictionary #2
 
 parameters for python-dictionary #3
 - 
-{'gpus': 1, 'auto_lr_find': False, 'auto_scale_batch_size': False}
+#{'gpus': 1, 'auto_lr_find': False, 'auto_scale_batch_size': False}
+{'gpus': 1, 'max_epochs': 10}
 
