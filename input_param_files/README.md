@@ -28,7 +28,7 @@ Following is an example: optz=SGD,lr=1.67017e-05,momentum=0.9,nesterov=True,lr_s
 * chkpt (str, optional) -- path to checkpoint file that will be loaded   
 * no_training (bool, optional) -- do not train the model (Default: False) 
 * no_testing (bool, optional) -- do not test the model (Default: False)   
-* test_pass_fail_stat (bool, optional) --  collect statistics on the trained model when no_testing=False (Default: False)
+* dlgs_statistics (bool, optional) --  collect statistics on the trained model when no_testing=False (Default: False)
 ### &emsp; &emsp; Parameters used in python-dictionary 1   
 * model_type (str, optional if "chkpt" path in python_dictionary #0) -- name of model and dataset to load   
 * tokenizer_type (str, optional if "chkpt" path is specified in python_dictionary #0) -- name of tokenizer and dataset to load   
@@ -54,7 +54,7 @@ Note that tokenizer_type=gpt2-dstc2 means that the GPT2 tokenizer will be loaded
 {'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train'}   
 {'gpus': 1, 'auto_scale_batch_size': True}   
 ### &emsp; &emsp; Resume training a checkpoint model with the same hyper-parameters
-{'save_top_k': 3, 'test_pass_fail_stat': True}     
+{'save_top_k': 3, 'dlgs_statistics': True}     
 {'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2'}       
 {'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train'}   
 {'gpus': 1, 'resume_from_checkpoint': 'tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_17/checkpoints/last.ckpt'}   
@@ -64,7 +64,7 @@ Note that tokenizer_type=gpt2-dstc2 means that the GPT2 tokenizer will be loaded
 {'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train', 'batch_size': 2}   
 {'gpus': 1}   
 ### &emsp; &emsp; Test a pre-trained model with DSTC2 dataset
-{'no_training': True, 'test_pass_fail_stat': True}    
+{'no_training': True, 'dlgs_statistics': True}    
 {'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2'}    
 {'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train', 'batch_size': 2}   
 {'gpus': 1}   
