@@ -116,8 +116,8 @@ class ctbModel(LightningModule):
                  prog_bar=True,
                  logger=True)
         try:
-            if self.pass_fail_stat:
-                self.pass_fail_stat_step(batch)
+            if self.dlgs_statistics:
+                self.dlgs_statistics_step(batch)
         except AttributeError:
             pass
         return loss
@@ -132,8 +132,8 @@ class ctbModel(LightningModule):
                  prog_bar=True,
                  logger=True)
         try:
-            if self.pass_fail_stat:
-                self.pass_fail_stat_end()
+            if self.dlgs_statistics:
+                self.dlgs_statistics_end()
         except AttributeError:
             pass
 
@@ -193,26 +193,29 @@ class ctbModel(LightningModule):
         elif 'optimizer' in locals():
             return optimizer
 
-    def clear_pass_fail_stat(self):
-        self.pass_fail_stat = False
+    def clear_dlgs_statistics(self):
+        self.dlgs_statistics = False
 
-    def set_pass_fail_stat(self):
-        self.pass_fail_stat = True
+    def set_dlgs_statistics(self):
+        self.dlgs_statistics = True
         stat_dir = Path.cwd().joinpath('statistics')
         stat_dir.mkdir(exist_ok=True)
         self.temp_file = stat_dir.joinpath('temp.txt')
         self.temp_file.touch()
-        #self.temp_file.write_text('')   # empty the file
-        self.dlgs_idxs_file = stat_dir.joinpath('dlgs_idxs.test')
-        if not self.dlgs_idxs_file.exists():
+        self.temp_file.write_text('')   # empty the file
+        self.dlgs_meta_file = stat_dir.joinpath('dlgs_metadata.test')
+        if not self.dlgs_meta_file.exists():
             logg.critical(
-                f'Following file does not exist: {self.dlgs_idxs_file}')
+                f'Following file does not exist: {self.dlgs_meta_file}')
+            exit()
+        self.turns_meta_file = stat_dir.joinpath('turns_metadata.test')
+        if not self.turns_meta_file.exists():
+            logg.critical(
+                f'Following file does not exist: {self.turns_meta_file}')
             exit()
         self.dlg_info_out = DialogsInfoOut()
 
-    def pass_fail_stat_step(self, batch: Dict[str, torch.Tensor]):
-        self.pass_fail_stat_end()
-        return
+    def dlgs_statistics_step(self, batch: Dict[str, torch.Tensor]):
         # batch['model']['input_ids'] = batch of
         #           (<BOS> + sequence + <SEP> + labels + <EOS> + <PAD>..<PAD>)
         # batch['model']['token_type_ids'] =
@@ -281,68 +284,91 @@ class ctbModel(LightningModule):
                     batch['model']['input_ids'][i, sep_idx + 1:eos_idx])
                 predicted_label = self.tokenizer.decode(
                     outputs[i, sep_idx_max + 1:eos_idx_in_predicted_label])
-                # line written to disk: index of dialog turn /t exact_match /t
+                # line written to disk: index of turn /t exact_match /t
                 # input text /t actual label text /t predicted label text
                 strng = (f'{idx_dlg_turn}\t{exact_match}\t{input_text}\t'
                          f'{actual_label}\t{predicted_label}\n')
                 file.write(strng)
 
-    def pass_fail_stat_end(self):
-        with self.dlgs_idxs_file.open('rb') as dlgs_idxs_file:
-            # entries are indexes of start of dialogs except last entry which
-            # is index of last turn minus 1
-            dlgs_idxs = pickle.load(dlgs_idxs_file)
-        turns = [[] for _ in range(dlgs_idxs[-1])]
+    def dlgs_statistics_end(self):
+        with self.dlgs_meta_file.open('rb') as dlgs_meta_file:
+            dlgs_meta = pickle.load(dlgs_meta_file)
+            # list of dictionary, where a dictionary has metadata of a dlg
+            # dlgs_meta[0] => an example of a dlg at index 0
+            # dlgs_meta[0]['lineno'] => (int) line # from the original dataset
+            #                           file of start of dlg
+            # dlgs_meta[0]['idx_first_trn'] => (int) index of first turn in dlg
+            # dlgs_meta[-1] => content of last dlg is different
+            # dlgs_meta[-1]['lineno'] => (int) line # of start of previous dlg
+            # dlgs_meta[-1]['idx_first_trn'] => (int) index of last turn of
+            #                                   previous dlg plus 1
+        with self.turns_meta_file.open('rb') as turns_meta_file:
+            turns_meta = pickle.load(turns_meta_file)
+            # list of dictionary, where a dictionary has metadata of a turn
+            # turns_meta[0] => an example turn at index 0
+            # turns_meta[0]['u_str'] => (str) user string part of the input
+            # turns_meta[0]['truncation'] => (Union[None, Tuple[str, str]]) if
+            #       input is truncated, then this is a tupe of (untruncated
+            #       part of string, truncated part of string) else None
+
+        turns = [{
+            'exact_match': False,
+            'input': "",
+            'act_out': "",
+            'pred_out': ""
+        } for _ in range(dlgs_meta[-1]['idx_first_trn'])]
         with self.temp_file.open('r') as turns_file:
             # sort in asending order of turns' indexes
             for turn_str in turns_file:
                 turn_lst = turn_str.rstrip('\n').split('\t')
-                turns[int(turn_lst[0])].append(turn_lst)
-                # turns[3] => an example of a dialog turn at index 3
-                # turns[3][0] => a string with content of the turn
-                # turns[3][0][0] => index of turn (str)
-                # turns[3][0][1] => True if exact-match between actual and
-                #                      predicted output; otherwise False (str)
-                # turns[3][0][2] => input (str)
-                # turns[3][0][3] => actual output (str)
-                # turns[3][0][4] => predicted output (str)
-        dlg_idx_start = dlgs_idxs[0]
-        for dlg_idx_end_plus1 in dlgs_idxs[1:]:  # next dialog
+                turns[int(turn_lst[0])]['exact_match'] = turn_lst[1] == 'True'
+                turns[int(turn_lst[0])]['input'] = copy.deepcopy(turn_lst[2])
+                turns[int(turn_lst[0])]['act_out'] = copy.deepcopy(turn_lst[3])
+                turns[int(turn_lst[0])]['pred_out'] = copy.deepcopy(
+                    turn_lst[4])
+                # turns[3] => an example of a turn at index 3
+                # turns[3]['exact_match'] => (bool) True if actual_output ==
+                #                            pedicted_output, else False
+                # turns[3]['input'] => (str) input
+                # turns[3]['act_out'] => (str) actual-output or label
+                # turns[3]['pred_out'] => (str) predicted-output
+
+        assert len(turns_meta) == len(turns)
+        dlg_meta = dlgs_meta[0]
+        for next_dlg_meta in dlgs_meta[1:]:
             # find if dialog passed
             dlg_passed = all([
-                turn[0][1] == 'True'
-                for turn in turns[dlg_idx_start:dlg_idx_end_plus1]
+                turn['exact_match'] for turn in
+                turns[dlg_meta['idx_first_trn']:next_dlg_meta['idx_first_trn']]
             ])
             # find # of consecutive turns, counting from beginning, that passed
-            for num_consec_turns_passed, turn in enumerate(
-                    turns[dlg_idx_start:dlg_idx_end_plus1]):
-                if turn[0][1] == 'False':
+            for num_consec_turns_passed, turn in enumerate(turns[
+                    dlg_meta['idx_first_trn']:next_dlg_meta['idx_first_trn']]):
+                if not turn['exact_match']:
                     break
-            # find # of turns in dialog whose inputs were not truncated
-            turn_untrunc_idx = 0
-            turn_prev = turns[dlg_idx_start]
-            for turn_nxt in turns[dlg_idx_start + 1:dlg_idx_end_plus1]:
-                if turn_prev[0][2] != turn_nxt[0][2][:len(turn_prev[0][2])]:
-                    # turn_nxt = turn_prev + user_string; If user_string is
-                    # greater than max allowed input length then user_string
-                    # would have been truncated but this case will not be
-                    # detedted here
-                    break
-                turn_untrunc_idx += 1
-                turn_prev = turn_nxt
 
-            self.dlg_info_out.dlg_info(dlg_passed,
-                                       num_consec_turns_passed,
-                                       num_turns_in_dlg=dlg_idx_end_plus1 -
-                                       dlg_idx_start)
-            for i, turn in enumerate(turns[dlg_idx_start:dlg_idx_end_plus1]):
-                self.dlg_info_out.turn_info(dlg_passed=dlg_passed,
-                                            turn_num_in_dlgs=i + 1,
-                                            passed=turn[0][1] == 'True',
-                                            untrunc=(i <= turn_untrunc_idx),
-                                            input=turn[0][2],
-                                            actual_output=turn[0][3],
-                                            predicted_output=turn[0][4])
-            dlg_idx_start = dlg_idx_end_plus1
+            self.dlg_info_out.dlg_meta(
+                lineno=dlg_meta['lineno'],
+                passed=dlg_passed,
+                num_consec_turns_passed=num_consec_turns_passed,
+                num_turns_in_dlg=next_dlg_meta['idx_first_trn'] -
+                dlg_meta['idx_first_trn'])
+
+            for i, (turn, turn_meta) in enumerate(
+                    zip(
+                        turns[dlg_meta['idx_first_trn']:
+                              next_dlg_meta['idx_first_trn']],
+                        turns_meta[dlg_meta['idx_first_trn']:
+                                   next_dlg_meta['idx_first_trn']])):
+                self.dlg_info_out.turn_meta(
+                    dlg_passed=dlg_passed,
+                    turn_num_in_dlgs=i + 1,
+                    passed=turn['exact_match'],
+                    truncation=turn_meta['truncation'],
+                    user_inp=turn['input'][-len(turn_meta['u_str']):],
+                    actual_output=turn['act_out'],
+                    predicted_output=turn['pred_out'])
+            dlg_meta = next_dlg_meta
         self.dlg_info_out.print_statistics()
+        self.temp_file.unlink(missing_ok=False)
         pass
