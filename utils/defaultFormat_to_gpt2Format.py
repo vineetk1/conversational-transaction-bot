@@ -109,25 +109,21 @@ def default_to_gpt2_format(tokenizer, fromFile: pathlib.PosixPath,
                                         return_attention_mask=False)
 
                 if test_file:
-                    # record info about this turn
-                    trunc_u_str = trunc_i_str = None
-                    u_ids = tokenizer(u_str,
-                                      return_length=False,
-                                      return_token_type_ids=False,
-                                      return_attention_mask=False)
-                    if (num_trunc :=
-                            len(u_ids['input_ids']) - max_gpt2_len) > 0:
-                        trunc_u_str = tokenizer.decode(
-                            u_ids['input_ids'][:num_trunc])
-                    elif (num_trunc :=
-                          len(feature_ids['input_ids']) - max_gpt2_len) > 0:
-                        trunc_i_str = tokenizer.decode(
-                            feature_ids['input_ids'][:num_trunc])
+                    # metadata: (1) user part of input string; (2) if input
+                    # is truncated then (i) part of string that is not
+                    # truncated, (2) part of string that is truncated
+                    untrunc_part_inp = trunc_part_inp = None
+                    if (len(feature_ids['input_ids']) - max_gpt2_len) > 0:
+                        untrunc_part_inp = tokenizer.decode(
+                            feature_ids['input_ids'][-max_gpt2_len:])
+                        trunc_part_inp = tokenizer.decode(
+                            feature_ids['input_ids'][:-max_gpt2_len])
                     turns_meta.append(
                         copy.deepcopy({
-                            'u_str': u_str,
-                            'trunc_u_str': trunc_u_str,
-                            'trunc_i_str': trunc_i_str
+                            'u_str':
+                            u_str,
+                            'truncation': (untrunc_part_inp, trunc_part_inp)
+                            if untrunc_part_inp is not None else None
                         }))
 
                 label_ids = tokenizer(b_str,
