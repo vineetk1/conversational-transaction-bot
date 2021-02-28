@@ -113,18 +113,18 @@ def main():
         trainer.fit(model, datamodule=data)
         if not ('no_testing' in param_dicts[0]
                 and param_dicts[0]['no_testing']):
-            if 'test_pass_fail_stat' in param_dicts[0] and param_dicts[0][
-                    'test_pass_fail_stat']:
-                model.set_pass_fail_stat()
+            if 'dlgs_statistics' in param_dicts[0] and param_dicts[0][
+                    'dlgs_statistics']:
+                model.set_dlgs_statistics()
             trainer.test()  # auto loads checkpoint file with lowest val loss
-            model.clear_pass_fail_stat()
+            model.clear_dlgs_statistics()
     elif not ('no_testing' in param_dicts[0] and param_dicts[0]['no_testing']):
         # Training: False, Testing: True
-        if 'test_pass_fail_stat' in param_dicts[0] and param_dicts[0][
-                'test_pass_fail_stat']:
-            model.set_pass_fail_stat()
+        if 'dlgs_statistics' in param_dicts[0] and param_dicts[0][
+                'dlgs_statistics']:
+            model.set_dlgs_statistics()
         trainer.test(model, test_dataloaders=data.test_dataloader())
-        model.clear_pass_fail_stat()
+        model.clear_dlgs_statistics()
     else:
         # Training: False, Testing: False
         logg.critical('Bug in the Logic')
