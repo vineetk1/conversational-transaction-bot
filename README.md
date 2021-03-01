@@ -68,12 +68,13 @@ Work In Progress.
 **Hyperparameters:**    
 ``*`` Optimizer Parameters -- Adam, lr: variable, betas: (0.9, 0.999), eps: 1e-8, weight_decay: 0, amsgrad: False   
 ``*`` LR-Scheduler Parameters -- None   
+<img src=images/train:train_loss=0.1683,val_loss=0.1581.png width=400 height=300>   
 <img src=images/tensorboard,val_loss-5_epochs,adam.png width=800 height=500>     
 *Graph: Validation-loss vs. Epoch for varying initial Learning-Rates.   
 (Color of curve, Learning-Rate, Val-loss at epoch 0 and epoch 5) where en = euler number = 2.71828 -- (Grey, en<sup>-13</sup>, 0.2225, 0.206), (Green, en<sup>-12</sup>, 0.3575, 0.1593), (Pink, en<sup>-11</sup>, 0.23, 0.1562), (Aqua, en<sup>-10</sup>, 0.1859, 0.1726), (Orange, en<sup>-7</sup>, 0.1814, 0.1971), (Blue, en<sup>-8</sup>, 0.1647, 0.2095), (Brown, en<sup>-9</sup>, 0.1634, 0.1924)*   
 ### &emsp; &emsp; Results
 **Hyperparameters:**    
 ``*`` Optimizer Parameters -- Adam, lr: 1e-05, betas: (0.9, 0.999), eps: 1e-8, weight_decay: 0, amsgrad: False   
-``*`` LR-Scheduler Parameters -- ReduceLROnPlateau, mode: min, patience: 6, factor: 0.1   
+``*`` LR-Scheduler Parameters -- ReduceLROnPlateau, mode: min, patience: 6, factor: 0.1    
 <img src=images/train:train_loss=0.1683,val_loss=0.1581.png width=400 height=300>   
 <img src=images/val:train_loss=0.1683,val_loss=0.1581.png width=400 height=300>
