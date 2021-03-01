@@ -1,10 +1,10 @@
 # Conversational transaction bot
 The Conversational Transaction Bot executes transactions on user commands. A user initiates a dialogue with a text query to a bot. The bot understands the user text, initiates execution of operations at the backend, and responds to the user in text. The dialogue continues until, normally, the user terminates the dialogue when its requests have been serviced by the bot. The implementation is based on Deep Learning Transformers.
 ## Requirements
-* PyTorch version >= 1.6.0
+* PyTorch version >= 1.7.1
 * Python version >= 3.8.5
-* PyTorch-Lightning version used is 1.1.4
-* Huggingface Transformers version used is 4.0.1
+* PyTorch-Lightning version used is 1.2.1
+* Huggingface Transformers version used is 4.3.3
 * Tensorboard version used is 2.4.1
 ## Installation
 ```
