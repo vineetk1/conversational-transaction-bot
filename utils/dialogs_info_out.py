@@ -25,8 +25,9 @@ class DialogsInfoOut(object):
         self.stdout = Path('/dev/null')
         self.write_out(strng='Abbrevations\n------------',
                        write_to=[self.passF, self.failF])
-        strng = ('TUrn (Tu); USer part of input (Us); Truncated part of Input '
-                 '(TI); Untruncated part of Input (UI); '
+        strng = ('Line Number (Line #); TUrn (Tu); USer part of input (Us); '
+                 'Truncated part of Input (TI); '
+                 'Untruncated part of Input (UI); '
                  'Actual Output (AO); Predicted Output (PO); '
                  'Turn Passed (P); Turn Failed (F);')
         self.write_out(strng=strng,
@@ -42,9 +43,8 @@ class DialogsInfoOut(object):
         self.count[f'num_turns_in_dlg {passed} {num_turns_in_dlg}'] += 1
         self.count[f'num_consec_turns_passed {num_consec_turns_passed}'] += 1
 
-        self.write_out(
-            strng=f'\n{lineno}',  # newline
-            write_to=[self.passF if passed else self.failF])
+        self.write_out(strng=f'\nLine # {lineno}',
+                       write_to=[self.passF if passed else self.failF])
 
     def turn_meta(self, dlg_passed: bool, turn_num_in_dlgs: int, passed: bool,
                   truncation: Union[None, Tuple[str, str]], user_inp: str,
