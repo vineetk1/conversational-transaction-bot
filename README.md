@@ -1,6 +1,6 @@
 # Conversational transaction bot
 The Conversational Transaction Bot executes transactions on user commands. A user initiates a dialogue with a text query to a bot. The bot understands the user text, initiates execution of operations at the backend, and responds to the user in text. The dialogue continues until, normally, the user terminates the dialogue when its requests have been serviced by the bot. The implementation is based on Deep Learning Transformers.   
-<img src=images/val-train_loss=0.1683,val_loss=0.1581.png width=800 height=600>   
+<img src=images/x.png width=800 height=600>   
 <img src=images/val-train_loss=0.1683,val_loss=0.1581.png width=800 height=500>     
 
 ## Requirements
