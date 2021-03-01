@@ -1,8 +1,5 @@
 # Conversational transaction bot
 The Conversational Transaction Bot executes transactions on user commands. A user initiates a dialogue with a text query to a bot. The bot understands the user text, initiates execution of operations at the backend, and responds to the user in text. The dialogue continues until, normally, the user terminates the dialogue when its requests have been serviced by the bot. The implementation is based on Deep Learning Transformers.   
-<img src=images/x.png width=800 height=600>   
-<img src=images/val-train_loss=0.1683,val_loss=0.1581.png width=800 height=500>     
-
 ## Requirements
 * PyTorch version >= 1.7.1
 * Python version >= 3.8.5
@@ -78,5 +75,4 @@ Work In Progress.
 **Hyperparameters:**    
 ``*`` Optimizer Parameters -- Adam, lr: 1e-05, betas: (0.9, 0.999), eps: 1e-8, weight_decay: 0, amsgrad: False   
 ``*`` LR-Scheduler Parameters -- ReduceLROnPlateau, mode: min, patience: 6, factor: 0.1    
-<img src=images/train:train_loss=0.1683,val_loss=0.1581.png width=400 height=300>   
-<img src=images/val:train_loss=0.1683,val_loss=0.1581.png width=400 height=300>
+<img src=images/train:train_loss=0.1683,val_loss=0.1581.png width=400 height=300> <img src=images/val:train_loss=0.1683,val_loss=0.1581.png width=400 height=300>
