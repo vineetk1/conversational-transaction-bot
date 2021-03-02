@@ -78,11 +78,11 @@ Work In Progress.
 <img src=images/train-train_loss_0.1683,val_loss_0.1581.png width=400 height=300> <img src=images/val-train_loss_0.1683,val_loss_0.1581.png width=400 height=300>   
 &emsp; &emsp; &emsp;*Graph: Training-loss vs. Epoch.* &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;  *Graph: Validation-loss vs. Epoch.*    
 Epoch 3 has the lowest validation loss of 0.1581 that is lower than the training loss of 0.1683. Following is the dialog statistics on the test set:     
-Statistics on the test set
---------------------------
-\*\* Number of turns = 11237
-   ** Percent of turns with truncated inputs = (426/11237 x 100) = 3.79%
-   ** Percent of turns that passed = (5142/11237 x 100) = 45.76%
+Statistics on the test set    
+--------------------------    
+\*\* Number of turns = 11237    
+   \*\* Percent of turns with truncated inputs = (426/11237 x 100) = 3.79%    
+   \*\* Percent of turns that passed = (5142/11237 x 100) = 45.76%    
       ** Percent of turns that passed with truncated inputs = (195/426 x 100) =
           45.77%
       ** Percent of turns that passed with untruncated inputs = (4947/10811 x
