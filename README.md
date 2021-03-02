@@ -83,19 +83,20 @@ Epoch 3 has the lowest validation loss of 0.1581 that is lower than the training
 &thinsp; 'test_loss_step_epoch': 0.3567347228527069,    
 &thinsp; 'test_perplexity': 1.4286484718322754}     
 **Exact match results:**   
-Exact-match compares the label with the prediction. Suffice to say that this method produces the worst-case results because there are many possible correct predictions than just an exact-match with the labels. 
+Exact-match compares the label with the prediction. Suffice to say that this method produces the worst-case results because there are many possible correct predictions than just an exact-match with the labels.    
 \*\* Number of turns = 11237   
 &emsp;    \*\* Percent of turns with truncated inputs = (426/11237 x 100) = 3.79%   
 &emsp;    \*\* Percent of turns that passed = (5142/11237 x 100) = 45.76%   
 &emsp; &emsp;       \*\* Percent of turns that passed with truncated inputs = (195/426 x 100) = 45.77%   
 &emsp; &emsp;       \*\* Percent of turns that passed with untruncated inputs = (4947/10811 x 100) = 45.76%   
-&emsp;    \*\* Percent of turns that passed at each turn-number in dialogs -- (Turn # in dialogs: # of such turns that passed/total number   
-&emsp; &emsp; of such turns x 100 = result) -- (1: 1117/1117 = 100.00%), (2: 43/1117 = 3.85%), (3: 245/1117 = 21.93%), (4: 362/1117 = 32.41%),   
-&emsp; &emsp; (5: 417/1116 = 37.37%), (6: 503/1098 = 45.81%), (7: 520/1022 = 50.88%), (8: 491/864 = 56.83%), (9: 383/686 = 55.83%),    
-&emsp; &emsp; (10: 302/523 = 57.74%), (11: 224/393 = 57.00%), (12: 173/287 = 60.28%), (13: 93/199 = 46.73%), (14: 76/149 = 51.01%),         
-&emsp; &emsp; (15: 48/107 = 44.86%), (16: 29/77 = 37.66%), (17: 29/60 = 48.33%), (18: 24/50 = 48.00%), (19: 19/39 = 48.72%), (20: 13/28 = 46.43%),       
-&emsp; &emsp; (21: 9/20 = 45.00%), (22: 6/14 = 42.86%), (23: 4/11 = 36.36%), (24: 2/8 = 25.00%), (25: 2/6 = 33.33%), (26: 4/5 = 80.00%),        
-&emsp; &emsp; (27: 2/4 = 50.00%), (28: 1/2 = 50.00%), (29: 1/1 = 100.00%)   
+&emsp;    \*\* Percent of turns that passed at each turn-number in dialogs -- (Turn # in dialogs: # of such turns that       
+&emsp; &emsp; passed/total number of such turns x 100 = result) -- (1: 1117/1117 = 100.00%), (2: 43/1117 = 3.85%),    
+&emsp; &emsp; (3: 245/1117 = 21.93%), (4: 362/1117 = 32.41%), (5: 417/1116 = 37.37%), (6: 503/1098 = 45.81%), 
+&emsp; &emsp; (7: 520/1022 = 50.88%), (8: 491/864 = 56.83%), (9: 383/686 = 55.83%), (10: 302/523 = 57.74%),    
+&emsp; &emsp; (11: 224/393 = 57.00%), (12: 173/287 = 60.28%), (13: 93/199 = 46.73%), (14: 76/149 = 51.01%),         
+&emsp; &emsp; (15: 48/107 = 44.86%), (16: 29/77 = 37.66%), (17: 29/60 = 48.33%), (18: 24/50 = 48.00%), (19: 19/39 = 48.72%),           
+&emsp; &emsp; (20: 13/28 = 46.43%), (21: 9/20 = 45.00%), (22: 6/14 = 42.86%), (23: 4/11 = 36.36%), (24: 2/8 = 25.00%),            
+&emsp; &emsp; (25: 2/6 = 33.33%), (26: 4/5 = 80.00%), (27: 2/4 = 50.00%), (28: 1/2 = 50.00%), (29: 1/1 = 100.00%)   
 \*\* Number of dialogs = 1117   
 &emsp;    \*\* Percent of dialogs that passed= 1/1117 x 100 = 0.09%   
 &emsp; &emsp; \*\* (# of turns in dialog: # of such dialogs that passed/total number of such dialogs x 100 = result) -- (4: 0/1 = 0.00%),       
