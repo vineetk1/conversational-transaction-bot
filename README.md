@@ -79,14 +79,14 @@ Work In Progress.
 &emsp; &emsp; &emsp;*Graph: Training-loss vs. Epoch.* &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;  *Graph: Validation-loss vs. Epoch.*    
 Epoch 3 has the lowest validation loss of 0.1581 that is lower than the training loss of 0.1683. Following is the dialog statistics on the test set:     
 **Statistics on the test set**   
-** Number of turns = 11237
-   ** Percent of turns with truncated inputs = (426/11237 x 100) = 3.79%
-   ** Percent of turns that passed = (5142/11237 x 100) = 45.76%
-      ** Percent of turns that passed with truncated inputs = (195/426 x 100) =
-          45.77%
-      ** Percent of turns that passed with untruncated inputs = (4947/10811 x
+\*\* Number of turns = 11237   
+&emsp;    \*\* Percent of turns with truncated inputs = (426/11237 x 100) = 3.79%   
+&emsp;    \*\* Percent of turns that passed = (5142/11237 x 100) = 45.76%   
+&emsp; &emsp;       \*\* Percent of turns that passed with truncated inputs = (195/426 x 100) =   
+          45.77%   
+&emsp; &emsp;       \*\* Percent of turns that passed with untruncated inputs = (4947/10811 x
           100) = 45.76%
-   ** Percent of turns that passed at each turn-number in dialogs -- (Turn # in
+   \*\* Percent of turns that passed at each turn-number in dialogs -- (Turn # in
        dialogs: # of such turns that passed/total number of such turns x 100 =
        result) -- (1: 1117/1117 = 100.00%), (2: 43/1117 = 3.85%), (3: 245/1117 =
        21.93%), (4: 362/1117 = 32.41%), (5: 417/1116 = 37.37%), (6: 503/1098 =
@@ -98,9 +98,9 @@ Epoch 3 has the lowest validation loss of 0.1581 that is lower than the training
        (22: 6/14 = 42.86%), (23: 4/11 = 36.36%), (24: 2/8 = 25.00%), (25: 2/6 =
        33.33%), (26: 4/5 = 80.00%), (27: 2/4 = 50.00%), (28: 1/2 = 50.00%), (29:
        1/1 = 100.00%)
-** Number of dialogs = 1117
-   ** Percent of dialogs that passed= 1/1117 x 100 = 0.09%
-      ** (# of turns in dialog: # of such dialogs that passed/total number of
+\*\* Number of dialogs = 1117
+   \*\* Percent of dialogs that passed= 1/1117 x 100 = 0.09%
+      \*\* (# of turns in dialog: # of such dialogs that passed/total number of
           such dialogs x 100 = result) -- (4: 0/1 = 0.00%), (5: 0/18 = 0.00%),
           (6: 0/76 = 0.00%), (7: 1/158 = 0.63%), (8: 0/178 = 0.00%), (9: 0/163 =
           0.00%), (10: 0/130 = 0.00%), (11: 0/106 = 0.00%), (12: 0/88 = 0.00%),
@@ -109,11 +109,11 @@ Epoch 3 has the lowest validation loss of 0.1581 that is lower than the training
           (20: 0/8 = 0.00%), (21: 0/6 = 0.00%), (22: 0/3 = 0.00%), (23: 0/3 =
           0.00%), (24: 0/2 = 0.00%), (25: 0/1 = 0.00%), (26: 0/1 = 0.00%), (27:
           0/2 = 0.00%), (28: 0/1 = 0.00%), (29: 0/1 = 0.00%)
-      ** (# of consecutive turns that passed, counting from beginning of dialog:
+      \*\* (# of consecutive turns that passed, counting from beginning of dialog:
           # of occurrences of such consecutive turns) -- (1: 1074), (2: 38), (3:
           3), (4: 1), (6: 1)
 
-DATALOADER:0 TEST RESULTS
+TEST RESULTS
 {'test_loss_step': 0.29131555557250977,
  'test_loss_step_epoch': 0.3567347228527069,
  'test_perplexity': 1.4286484718322754}
