@@ -99,7 +99,7 @@ Epoch 3 has the lowest validation loss of 0.1581 that is lower than the training
 &emsp; &emsp; &emsp; (11: 0/106 = 0.00%), (12: 0/88 = 0.00%), (13: 0/50 = 0.00%), (14: 0/42 = 0.00%), (15: 0/30 = 0.00%), (16: 0/17 = 0.00%),       
 &emsp; &emsp; &emsp; (17: 0/10 = 0.00%), (18: 0/11 = 0.00%), (19: 0/11 = 0.00%), (20: 0/8 = 0.00%), (21: 0/6 = 0.00%), (22: 0/3 = 0.00%),       
 &emsp; &emsp; &emsp; (23: 0/3 = 0.00%), (24: 0/2 = 0.00%), (25: 0/1 = 0.00%), (26: 0/1 = 0.00%), (27: 0/2 = 0.00%), (28: 0/1 = 0.00%),    
-&emsp; &emsp; &emsp; (29: 0/1 = 0.00%)
+&emsp; &emsp; &emsp; (29: 0/1 = 0.00%)    
 &emsp; &emsp; \*\* (# of consecutive turns that passed, counting from beginning of dialog: # of occurrences of such consecutive turns) -- (1: 1074),   
 &emsp; &emsp; &emsp; (2: 38), (3: 3), (4: 1), (6: 1)    
 
