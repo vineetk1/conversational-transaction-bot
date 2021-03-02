@@ -76,5 +76,5 @@ Work In Progress.
 ``*`` Optimizer Parameters -- Adam, lr: 1e-05, betas: (0.9, 0.999), eps: 1e-8, weight_decay: 0, amsgrad: False   
 ``*`` LR-Scheduler Parameters -- ReduceLROnPlateau, mode: min, patience: 6, factor: 0.1    
 <img src=images/train-train_loss_0.1683,val_loss_0.1581.png width=400 height=300> <img src=images/val-train_loss_0.1683,val_loss_0.1581.png width=400 height=300>   
-&emsp; &emsp; &emsp;*Graph: Training-loss vs. Epoch.* &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;  *Graph: Validation-loss vs. Epoch.*    
+&emsp; &emsp; &emsp;*Graph: Training-loss vs. Epoch.* &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;  *Graph: Validation-loss vs. Epoch.*    
 
