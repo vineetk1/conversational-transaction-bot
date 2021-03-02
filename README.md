@@ -77,5 +77,5 @@ Work In Progress.
 ``*`` LR-Scheduler Parameters -- ReduceLROnPlateau, mode: min, patience: 6, factor: 0.1    
 <img src=images/train-train_loss_0.1683,val_loss_0.1581.png width=400 height=300> <img src=images/val-train_loss_0.1683,val_loss_0.1581.png width=400 height=300>   
 &emsp; &emsp; &emsp;*Graph: Training-loss vs. Epoch.* &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;  *Graph: Validation-loss vs. Epoch.*    
-Epoch 3 has the lowest validation loss of 0.1581 that is lower than the training loss of 0.1683. Following is the dialog statistics on the test set:    
-
+Epoch 3 has the lowest validation loss of 0.1581 that is lower than the training loss of 0.1683. Following is the dialog statistics on the test set:     
+ajjkf;lfkfkfkfkffk
