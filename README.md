@@ -103,9 +103,9 @@ Exact-match compares the label with the prediction. Suffice to say that this met
 &emsp; &emsp; \*\* (# of turns in dialog: # of such dialogs that passed/total number of such dialogs x 100 = result) --    
 &emsp; &emsp; &emsp; (4: 0/1 = 0.00%), (5: 0/18 = 0.00%), (6: 0/76 = 0.00%), (7: 1/158 = 0.63%), (8: 0/178 = 0.00%),       
 &emsp; &emsp; &emsp; (9: 0/163 = 0.00%), (10: 0/130 = 0.00%), (11: 0/106 = 0.00%), (12: 0/88 = 0.00%), (13: 0/50 = 0.00%),   
-&emsp; &emsp; &emsp; (14: 0/42 = 0.00%), (15: 0/30 = 0.00%), (16: 0/17 = 0.00%), (17: 0/10 = 0.00%),           
-&emsp; &emsp; &emsp; (18: 0/11 = 0.00%), (19: 0/11 = 0.00%), (20: 0/8 = 0.00%), (21: 0/6 = 0.00%), (22: 0/3 = 0.00%),       
-&emsp; &emsp; &emsp; (23: 0/3 = 0.00%), (24: 0/2 = 0.00%), (25: 0/1 = 0.00%), (26: 0/1 = 0.00%), (27: 0/2 = 0.00%),       
-&emsp; &emsp; &emsp; (28: 0/1 = 0.00%), (29: 0/1 = 0.00%)    
+&emsp; &emsp; &emsp; (14: 0/42 = 0.00%), (15: 0/30 = 0.00%), (16: 0/17 = 0.00%), (17: 0/10 = 0.00%), (18: 0/11 = 0.00%),               
+&emsp; &emsp; &emsp; (19: 0/11 = 0.00%), (20: 0/8 = 0.00%), (21: 0/6 = 0.00%), (22: 0/3 = 0.00%), (23: 0/3 = 0.00%),          
+&emsp; &emsp; &emsp; (24: 0/2 = 0.00%), (25: 0/1 = 0.00%), (26: 0/1 = 0.00%), (27: 0/2 = 0.00%), (28: 0/1 = 0.00%),       
+&emsp; &emsp; &emsp; (29: 0/1 = 0.00%)    
 &emsp; &emsp; \*\* (# of consecutive turns that passed, counting from beginning of dialog: # of occurrences of such    
 &emsp; &emsp; &emsp; consecutive turns) -- (1: 1074), (2: 38), (3: 3), (4: 1), (6: 1)    
