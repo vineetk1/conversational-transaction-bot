@@ -113,9 +113,9 @@ Epoch 3 has the lowest validation loss of 0.1581 that is lower than the training
           3), (4: 1), (6: 1)    
 
 TEST RESULTS   
-{'test_loss_step': 0.29131555557250977,
-&thinsp; 'test_loss_step_epoch': 0.3567347228527069,
-&thinsp; 'test_perplexity': 1.4286484718322754}
+{'test_loss_step': 0.29131555557250977,    
+&thinsp; 'test_loss_step_epoch': 0.3567347228527069,    
+&thinsp; 'test_perplexity': 1.4286484718322754}     
 (# of turns in dialog: # of such dialogs that passed/total number of
           such dialogs x 100 = result) -- (4: 0/1 = 0.00%), (5: 0/18 = 0.00%),
           (6: 0/76 = 0.00%), (7: 1/158 = 0.63%), (8: 0/178 = 0.00%), (9: 0/163 =
@@ -124,4 +124,5 @@ TEST RESULTS
           = 0.00%), (17: 0/10 = 0.00%), (18: 0/11 = 0.00%), (19: 0/11 = 0.00%),
           (20: 0/8 = 0.00%), (21: 0/6 = 0.00%), (22: 0/3 = 0.00%), (23: 0/3 =
           0.00%), (24: 0/2 = 0.00%), (25: 0/1 = 0.00%), (26: 0/1 = 0.00%), (27:
-          0/2 = 0.00%), (28: 0/1 = 0.00%), (29: 0/1 = 0.00%)::    
+          0/2 = 0.00%), (28: 0/1 = 0.00%), (29: 0/1 = 0.00%)::
+dfkjgk
