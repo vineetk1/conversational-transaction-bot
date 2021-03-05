@@ -48,8 +48,8 @@ Resume training a checkpoint model with the same model- and training-states by u
 python3 ctbMain.py input_param_files/distilgpt2_dstc2-resume_training
 ```
 The user-settable hyper-parameters are in the file *input_param_files/distilgpt2_params-resume_training*.  An explanation on the contents of this file is at *input_param_files/README.md*.
-## Start training, validation, and testing a model with different hyper-parameters
-Start training a checkpoint model with the same model-state but different hyperparameters for the training-state by using the following command:
+## Change hyper-parameters and continue training, validation, and testing a model
+Continue training a checkpoint model with the same model-state but different hyperparameters for the training-state by using the following command:
 ```
 python3 ctbMain.py input_param_files/distilgpt2_dstc2-load_change_params
 ```
