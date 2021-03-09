@@ -62,6 +62,7 @@ The Huggingface's Distilgpt2 transformer model has 6 layers, 768 dimensions and 
 **Hyperparameters:**    
 ``*`` Optimizer Parameters -- SGD, lr: variable, momentum: 0.9, weight_decay: 0, dampening: 0, nesterov: True   
 ``*`` LR-Scheduler Parameters -- None   
+``*`` Batch-size = 2 using Nvidia GTX 1080 GPU   
 <img src=images/tensorboard,val_loss-5_epochs,nag.png width=800 height=500>     
 *Graph: Validation-loss vs. Epoch for varying initial Learning-Rates.   
 (Color of curve, Learning-Rate, Val-loss at epoch 0 and epoch 5) where en = euler number = 2.71828 -- (Aqua, en<sup>-12</sup>, 1.69, 0.8783), (Brown, en<sup>-11</sup>, 1.15, 0.6272), (Blue, en<sup>-10</sup>, 0.814, 0.4331), (Pink, en<sup>-6</sup>, 0.6802, 0.1893), (Orange, en<sup>-9</sup>, 0.6443, 0.2957), (Green, en<sup>-5</sup>, 0.6143, 0.1748), (Grey, en<sup>-8</sup>, 0.5248, 0.2281), (Green, en<sup>-7</sup>, 0.4954, 0.1887)*   
@@ -69,6 +70,7 @@ The Huggingface's Distilgpt2 transformer model has 6 layers, 768 dimensions and 
 **Hyperparameters:**    
 ``*`` Optimizer Parameters -- Adam, lr: variable, betas: (0.9, 0.999), eps: 1e-8, weight_decay: 0, amsgrad: False   
 ``*`` LR-Scheduler Parameters -- None   
+``*`` Batch-size = 2 using Nvidia GTX 1080 GPU   
 <img src=images/tensorboard,val_loss-5_epochs,adam.png width=800 height=500>     
 *Graph: Validation-loss vs. Epoch for varying initial Learning-Rates.   
 (Color of curve, Learning-Rate, Val-loss at epoch 0 and epoch 5) where en = euler number = 2.71828 -- (Grey, en<sup>-13</sup>, 0.2225, 0.206), (Green, en<sup>-12</sup>, 0.3575, 0.1593), (Pink, en<sup>-11</sup>, 0.23, 0.1562), (Aqua, en<sup>-10</sup>, 0.1859, 0.1726), (Orange, en<sup>-7</sup>, 0.1814, 0.1971), (Blue, en<sup>-8</sup>, 0.1647, 0.2095), (Brown, en<sup>-9</sup>, 0.1634, 0.1924)*   
@@ -76,6 +78,7 @@ The Huggingface's Distilgpt2 transformer model has 6 layers, 768 dimensions and 
 **Hyperparameters:**    
 ``*`` Optimizer Parameters -- Adam, lr: 1e-05, betas: (0.9, 0.999), eps: 1e-8, weight_decay: 0, amsgrad: False   
 ``*`` LR-Scheduler Parameters -- ReduceLROnPlateau, mode: min, patience: 6, factor: 0.1    
+``*`` Batch-size = 2 using Nvidia GTX 1080 GPU   
 <img src=images/train-train_loss_0.1683,val_loss_0.1581.png width=400 height=300> <img src=images/val-train_loss_0.1683,val_loss_0.1581.png width=400 height=300>   
 &emsp; &emsp; &emsp;*Graph: Training-loss vs. Epoch.* &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;  *Graph: Validation-loss vs. Epoch.*    
 **Test results:**   
