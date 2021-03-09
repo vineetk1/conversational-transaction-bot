@@ -57,7 +57,7 @@ The user-settable hyper-parameters are in the file *input_param_files/distilgpt2
 ## Interact with the deployed model
 Work In Progress.
 ## Fine-tuning Distilgpt2 with DSTC2 dataset
-The DSTC2 dataset has 14404 examples in the training set, 4159 examples in the valid set, and 11237 examples in the test set.   
+The Huggingface's Distilgpt2 transformer model has 6 layers, 768 dimensions and 12 heads, totaling 82M parameters. The DSTC2 dataset has 14404 examples in the training set, 4159 examples in the valid set, and 11237 examples in the test set.   
 ### &emsp; &emsp; Using NAG with varying initial Learning Rates
 **Hyperparameters:**    
 ``*`` Optimizer Parameters -- SGD, lr: variable, momentum: 0.9, weight_decay: 0, dampening: 0, nesterov: True   
