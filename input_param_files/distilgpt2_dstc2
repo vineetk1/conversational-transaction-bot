@@ -21,21 +21,25 @@ parameters for python-dictionary #0
 
 parameters for python-dictionary #1
 - 
-{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_params': {'lr': 1e-05}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 6, 'factor': 1e-1}} 
-#2{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_params': {'lr': 6.25e-5}, 'lr_sched': 'CosineAnnealingLR', 'lr_sched_params': {'T_max': 64000, 'eta_min': 0}} 
-#3{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'SGD', 'optz_params': {'lr': 1.831563888e-2, 'momentum': 0.9, 'nesterov': True}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 9}}
+#{'model_type': 'gpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_params': {'lr': 1e-05}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 1, 'factor': 1e-1}} 
+#{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_params': {'lr': 1e-05}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 6, 'factor': 1e-1}} 
+{'model_type': 'gpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_params': {'lr': 1e-2}, 'lr_sched': 'CosineAnnealingLR', 'lr_sched_params': {'T_max': 64000, 'eta_min': 0}} 
+#{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_params': {'lr': 6.25e-5}, 'lr_sched': 'CosineAnnealingLR', 'lr_sched_params': {'T_max': 64000, 'eta_min': 0}} 
+#{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'SGD', 'optz_params': {'lr': 1.831563888e-2, 'momentum': 0.9, 'nesterov': True}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 9}}
 # If lr_sched=CyclicLR, then base_lr is the initial learning-rate
-#4{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'SGD', 'optz_params': {'lr': 0, 'momentum': 0.9, 'nesterov': True}, 'lr_sched': 'CyclicLR', 'lr_sched_params': {'base_lr': 1e-12, 'max_lr': 1e-2}} 
-#5{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'SGD', 'optz_params': {'lr': 6.25e-5, 'momentum': 0.9, 'nesterov': False}, 'lr_sched': 'CosineAnnealingWarmRestarts', 'lr_sched_params': {'T_0': 16000, 'eta_min': 0}} 
+#{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'SGD', 'optz_params': {'lr': 0, 'momentum': 0.9, 'nesterov': True}, 'lr_sched': 'CyclicLR', 'lr_sched_params': {'base_lr': 1e-12, 'max_lr': 1e-2}} 
+#{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'SGD', 'optz_params': {'lr': 6.25e-5, 'momentum': 0.9, 'nesterov': False}, 'lr_sched': 'CosineAnnealingWarmRestarts', 'lr_sched_params': {'T_0': 16000, 'eta_min': 0}} 
+#{'model_type': 'gpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'SGD', 'optz_params': {'lr': 1e-04, 'momentum': 0.9, 'nesterov': True}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 0, 'factor': 25e-3}}
 
 
 parameters for python-dictionary #2
 - 
-{'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train', 'batch_size': 2} 
+{'default_format_path': 'data/dialog-bAbI-tasks/dstc2/defaultFormat.train', 'batch_size': 1} 
 
 
 parameters for python-dictionary #3
 - 
 #{'gpus': 1, 'auto_lr_find': False, 'auto_scale_batch_size': False}
-{'gpus': 1, 'max_epochs': 10}
+#{'gpus': 1, 'max_epochs': 4}
+{'gpus': 1}
 
