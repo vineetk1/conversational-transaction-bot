@@ -36,24 +36,24 @@ Note that the above program converts the DSTC2 dataset to the default format. A 
 ## Train, validate, and test a model
 Following command trains a model, saves the last checkpoint plus checkpoints that have the lowest validation loss, runs the test dataset on the checkpointed model with the lowest validation loss, and outputs a Perplexity value of the model:
 ```
-python3 ctbMain.py input_param_files/distilgpt2_dstc2
+python3 Main.py input_param_files/gpt2_dstc2
 ```
-The user-settable hyper-parameters are in the file *input_param_files/distilgpt2_dstc2*. An explanation on the contents of this file is at *input_param_files/README.md*. A list of all the hyper-parameters is in the <a href="https://www.pytorchlightning.ai" target="_blank">PyTorch-Lightning documentation</a>, and any hyper-parameter can be used.    
-To assist in Training, the two parameters *auto_lr_find* and *auto_scale_batch_size* in the file *input_param_files/distilgpt2_dstc2* enable the software to automatically find an initial Learning-Rate and a Batch-Size respectively.    
+The user-settable hyper-parameters are in the file *input_param_files/gpt2_dstc2*. An explanation on the contents of this file is at *input_param_files/README.md*. A list of all the hyper-parameters is in the <a href="https://www.pytorchlightning.ai" target="_blank">PyTorch-Lightning documentation</a>, and any hyper-parameter can be used.    
+To assist in Training, the two parameters *auto_lr_find* and *auto_scale_batch_size* in the file *input_param_files/gpt2_dstc2* enable the software to automatically find an initial Learning-Rate and a Batch-Size respectively.    
 As training progresses, graphs of *"training-loss vs. epoch #"*, *"validation-loss vs. epoch #"*, and "learning-rate vs. batch #" are plotted in real-time on TensorBoard. Training is stopped by typing, at the Command-Line-Interface, the keystroke ctrl-c. The current training information is checkpointed, and training stops. Training can be resumed, at some future time, from the checkpointed file.   
 Testing calculates the Perplexity of the model from the test dataset. A detailed statistics on the model is generated in the files *failed_dialogs_stat.txt* and *passed_dialogs_stat.txt*. The *failed_dialogs_stat.txt* file has information about the dialogs that failed, and *passed_dialogs_stat.txt* has information about the dialogs that passed.
 ## Resume training, validation, and testing a model with same hyper-parameters
 Resume training a checkpoint model with the same model- and training-states by using the following command:
 ```
-python3 ctbMain.py input_param_files/distilgpt2_dstc2-resume_training
+python3 Main.py input_param_files/gpt2_dstc2-resume_training
 ```
-The user-settable hyper-parameters are in the file *input_param_files/distilgpt2_params-resume_training*.  An explanation on the contents of this file is at *input_param_files/README.md*.
+The user-settable hyper-parameters are in the file *input_param_files/gpt2_params-resume_training*.  An explanation on the contents of this file is at *input_param_files/README.md*.
 ## Change hyper-parameters and continue training, validation, and testing a model
 Continue training a checkpoint model with the same model-state but different hyperparameters for the training-state by using the following command:
 ```
-python3 ctbMain.py input_param_files/distilgpt2_dstc2-load_change_params
+python3 Main.py input_param_files/gpt2_dstc2-load_change_params
 ```
-The user-settable hyper-parameters are in the file *input_param_files/distilgpt2_dstc2-load_change_params*.  An explanation on the contents of this file is at *input_param_files/README.md*.
+The user-settable hyper-parameters are in the file *input_param_files/gpt2_dstc2-load_change_params*.  An explanation on the contents of this file is at *input_param_files/README.md*.
 ## Interact with the deployed model
 Work In Progress.
 ## Fine-tuning Distilgpt2 with DSTC2 dataset
