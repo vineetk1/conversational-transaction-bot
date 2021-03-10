@@ -15,7 +15,7 @@ python3 ctbMain.py input_param_files/distilgpt2_dstc2-test_only
 
 parameters for python-dictionary #0
 -
-{'no_training': True, 'test_pass_fail_stat': True, 'chkpt': 'tensorboard_logs/model_type=distilgpt2-dstc2,tokenizer_type=gpt2-dstc2/version_22/checkpoints/last.ckpt'}
+{'no_training': True, 'dlgs_statistics': True, 'chkpt': 'tensorboard_logs/model_type=gpt2-dstc2,tokenizer_type=gpt2-dstc2/version_7/checkpoints/optz=Adam,lr=1e-05,lr_sched=ReduceLROnPlateau,mode=min,patience=1,factor=0.1,epoch=02-val_loss=0.22942.ckpt'}
 
 
 parameters for python-dictionary #1
