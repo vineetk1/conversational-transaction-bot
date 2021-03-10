@@ -78,7 +78,7 @@ def main():
             save_last=True,
             period=1,
             filename=ckpt_filename)
-        lr_monitor = LearningRateMonitor(logging_interval='step',
+        lr_monitor = LearningRateMonitor(logging_interval='epoch',
                                          log_momentum=True)
         trainer = Trainer(logger=tb_logger,
                           deterministic=True,
