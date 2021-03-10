@@ -35,6 +35,9 @@ class ctbModel(LightningModule):
                 self.model_type == "distilgpt2":
             from transformers import GPT2LMHeadModel
             self.model = GPT2LMHeadModel.from_pretrained('distilgpt2')
+        elif self.model_type == "gpt2-dstc2":
+            from transformers import GPT2LMHeadModel
+            self.model = GPT2LMHeadModel.from_pretrained('gpt2')
         else:
             logg.critical(f'unknown model_type: {self.model_type}')
             exit()
