@@ -10,7 +10,7 @@ Note the following:
  
 Command-line:
 -------------
-python3 ctbMain.py input_param_files/distilgpt2_dstc2 
+python3 Main.py input_param_files/gpt2_dstc2 
 
 
 parameters for python-dictionary #0
@@ -23,7 +23,7 @@ parameters for python-dictionary #1
 - 
 #{'model_type': 'gpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_params': {'lr': 1e-05}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 1, 'factor': 1e-1}} 
 #{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_params': {'lr': 1e-05}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 6, 'factor': 1e-1}} 
-{'model_type': 'gpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_params': {'lr': 1e-2}, 'lr_sched': 'CosineAnnealingLR', 'lr_sched_params': {'T_max': 64000, 'eta_min': 0}} 
+{'model_type': 'gpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_params': {'lr': 1e-5}, 'lr_sched': 'CosineAnnealingLR', 'lr_sched_params': {'T_max': 64000, 'eta_min': 0}} 
 #{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'Adam', 'optz_params': {'lr': 6.25e-5}, 'lr_sched': 'CosineAnnealingLR', 'lr_sched_params': {'T_max': 64000, 'eta_min': 0}} 
 #{'model_type': 'distilgpt2-dstc2', 'tokenizer_type': 'gpt2-dstc2', 'optz': 'SGD', 'optz_params': {'lr': 1.831563888e-2, 'momentum': 0.9, 'nesterov': True}, 'lr_sched': 'ReduceLROnPlateau', 'lr_sched_params': {'mode': 'min', 'patience': 9}}
 # If lr_sched=CyclicLR, then base_lr is the initial learning-rate
