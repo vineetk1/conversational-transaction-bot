@@ -13,7 +13,7 @@ Note the following:
  
 Command-line:
 -------------
-python3 ctbMain.py input_param_files/distilgpt2_dstc2-load_change_params 
+python3 Main.py input_param_files/gpt2_dstc2-load_change_params 
 
 
 parameters for python-dictionary #0
