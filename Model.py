@@ -16,14 +16,14 @@ from utils.dialogs_info_out import DialogsInfoOut
 logg = getLogger(__name__)
 
 
-class ctbModel(LightningModule):
+class Model(LightningModule):
     def __init__(self,
                  d_params: dict,
                  special_tokens: Dict[str, str] = None,
                  dstc2_tokens: List[str] = None):
         super().__init__()
         self.save_hyperparameters()
-        # ctbModel.load_from_checkpoint(...) requires that d_params not change
+        # Model.load_from_checkpoint(...) requires that d_params not change
         self.d_params = copy.deepcopy(d_params)
         # Trainer('auto_lr_find': True,...) requires self.lr
         self.lr = self.d_params['optz_params'].pop(
