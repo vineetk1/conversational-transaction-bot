@@ -9,11 +9,12 @@ from logging import getLogger
 from sys import exit
 from typing import List, Dict, Union, Tuple
 from pickle import load
+from pathlib import Path
 
 logg = getLogger(__name__)
 
 
-class ctbData(LightningDataModule):
+class Data(LightningDataModule):
     def __init__(self, d_params: dict):
         super().__init__()
         # Trainer('auto_scale_batch_size': True...) requires self.batch_size
@@ -32,20 +33,29 @@ class ctbData(LightningDataModule):
             data_info = defaultFormat_to_gpt2Format(
                 self.tokenizer, tokenizer_type,
                 self.d_params['default_format_path'])
+            with Path(self.d_params['default_format_path']).parents[0].resolve(
+                    strict=True).joinpath('dataset_meta').open('rb') as dmF:
+                data_meta = load(dmF)
             for name, f_path in data_info['f_paths'].items():
                 with f_path.open('rb') as file:
                     if name == 'train' and not no_training:
-                        self.train_data = ctbDataset(load(file))
-                        logg.info(
+                        self.train_data = Dataset(load(file))
+                        strng = (
+                            f'{data_meta[name]} dialogs, '
                             f'{len(self.train_data)} examples in Training set')
+                        logg.info(strng)
                     elif name == 'valid' and not no_training:
-                        self.valid_data = ctbDataset(load(file))
-                        logg.info(
+                        self.valid_data = Dataset(load(file))
+                        strng = (
+                            f'{data_meta[name]} dialogs, '
                             f'{len(self.valid_data)} examples in Valid set')
+                        logg.info(strng)
                     elif name == 'test' and not no_testing:
-                        self.test_data = ctbDataset(load(file))
-                        logg.info(
+                        self.test_data = Dataset(load(file))
+                        strng = (
+                            f'{data_meta[name]} dialogs, '
                             f'{len(self.test_data)} examples in Test set')
+                        logg.info(strng)
                     else:
                         assert (name == 'train' or name == 'valid'
                                 or name == 'test')
@@ -136,7 +146,7 @@ class ctbData(LightningDataModule):
         }
 
 
-class ctbDataset(Dataset):
+class Dataset(Dataset):
     # example = feature plus label
     def __init__(self, features: Union[List[List[int]],
                                        List[Tuple[List[int], List[int]]]]):
