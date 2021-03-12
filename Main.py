@@ -7,8 +7,8 @@ from pytorch_lightning import Trainer
 from pytorch_lightning.loggers import TensorBoardLogger
 from pytorch_lightning.callbacks import ModelCheckpoint
 from pytorch_lightning.callbacks import LearningRateMonitor
-from ctbData import ctbData
-from ctbModel import ctbModel
+from Data import Data
+from Model import Model
 from ast import literal_eval
 from sys import argv
 from logging import getLogger
@@ -31,7 +31,7 @@ def main():
 
     seed_everything(63)
     if 'chkpt' in param_dicts[0] and param_dicts[0]['chkpt'] is not None:
-        model = ctbModel.load_from_checkpoint(
+        model = Model.load_from_checkpoint(
             checkpoint_path=param_dicts[0]['chkpt'])
         param_dicts[1]['model_type'] = model.get_model_id()['model_type']
         param_dicts[1]['tokenizer_type'] = model.get_model_id(
@@ -44,7 +44,7 @@ def main():
             # Train checkpointed model with new hyperparameters
             model.change_hperparams(param_dicts1)
     else:
-        model = ctbModel(param_dicts[1], utils.NEW_TOKENS.SPECIAL_TOKENS,
+        model = Model(param_dicts[1], utils.NEW_TOKENS.SPECIAL_TOKENS,
                          utils.NEW_TOKENS.DSTC2_TOKENS)
     strng = (f"model_type={param_dicts[1]['model_type']}, "
              f"tokenizer_type={param_dicts[1]['tokenizer_type']}")
@@ -98,7 +98,7 @@ def main():
         logg.critical(strng)
         exit()
 
-    data = ctbData(param_dicts[2])
+    data = Data(param_dicts[2])
     data.prepare_data(tokenizer=model.get_tokenizer(),
                       tokenizer_type=model.get_model_id()['tokenizer_type'],
                       no_training=True if 'no_training' in param_dicts[0]
