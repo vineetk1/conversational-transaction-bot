@@ -83,9 +83,9 @@ The Huggingface's Distilgpt2 transformer model has 6 layers, 768 dimensions and 
 &emsp; &emsp; &emsp;*Graph: Training-loss vs. Epoch.* &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;  *Graph: Validation-loss vs. Epoch.*    
 **Test results:**   
 Epoch 3 has the lowest validation loss of 0.1581 that is lower than the training loss of 0.1683. Running the test-set on an epoch 3 model, gives the following results:          
-{'test_loss_step': 0.29131555557250977,    
-&thinsp; 'test_loss_step_epoch': 0.3567347228527069,    
-&thinsp; 'test_perplexity': 1.4286484718322754}     
+{'test_loss_step': 0.2913,    
+&thinsp; 'test_loss_step_epoch': 0.3567,    
+&thinsp; 'test_perplexity': 1.4287}     
 **Exact match results:**   
 Exact-match compares the label with the prediction. Suffice to say that this method produces the worst-case results because there are many possible correct predictions than just an exact-match with the labels.    
 \*\* Number of turns = 11237   
@@ -123,10 +123,10 @@ The Huggingface's GPT2 transformer model has 12 layers, and 124M parameters. The
 <img src=images/gpt2-train-val_loss_0.234,train_loss_0.2349.png width=400 height=300> <img src=images/gpt2-val-val_loss_0.234,train_loss_0.2349.png width=400 height=300>   
 &emsp; &emsp; &emsp;*Graph: Training-loss vs. Epoch.* &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;  *Graph: Validation-loss vs. Epoch.*    
 **Test results:**   
-Epoch 3 has the lowest validation loss of 0.1581 that is lower than the training loss of 0.1683. Running the test-set on an epoch 3 model, gives the following results:          
-{'test_loss_step': 0.29131555557250977,    
-&thinsp; 'test_loss_step_epoch': 0.3567347228527069,    
-&thinsp; 'test_perplexity': 1.4286484718322754}     
+Epoch 3 has the lowest validation loss of 0.234 that is lower than the training loss of 0.2349. Running the test-set on an epoch 3 model, gives the following results:          
+{'test_loss_step': 0.2866,    
+&thinsp; 'test_loss_step_epoch': 0.4956,    
+&thinsp; 'test_perplexity': 1.6414}     
 **Exact match results:**   
 Exact-match compares the label with the prediction. Suffice to say that this method produces the worst-case results because there are many possible correct predictions than just an exact-match with the labels.    
 \*\* Number of turns = 11237   
