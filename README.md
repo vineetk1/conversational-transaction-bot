@@ -113,3 +113,44 @@ Exact-match compares the label with the prediction. Suffice to say that this met
 &emsp; &emsp; &emsp; (29: 0/1 = 0.00%)    
 &emsp; &emsp; \*\* (# of consecutive turns that passed, counting from beginning of dialog: # of occurrences of such    
 &emsp; &emsp; &emsp; consecutive turns) -- (1: 1074), (2: 38), (3: 3), (4: 1), (6: 1)    
+## Fine-tuning GPT2 with DSTC2 dataset
+The Huggingface's GPT2 transformer model has 12 layers, and 124M parameters. The DSTC2 dataset has 1618 dialogs (14404 examples) in the training set, 500 dialogs (4159 examples) in the valid set, and 1117 dialogs (11237 examples) in the test set.  
+### &emsp; &emsp; Results
+**Hyperparameters:**    
+``*`` Optimizer Parameters -- Adam, lr: 5e-06, betas: (0.9, 0.999), eps: 1e-8, weight_decay: 0, amsgrad: False   
+``*`` LR-Scheduler Parameters -- ReduceLROnPlateau, mode: min, patience: 1, factor: 0.1    
+``*`` Batch-size = 1 using Nvidia GTX 1080 GPU   
+<img src=images/gpt2-train-val_loss_0.234,train_loss_0.2349.png width=400 height=300> <img src=images/gpt2-val-val_loss_0.234,train_loss_0.2349.png width=400 height=300>   
+&emsp; &emsp; &emsp;*Graph: Training-loss vs. Epoch.* &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;  *Graph: Validation-loss vs. Epoch.*    
+**Test results:**   
+Epoch 3 has the lowest validation loss of 0.1581 that is lower than the training loss of 0.1683. Running the test-set on an epoch 3 model, gives the following results:          
+{'test_loss_step': 0.29131555557250977,    
+&thinsp; 'test_loss_step_epoch': 0.3567347228527069,    
+&thinsp; 'test_perplexity': 1.4286484718322754}     
+**Exact match results:**   
+Exact-match compares the label with the prediction. Suffice to say that this method produces the worst-case results because there are many possible correct predictions than just an exact-match with the labels.    
+\*\* Number of turns = 11237   
+&emsp;    \*\* Percent of turns with truncated inputs = (426/11237 x 100) = 3.79%   
+&emsp;    \*\* Percent of turns that passed = (5142/11237 x 100) = 45.76%   
+&emsp; &emsp;       \*\* Percent of turns that passed with truncated inputs = (195/426 x 100) = 45.77%   
+&emsp; &emsp;       \*\* Percent of turns that passed with untruncated inputs = (4947/10811 x 100) = 45.76%   
+&emsp;    \*\* Percent of turns that passed at each turn-number in dialogs -- (Turn # in dialogs: # of such turns that       
+&emsp; &emsp; passed/total number of such turns x 100 = result) -- (1: 1117/1117 = 100.00%), (2: 43/1117 = 3.85%),    
+&emsp; &emsp; (3: 245/1117 = 21.93%), (4: 362/1117 = 32.41%), (5: 417/1116 = 37.37%), (6: 503/1098 = 45.81%),   
+&emsp; &emsp; (7: 520/1022 = 50.88%), (8: 491/864 = 56.83%), (9: 383/686 = 55.83%), (10: 302/523 = 57.74%),    
+&emsp; &emsp; (11: 224/393 = 57.00%), (12: 173/287 = 60.28%), (13: 93/199 = 46.73%), (14: 76/149 = 51.01%),         
+&emsp; &emsp; (15: 48/107 = 44.86%), (16: 29/77 = 37.66%), (17: 29/60 = 48.33%), (18: 24/50 = 48.00%),               
+&emsp; &emsp; (19: 19/39 = 48.72%), (20: 13/28 = 46.43%), (21: 9/20 = 45.00%), (22: 6/14 = 42.86%), (23: 4/11 = 36.36%),      
+&emsp; &emsp; (24: 2/8 = 25.00%), (25: 2/6 = 33.33%), (26: 4/5 = 80.00%), (27: 2/4 = 50.00%), (28: 1/2 = 50.00%),       
+&emsp; &emsp; (29: 1/1 = 100.00%)     
+\*\* Number of dialogs = 1117   
+&emsp;    \*\* Percent of dialogs that passed= 1/1117 x 100 = 0.09%   
+&emsp; &emsp; \*\* (# of turns in dialog: # of such dialogs that passed/total number of such dialogs x 100 = result) --    
+&emsp; &emsp; &emsp; (4: 0/1 = 0.00%), (5: 0/18 = 0.00%), (6: 0/76 = 0.00%), (7: 1/158 = 0.63%), (8: 0/178 = 0.00%),       
+&emsp; &emsp; &emsp; (9: 0/163 = 0.00%), (10: 0/130 = 0.00%), (11: 0/106 = 0.00%), (12: 0/88 = 0.00%), (13: 0/50 = 0.00%),   
+&emsp; &emsp; &emsp; (14: 0/42 = 0.00%), (15: 0/30 = 0.00%), (16: 0/17 = 0.00%), (17: 0/10 = 0.00%), (18: 0/11 = 0.00%),               
+&emsp; &emsp; &emsp; (19: 0/11 = 0.00%), (20: 0/8 = 0.00%), (21: 0/6 = 0.00%), (22: 0/3 = 0.00%), (23: 0/3 = 0.00%),          
+&emsp; &emsp; &emsp; (24: 0/2 = 0.00%), (25: 0/1 = 0.00%), (26: 0/1 = 0.00%), (27: 0/2 = 0.00%), (28: 0/1 = 0.00%),       
+&emsp; &emsp; &emsp; (29: 0/1 = 0.00%)    
+&emsp; &emsp; \*\* (# of consecutive turns that passed, counting from beginning of dialog: # of occurrences of such    
+&emsp; &emsp; &emsp; consecutive turns) -- (1: 1074), (2: 38), (3: 3), (4: 1), (6: 1)   
