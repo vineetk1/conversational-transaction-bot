@@ -83,9 +83,9 @@ The Huggingface's Distilgpt2 transformer model has 6 layers, 768 dimensions and 
 &emsp; &emsp; &emsp;*Graph: Training-loss vs. Epoch.* &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;  *Graph: Validation-loss vs. Epoch.*    
 **Test results:**   
 Epoch 3 has the lowest validation loss of 0.1581 that is lower than the training loss of 0.1683. Running the test-set on an epoch 3 model, gives the following results:          
-{'test_loss_step': 0.2913,    
-&thinsp; 'test_loss_step_epoch': 0.3567,    
-&thinsp; 'test_perplexity': 1.4287}     
+test_loss_step: 0.2913,    
+test_loss_step_epoch: 0.3567,    
+test_perplexity: 1.4287    
 **Exact match results:**   
 Exact-match compares the label with the prediction. Suffice to say that this method produces the worst-case results because there are many possible correct predictions than just an exact-match with the labels.    
 \*\* Number of turns = 11237   
