@@ -142,7 +142,7 @@ Exact-match compares the label with the prediction. Suffice to say that this met
 &emsp; &emsp; (15: 55/107 = 51.40%), (16: 34/77 = 44.16%), (17: 27/60 = 45.00%), (18: 26/50 = 52.00%),     
 &emsp; &emsp; (19: 20/39 = 51.28%), (20: 15/28 = 53.57%), (21: 9/20 = 45.00%), (22: 6/14 = 42.86%), (23: 6/11 = 54.55%),    
 &emsp; &emsp; (24: 3/8 = 37.50%), (25: 3/6 = 50.00%), (26: 4/5 = 80.00%), (27: 3/4 = 75.00%), (28: 1/2 = 50.00%),    
-&emsp; &emsp; (29: 1/1 = 100.00%)
+&emsp; &emsp; (29: 1/1 = 100.00%)     
 \*\* Number of dialogs = 1117   
 &emsp;    \*\* Percent of dialogs that passed= 22/1117 x 100 = 1.97%   
 &emsp; &emsp; \*\* (# of turns in dialog: # of such dialogs that passed/total number of such dialogs x 100 = result) --    
