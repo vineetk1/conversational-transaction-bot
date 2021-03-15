@@ -131,26 +131,27 @@ Epoch 3 has the lowest validation loss of 0.234 that is lower than the training 
 Exact-match compares the label with the prediction. Suffice to say that this method produces the worst-case results because there are many possible correct predictions than just an exact-match with the labels.    
 \*\* Number of turns = 11237   
 &emsp;    \*\* Percent of turns with truncated inputs = (426/11237 x 100) = 3.79%   
-&emsp;    \*\* Percent of turns that passed = (5142/11237 x 100) = 45.76%   
-&emsp; &emsp;       \*\* Percent of turns that passed with truncated inputs = (195/426 x 100) = 45.77%   
-&emsp; &emsp;       \*\* Percent of turns that passed with untruncated inputs = (4947/10811 x 100) = 45.76%   
+&emsp;    \*\* Percent of turns that passed = (5583/11237 x 100) = 49.68%   
+&emsp; &emsp;       \*\* Percent of turns that passed with truncated inputs = (197/426 x 100) = 46.24%   
+&emsp; &emsp;       \*\* Percent of turns that passed with untruncated inputs = (5386/10811 x 100) = 49.82%   
 &emsp;    \*\* Percent of turns that passed at each turn-number in dialogs -- (Turn # in dialogs: # of such turns that       
-&emsp; &emsp; passed/total number of such turns x 100 = result) -- (1: 1117/1117 = 100.00%), (2: 43/1117 = 3.85%),    
-&emsp; &emsp; (3: 245/1117 = 21.93%), (4: 362/1117 = 32.41%), (5: 417/1116 = 37.37%), (6: 503/1098 = 45.81%),   
-&emsp; &emsp; (7: 520/1022 = 50.88%), (8: 491/864 = 56.83%), (9: 383/686 = 55.83%), (10: 302/523 = 57.74%),    
-&emsp; &emsp; (11: 224/393 = 57.00%), (12: 173/287 = 60.28%), (13: 93/199 = 46.73%), (14: 76/149 = 51.01%),         
-&emsp; &emsp; (15: 48/107 = 44.86%), (16: 29/77 = 37.66%), (17: 29/60 = 48.33%), (18: 24/50 = 48.00%),               
-&emsp; &emsp; (19: 19/39 = 48.72%), (20: 13/28 = 46.43%), (21: 9/20 = 45.00%), (22: 6/14 = 42.86%), (23: 4/11 = 36.36%),      
-&emsp; &emsp; (24: 2/8 = 25.00%), (25: 2/6 = 33.33%), (26: 4/5 = 80.00%), (27: 2/4 = 50.00%), (28: 1/2 = 50.00%),       
-&emsp; &emsp; (29: 1/1 = 100.00%)     
+&emsp; &emsp; passed/total number of such turns x 100 = result) -- (1: 1117/1117 = 100.00%), (2: 115/1117 = 10.30%),    
+&emsp; &emsp; (3: 265/1117 = 23.72%), (4: 392/1117 = 35.09%), (5: 494/1116 = 44.27%), (6: 580/1098 = 52.82%),   
+&emsp; &emsp; (7: 570/1022 = 55.77%), (8: 506/864 = 58.56%), (9: 417/686 = 60.79%), (10: 317/523 = 60.61%),    
+&emsp; &emsp; (11: 238/393 = 60.56%), (12: 181/287 = 63.07%), (13: 103/199 = 51.76%), (14: 75/149 = 50.34%),    
+&emsp; &emsp; (15: 55/107 = 51.40%), (16: 34/77 = 44.16%), (17: 27/60 = 45.00%), (18: 26/50 = 52.00%),     
+&emsp; &emsp; (19: 20/39 = 51.28%), (20: 15/28 = 53.57%), (21: 9/20 = 45.00%), (22: 6/14 = 42.86%), (23: 6/11 = 54.55%),    
+&emsp; &emsp; (24: 3/8 = 37.50%), (25: 3/6 = 50.00%), (26: 4/5 = 80.00%), (27: 3/4 = 75.00%), (28: 1/2 = 50.00%),    
+&emsp; &emsp; (29: 1/1 = 100.00%)
 \*\* Number of dialogs = 1117   
-&emsp;    \*\* Percent of dialogs that passed= 1/1117 x 100 = 0.09%   
+&emsp;    \*\* Percent of dialogs that passed= 22/1117 x 100 = 1.97%   
 &emsp; &emsp; \*\* (# of turns in dialog: # of such dialogs that passed/total number of such dialogs x 100 = result) --    
-&emsp; &emsp; &emsp; (4: 0/1 = 0.00%), (5: 0/18 = 0.00%), (6: 0/76 = 0.00%), (7: 1/158 = 0.63%), (8: 0/178 = 0.00%),       
-&emsp; &emsp; &emsp; (9: 0/163 = 0.00%), (10: 0/130 = 0.00%), (11: 0/106 = 0.00%), (12: 0/88 = 0.00%), (13: 0/50 = 0.00%),   
-&emsp; &emsp; &emsp; (14: 0/42 = 0.00%), (15: 0/30 = 0.00%), (16: 0/17 = 0.00%), (17: 0/10 = 0.00%), (18: 0/11 = 0.00%),               
-&emsp; &emsp; &emsp; (19: 0/11 = 0.00%), (20: 0/8 = 0.00%), (21: 0/6 = 0.00%), (22: 0/3 = 0.00%), (23: 0/3 = 0.00%),          
-&emsp; &emsp; &emsp; (24: 0/2 = 0.00%), (25: 0/1 = 0.00%), (26: 0/1 = 0.00%), (27: 0/2 = 0.00%), (28: 0/1 = 0.00%),       
-&emsp; &emsp; &emsp; (29: 0/1 = 0.00%)    
+&emsp; &emsp; &emsp; (4: 0/1 = 0.00%), (5: 5/18 = 27.78%), (6: 11/76 = 14.47%), (7: 6/158 = 3.80%), (8: 0/178 = 0.00%),    
+&emsp; &emsp; &emsp; (9: 0/163 = 0.00%), (10: 0/130 = 0.00%), (11: 0/106 = 0.00%), (12: 0/88 = 0.00%), (13: 0/50 = 0.00%),    
+&emsp; &emsp; &emsp; (14: 0/42 = 0.00%), (15: 0/30 = 0.00%), (16: 0/17 = 0.00%), (17: 0/10 = 0.00%), (18: 0/11 = 0.00%),    
+&emsp; &emsp; &emsp; (19: 0/11 = 0.00%), (20: 0/8 = 0.00%), (21: 0/6 = 0.00%), (22: 0/3 = 0.00%), (23: 0/3 = 0.00%),     
+&emsp; &emsp; &emsp; (24: 0/2 = 0.00%), (25: 0/1 = 0.00%), (26: 0/1 = 0.00%), (27: 0/2 = 0.00%), (28: 0/1 = 0.00%),     
+&emsp; &emsp; &emsp; (29: 0/1 = 0.00%)
+
 &emsp; &emsp; \*\* (# of consecutive turns that passed, counting from beginning of dialog: # of occurrences of such    
-&emsp; &emsp; &emsp; consecutive turns) -- (1: 1074), (2: 38), (3: 3), (4: 1), (6: 1)   
+&emsp; &emsp; &emsp; consecutive turns) -- (1: 1002), (2: 80), (3: 10), (4: 7), (5: 12), (6: 6)   
