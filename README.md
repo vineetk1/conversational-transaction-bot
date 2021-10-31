@@ -54,8 +54,6 @@ Continue training a checkpoint model with the same model-state but different hyp
 python3 Main.py input_param_files/gpt2_dstc2-load_change_params
 ```
 The user-settable hyper-parameters are in the file *input_param_files/gpt2_dstc2-load_change_params*.  An explanation on the contents of this file is at *input_param_files/README.md*.
-## Interact with the deployed model
-Work In Progress.
 ## Fine-tuning Distilgpt2 with DSTC2 dataset
 The Huggingface's Distilgpt2 transformer model has 6 layers, 768 dimensions and 12 heads, totaling 82M parameters. The DSTC2 dataset has 1618 dialogs (14404 examples) in the training set, 500 dialogs (4159 examples) in the valid set, and 1117 dialogs (11237 examples) in the test set.   
 ### &emsp; &emsp; Using NAG with varying initial Learning Rates
